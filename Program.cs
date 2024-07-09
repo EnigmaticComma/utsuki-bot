@@ -1,4 +1,5 @@
 ﻿using Discord;
+using Discord.Interactions;
 using Discord.WebSocket;
 using Timer = System.Timers.Timer;
 
@@ -45,7 +46,8 @@ public class Program {
         Console.WriteLine("Bot is ready!");
     }
 
-
+    [CommandContextType(InteractionContextType.Guild)]
+    [DefaultMemberPermissions(GuildPermission.Administrator)]
     static async Task SlashCommandHandler(SocketSlashCommand command) {
         if (command.Data.Name == "remember") {
             var action = (string)command.Data.Options.First(o => o.Name == "action").Value;
