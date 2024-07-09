@@ -47,7 +47,7 @@ public class Program {
     }
 
     [CommandContextType(InteractionContextType.Guild)]
-    [DefaultMemberPermissions(GuildPermission.Administrator)]
+    [RequireUserPermission(GuildPermission.Administrator)]
     static async Task SlashCommandHandler(SocketSlashCommand command) {
         if (command.Data.Name == "remember") {
             var action = (string)command.Data.Options.First(o => o.Name == "action").Value;
