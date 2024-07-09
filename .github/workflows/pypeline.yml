@@ -1,0 +1,39 @@
+name: 'Workflow'
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  workflow:
+    name: 'Workflow'
+    runs-on: self-hosted
+
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: build
+        uses: docker/build-push-action@v5
+        with:
+          push: false
+          tags: 'utsuki-bot-net'
+          file: Dockerfile
+      - name: stop previous container
+        run: docker rm -f utsuki-bot-net
+      - name: run
+        run: docker run --name utsuki-bot-net -e DISCORD_TOKEN_UTSUKI=${{ secrets.DISCORD_TOKEN }} -d --restart=always utsuki-bot-net
+      - uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
