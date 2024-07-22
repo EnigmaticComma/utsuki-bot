@@ -23,7 +23,7 @@ public class Program {
         await _client.LoginAsync(TokenType.Bot, token);
         await _client.StartAsync();
 
-        _timer = new Timer(12 * 60 * 60 * 1000); // 6 hours in milliseconds
+        _timer = new Timer(7 * 60 * 60 * 1000); // 6 hours in milliseconds
         _timer.Elapsed += async (sender, e) => await ScheduledTask();
         _timer.Start();
 
@@ -88,7 +88,7 @@ public class Program {
             Console.WriteLine($"Downloaded {messages.Length} messages");
             var userMessages = messages.Where(m => !m.Author.IsBot && (!string.IsNullOrEmpty(m.Content) || m.Attachments.Count > 0)).ToList();
 
-            if (userMessages.Count < 5 || userMessages.TakeLast(10).Any(m => m.Author.IsBot)) {
+            if (userMessages.Count < 5 || userMessages.TakeLast(30).Any(m => m.Author.IsBot)) {
                 Console.WriteLine($"No enough messages to remember in this channel {channelId}, or there are bot messages in between");
                 continue;
             }
