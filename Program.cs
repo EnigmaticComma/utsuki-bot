@@ -7,7 +7,7 @@ public class Program {
     static DiscordSocketClient _client;
     static List<ulong> _rememberChannelIds = new();
     static Timer _timer;
-    const int MessagesToRemember = 50000;
+    const int MessagesToRemember = 100000;
     static readonly Random random = new Random();
 
     public static async Task Main() {
