@@ -9,7 +9,7 @@ using Discord.WebSocket;
 public class DynamicVoiceChannelService
 {
     readonly DiscordSocketClient _discord;
-    List<uint> _dynamicCreatedVoiceChannels = new ();
+    List<ulong> _dynamicCreatedVoiceChannels = new ();
 
     ulong _mainVoiceChannelId = 822721840404889620;
     IVoiceChannel _mainVoiceChannel;
@@ -52,7 +52,8 @@ public class DynamicVoiceChannelService
                 Console.WriteLine($"Failed to create new voice channel '{name}'");
                 return;
             }
-
+            _dynamicCreatedVoiceChannels.Add(newVc.Id);
+            Console.WriteLine($"Created new voice channel '{name}'");
         }
     }
 
