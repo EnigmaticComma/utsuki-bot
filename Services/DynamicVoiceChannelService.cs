@@ -3,7 +3,6 @@ using UtsukiBot.Extensions;
 namespace UtsukiBot.Services;
 
 using Discord;
-using StackExchange.Redis;
 using Discord.WebSocket;
 
 public class DynamicVoiceChannelService
@@ -22,41 +21,50 @@ public class DynamicVoiceChannelService
         _discord.ChannelDestroyed += OnChannelDestroyed;
         // var redis = ConnectionMultiplexer.Connect("redis");
         // db = redis.GetDatabase();
-        UpdateVoiceChannelsAsync().ConfigureAwait(true);
     }
 
     async Task OnChannelDestroyed(SocketChannel c)
     {
+        if(c is not SocketVoiceChannel voiceChannel) return;
         if(await _discord.GetChannelAsync(_mainVoiceChannelId) is not IVoiceChannel _mainVoiceChannel) return;
-        await UpdateVoiceChannelsAsync();
+        await UpdateVoiceChannelsAsync(voiceChannel);
     }
 
-    async Task OnUserVoiceStateUpdated(SocketUser user, SocketVoiceState previousVoiceState,SocketVoiceState newVoiceState)
+    async Task OnUserVoiceStateUpdated(SocketUser user, SocketVoiceState previousVoiceState, SocketVoiceState newVoiceState)
     {
         if(await _discord.GetChannelAsync(_mainVoiceChannelId) is not IVoiceChannel _mainVoiceChannel) return;
-        await UpdateVoiceChannelsAsync();
+        await UpdateVoiceChannelsAsync(newVoiceState.VoiceChannel);
     }
 
-    async Task UpdateVoiceChannelsAsync()
+    async Task UpdateVoiceChannelsAsync(SocketVoiceChannel? newVoiceChannel)
     {
-        await CreateMoreIfNecessary();
+        await CreateMoreIfNecessary(newVoiceChannel);
         await DeleteRemaining();
     }
-    async Task CreateMoreIfNecessary()
+    async Task CreateMoreIfNecessary(SocketVoiceChannel? newVoiceChannel)
     {
+        if(newVoiceChannel == null) return;
+        if(_dynamicCreatedVoiceChannels.Count <= 0) {
+            await CreateDynamicVoiceChannel(0, newVoiceChannel.Guild.Id);
+        }
         for (var i = _dynamicCreatedVoiceChannels.Count - 1; i >= 0; i--) {
             var createdVcId = _dynamicCreatedVoiceChannels[i];
             if(await _discord.GetChannelAsync(createdVcId) is not IVoiceChannel voiceChannel) continue;
             if(!(await HasAnyUsers(voiceChannel))) break;
-            var name = $"Voice {i + 2}";
-            var newVc = await _discord.GetGuild(voiceChannel.GuildId).CreateVoiceChannelAsync(name, p=>CopyChannelProperties(_mainVoiceChannel, p));
-            if(newVc == null) {
-                Console.WriteLine($"Failed to create new voice channel '{name}'");
-                return;
-            }
-            _dynamicCreatedVoiceChannels.Add(newVc.Id);
-            Console.WriteLine($"Created new voice channel '{name}'");
+            if(await CreateDynamicVoiceChannel(i, voiceChannel.GuildId)) return;
         }
+    }
+    async Task<bool> CreateDynamicVoiceChannel(int i, ulong guildId)
+    {
+        var name = $"Voice {i + 2}";
+        var newVc = await _discord.GetGuild(guildId).CreateVoiceChannelAsync(name, p=>CopyChannelProperties(_mainVoiceChannel, p));
+        if(newVc == null) {
+            Console.WriteLine($"Failed to create new voice channel '{name}'");
+            return true;
+        }
+        _dynamicCreatedVoiceChannels.Add(newVc.Id);
+        Console.WriteLine($"Created new voice channel '{name}'");
+        return false;
     }
 
     void CopyChannelProperties(IVoiceChannel originalVc, VoiceChannelProperties p)
