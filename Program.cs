@@ -1,4 +1,6 @@
-﻿using Discord;
+﻿namespace UtsukiBot;
+
+using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
 using Timer = System.Timers.Timer;
@@ -10,7 +12,9 @@ public class Program {
     const int MessagesToRemember = 100000;
     static readonly Random random = new Random();
 
-    public static async Task Main() {
+    public static readonly Version VERSION = new (1,1);
+
+    public static async Task Main(string[] args) {
         _client = new DiscordSocketClient(new DiscordSocketConfig {
             LogLevel = LogSeverity.Info,
             GatewayIntents = GatewayIntents.Guilds | GatewayIntents.GuildMessages
@@ -19,15 +23,11 @@ public class Program {
         _client.Ready += OnReady;
         _client.SlashCommandExecuted += SlashCommandHandler;
 
-        var token = Environment.GetEnvironmentVariable("DISCORD_TOKEN_UTSUKI");
-        await _client.LoginAsync(TokenType.Bot, token);
-        await _client.StartAsync();
-
         _timer = new Timer(7 * 60 * 60 * 1000); // 6 hours in milliseconds
         _timer.Elapsed += async (sender, e) => await ScheduledTask();
         _timer.Start();
 
-        await Task.Delay(-1);
+        await Startup.RunAsync(args);
     }
 
     static Task Log(LogMessage msg) {
