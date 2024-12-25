@@ -21,6 +21,7 @@ public class DynamicVoiceChannelService
         _discord.ChannelDestroyed += OnChannelDestroyed;
         var redis = ConnectionMultiplexer.Connect("redis");
         db = redis.GetDatabase();
+        UpdateVoiceChannelsAsync().ConfigureAwait(true);
     }
 
     async Task OnChannelDestroyed(SocketChannel c)
