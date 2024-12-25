@@ -11,10 +11,13 @@ permissions:
 jobs:
   workflow:
     name: 'Workflow'
-    runs-on: [self-hosted, ubuntu-latest]
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
     steps:
       - uses: sarisia/actions-status-discord@v1
         if: always()
