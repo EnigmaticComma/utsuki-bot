@@ -11,7 +11,7 @@ permissions:
 jobs:
   workflow:
     name: 'Workflow'
-    runs-on: self-hosted, ubuntu-latest
+    runs-on: [self-hosted, ubuntu-latest]
 
     defaults:
       run:
