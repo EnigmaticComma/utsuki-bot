@@ -13,14 +13,14 @@ public class DynamicVoiceChannelService
 
     ulong _mainVoiceChannelId = 822721840404889620;
     IVoiceChannel _mainVoiceChannel;
-    IDatabase db;
+    // IDatabase db;
 
     public DynamicVoiceChannelService(DiscordSocketClient discord) {
         _discord = discord;
         _discord.UserVoiceStateUpdated += OnUserVoiceStateUpdated;
         _discord.ChannelDestroyed += OnChannelDestroyed;
-        var redis = ConnectionMultiplexer.Connect("redis");
-        db = redis.GetDatabase();
+        // var redis = ConnectionMultiplexer.Connect("redis");
+        // db = redis.GetDatabase();
         UpdateVoiceChannelsAsync().ConfigureAwait(true);
     }
 
