@@ -16,6 +16,7 @@ public class DynamicVoiceChannelService
     // IDatabase db;
 
     public DynamicVoiceChannelService(DiscordSocketClient discord) {
+        Console.WriteLine("Creating DynamicVoiceChannelService");
         _discord = discord;
         _discord.UserVoiceStateUpdated += OnUserVoiceStateUpdated;
         _discord.ChannelDestroyed += OnChannelDestroyed;
