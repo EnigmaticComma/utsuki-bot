@@ -11,7 +11,7 @@ permissions:
 jobs:
   workflow:
     name: 'Workflow'
-    runs-on: self-hosted
+    runs-on: self-hosted, enigmatic
 
     defaults:
       run:
