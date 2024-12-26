@@ -34,15 +34,21 @@ public class DynamicVoiceChannelService
     {
         Console.WriteLine($"Channel Destroyed");
         if(c is not SocketVoiceChannel voiceChannel) return;
-        if(await _discord.GetChannelAsync(_mainVoiceChannelId) is not IVoiceChannel _mainVoiceChannel) return;
+        UpdateMainVoiceChannel();
         await UpdateVoiceChannelsAsync(voiceChannel);
     }
 
     async Task OnUserVoiceStateUpdated(SocketUser user, SocketVoiceState previousVoiceState, SocketVoiceState newVoiceState)
     {
         Console.WriteLine($"OnUserVoiceStateUpdated");
-        if(await _discord.GetChannelAsync(_mainVoiceChannelId) is not IVoiceChannel _mainVoiceChannel) return;
+        UpdateMainVoiceChannel();
         await UpdateVoiceChannelsAsync(newVoiceState.VoiceChannel);
+    }
+
+    bool UpdateMainVoiceChannel()
+    {
+        _mainVoiceChannel = _discord.GetChannel(_mainVoiceChannelId) as IVoiceChannel;
+        return _mainVoiceChannel != null;
     }
 
     async Task UpdateVoiceChannelsAsync(SocketVoiceChannel? newVoiceChannel)
