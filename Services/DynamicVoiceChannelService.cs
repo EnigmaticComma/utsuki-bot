@@ -15,6 +15,7 @@ public class DynamicVoiceChannelService
     IVoiceChannel _mainVoiceChannel;
     IDatabase _db;
 
+
     public DynamicVoiceChannelService(DiscordSocketClient discord) {
         Console.WriteLine("Creating DynamicVoiceChannelService");
         _discord = discord;
@@ -64,7 +65,7 @@ public class DynamicVoiceChannelService
             Console.WriteLine($"new voice channel is null");
             return;
         }
-        if(_dynamicCreatedVoiceChannels.Count <= 0) {
+        if(_dynamicCreatedVoiceChannels.Count <= 0 && await _mainVoiceChannel.GetUsersAsync().CountAsync() > 0) {
             await CreateDynamicVoiceChannel(0, newVoiceChannel.Guild.Id);
         }
         for (var i = _dynamicCreatedVoiceChannels.Count - 1; i >= 0; i--) {
