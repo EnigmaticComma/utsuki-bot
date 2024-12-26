@@ -21,7 +21,7 @@ public class DynamicVoiceChannelService
         _discord.ChannelDestroyed += OnChannelDestroyed;
         try {
             Console.WriteLine($"Trying connecting to redis");
-            var redis = ConnectionMultiplexer.Connect("localhost");
+            var redis = ConnectionMultiplexer.Connect("redis");
             _db = redis.GetDatabase();
         }
         catch (Exception e) {
