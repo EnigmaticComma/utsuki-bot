@@ -58,14 +58,14 @@ public class DynamicVoiceChannelService
             Console.WriteLine($"new voice channel is null");
             return;
         }
-        if(_dynamicCreatedVoiceChannels.Count <= 0 && (await _mainVoiceChannel.GetUsersAsync().FlattenAsync()).Any()) {
+        if(_dynamicCreatedVoiceChannels.Count <= 0 && await HasAnyUsersOnVoiceChannel(_mainVoiceChannel)) {
             await CreateDynamicVoiceChannel(0, newVoiceChannel.Guild.Id);
             return;
         }
         for (var i = _dynamicCreatedVoiceChannels.Count - 1; i >= 0; i--) {
             var createdVcId = _dynamicCreatedVoiceChannels[i];
             if(await _discord.GetChannelAsync(createdVcId) is not IVoiceChannel voiceChannel) continue;
-            if(!(await HasAnyUsers(voiceChannel))) break;
+            if(!(await HasAnyUsersOnVoiceChannel(voiceChannel))) break;
             if(await CreateDynamicVoiceChannel(i, voiceChannel.GuildId)) return;
         }
     }
@@ -114,14 +114,16 @@ public class DynamicVoiceChannelService
     async Task DeleteRemaining()
     {
         for (var i = _dynamicCreatedVoiceChannels.Count - 1; i >= 0; i--) {
+            if(i == 0 && await HasAnyUsersOnVoiceChannel(_mainVoiceChannel)) return;
+
             var createdVcId = _dynamicCreatedVoiceChannels[i];
 
             if(await _discord.GetChannelAsync(createdVcId) is not IVoiceChannel voiceChannel) continue;
-            if(await HasAnyUsers(voiceChannel)) continue;
+            if(await HasAnyUsersOnVoiceChannel(voiceChannel)) continue;
 
             if(_dynamicCreatedVoiceChannels.GetIfInRange(i - 1, out var id)) {
                 if(await _discord.GetChannelAsync(id) is not IVoiceChannel otherVoiceChannel) continue;
-                if(await HasAnyUsers(otherVoiceChannel)) {
+                if(await HasAnyUsersOnVoiceChannel(otherVoiceChannel)) {
                     i--;
                     continue;
                 }
@@ -132,7 +134,7 @@ public class DynamicVoiceChannelService
             _dynamicCreatedVoiceChannels.Remove(createdVcId);
         }
     }
-    static async Task<bool> HasAnyUsers(IVoiceChannel vc)
+    static async Task<bool> HasAnyUsersOnVoiceChannel(IVoiceChannel vc)
     {
         var users = await vc.GetUsersAsync().FlattenAsync();
         return users.Any();
