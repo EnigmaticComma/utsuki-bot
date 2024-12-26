@@ -14,7 +14,7 @@ public class DynamicVoiceChannelService
     List<ulong> _dynamicCreatedVoiceChannels = new ();
 
     ulong _mainVoiceChannelId = 822721840404889620;
-    IVoiceChannel _mainVoiceChannel;
+    SocketVoiceChannel _mainVoiceChannel;
     IDatabase _db;
 
 
@@ -41,7 +41,7 @@ public class DynamicVoiceChannelService
 
     bool UpdateMainVoiceChannel()
     {
-        _mainVoiceChannel = _discord.GetChannel(_mainVoiceChannelId) as IVoiceChannel;
+        _mainVoiceChannel = _discord.GetChannel(_mainVoiceChannelId) as SocketVoiceChannel;
         return _mainVoiceChannel != null;
     }
 
@@ -58,15 +58,15 @@ public class DynamicVoiceChannelService
             Console.WriteLine($"new voice channel is null");
             return;
         }
-        if(_dynamicCreatedVoiceChannels.Count <= 0 && await HasAnyUsersOnVoiceChannel(_mainVoiceChannel)) {
+        if(_dynamicCreatedVoiceChannels.Count <= 0 && HasAnyUsersOnVoiceChannel(_mainVoiceChannel)) {
             await CreateDynamicVoiceChannel(0, newVoiceChannel.Guild.Id);
             return;
         }
         for (var i = _dynamicCreatedVoiceChannels.Count - 1; i >= 0; i--) {
             var createdVcId = _dynamicCreatedVoiceChannels[i];
-            if(await _discord.GetChannelAsync(createdVcId) is not IVoiceChannel voiceChannel) continue;
-            if(!(await HasAnyUsersOnVoiceChannel(voiceChannel))) break;
-            if(await CreateDynamicVoiceChannel(i, voiceChannel.GuildId)) return;
+            if(await _discord.GetChannelAsync(createdVcId) is not SocketVoiceChannel voiceChannel) continue;
+            if(!(HasAnyUsersOnVoiceChannel(voiceChannel))) break;
+            if(await CreateDynamicVoiceChannel(i, voiceChannel.Guild.Id)) return;
         }
     }
 
@@ -87,7 +87,7 @@ public class DynamicVoiceChannelService
         var name = $"Voice {sufix}";
         RestVoiceChannel? newVc = default;
         try {
-            newVc = await targetGuild.CreateVoiceChannelAsync(name, p=>CopyChannelProperties(_mainVoiceChannel, p));
+            newVc = await targetGuild.CreateVoiceChannelAsync(name, p=> CopyChannelProperties(_mainVoiceChannel, p));
             if(newVc == null) {
                 Console.WriteLine($"Failed to create new voice channel '{name}'");
                 return false;
@@ -115,28 +115,28 @@ public class DynamicVoiceChannelService
     {
         for (var i = _dynamicCreatedVoiceChannels.Count - 1; i >= 0; i--) {
             Console.WriteLine($"check for channel index {i}");
-            if(i == 0 && await HasAnyUsersOnVoiceChannel(_mainVoiceChannel)) {
+            if(i == 0 && HasAnyUsersOnVoiceChannel(_mainVoiceChannel)) {
                 Console.WriteLine("Will not delete the first dynamic created channel");
                 return;
             }
 
             var createdVcId = _dynamicCreatedVoiceChannels[i];
 
-            if(await _discord.GetChannelAsync(createdVcId) is not IVoiceChannel voiceChannel) {
+            if(await _discord.GetChannelAsync(createdVcId) is not SocketVoiceChannel voiceChannel) {
                 Console.WriteLine("Channel not found");
                 continue;
             }
-            if(await HasAnyUsersOnVoiceChannel(voiceChannel)) {
+            if(HasAnyUsersOnVoiceChannel(voiceChannel)) {
                 Console.WriteLine("Channel has users");
                 continue;
             }
 
             if(_dynamicCreatedVoiceChannels.GetIfInRange(i - 1, out var id)) {
-                if(await _discord.GetChannelAsync(id) is not IVoiceChannel otherVoiceChannel) {
+                if(await _discord.GetChannelAsync(id) is not SocketVoiceChannel otherVoiceChannel) {
                     Console.WriteLine("Other channel not found");
                     continue;
                 }
-                if(await HasAnyUsersOnVoiceChannel(otherVoiceChannel)) {
+                if(HasAnyUsersOnVoiceChannel(otherVoiceChannel)) {
                     Console.WriteLine("Other channel has users");
                     continue;
                 }
@@ -147,9 +147,8 @@ public class DynamicVoiceChannelService
             _dynamicCreatedVoiceChannels.Remove(createdVcId);
         }
     }
-    static async Task<bool> HasAnyUsersOnVoiceChannel(IVoiceChannel vc)
+    static bool HasAnyUsersOnVoiceChannel(SocketVoiceChannel vc)
     {
-        var users = await vc.GetUsersAsync().FlattenAsync();
-        return users.Any();
+        return vc.ConnectedUsers.Count > 0;
     }
 }
