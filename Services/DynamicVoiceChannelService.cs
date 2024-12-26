@@ -1,6 +1,7 @@
 using StackExchange.Redis;
 using UtsukiBot.Extensions;
 using Discord;
+using Discord.Rest;
 using Discord.WebSocket;
 
 namespace UtsukiBot.Services;
@@ -21,7 +22,7 @@ public class DynamicVoiceChannelService
         _discord.ChannelDestroyed += OnChannelDestroyed;
         try {
             Console.WriteLine($"Trying connecting to redis");
-            var redis = ConnectionMultiplexer.Connect("redis");
+            var redis = ConnectionMultiplexer.Connect("localhost:6379");
             _db = redis.GetDatabase();
         }
         catch (Exception e) {
@@ -67,18 +68,28 @@ public class DynamicVoiceChannelService
             if(await CreateDynamicVoiceChannel(i, voiceChannel.GuildId)) return;
         }
     }
+
+    /// <returns>true if created</returns>
     async Task<bool> CreateDynamicVoiceChannel(int i, ulong guildId)
     {
-        Console.WriteLine($"creating dynamic voice channel {i}");
+        var targetGuild = _discord.GetGuild(guildId);
+        Console.WriteLine($"creating dynamic voice channel {i} at guild {targetGuild.Name}");
         var name = $"Voice {i + 2}";
-        var newVc = await _discord.GetGuild(guildId).CreateVoiceChannelAsync(name, p=>CopyChannelProperties(_mainVoiceChannel, p));
-        if(newVc == null) {
-            Console.WriteLine($"Failed to create new voice channel '{name}'");
-            return true;
+        RestVoiceChannel? newVc = default;
+        try {
+            newVc = await targetGuild.CreateVoiceChannelAsync(name, p=>CopyChannelProperties(_mainVoiceChannel, p));
+            if(newVc == null) {
+                Console.WriteLine($"Failed to create new voice channel '{name}'");
+                return false;
+            }
+        }
+        catch (Exception e) {
+            Console.WriteLine(e);
+            return false;
         }
         _dynamicCreatedVoiceChannels.Add(newVc.Id);
         Console.WriteLine($"Created new voice channel '{name}'");
-        return false;
+        return true;
     }
 
     void CopyChannelProperties(IVoiceChannel originalVc, VoiceChannelProperties p)
