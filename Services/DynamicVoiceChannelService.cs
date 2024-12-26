@@ -65,7 +65,7 @@ public class DynamicVoiceChannelService
             Console.WriteLine($"new voice channel is null");
             return;
         }
-        if(_dynamicCreatedVoiceChannels.Count <= 0 && await _mainVoiceChannel.GetUsersAsync().CountAsync() > 0) {
+        if(_dynamicCreatedVoiceChannels.Count <= 0 && (await _mainVoiceChannel.GetUsersAsync().FlattenAsync()).Any()) {
             await CreateDynamicVoiceChannel(0, newVoiceChannel.Guild.Id);
         }
         for (var i = _dynamicCreatedVoiceChannels.Count - 1; i >= 0; i--) {
