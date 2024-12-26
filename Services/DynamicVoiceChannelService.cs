@@ -1,3 +1,5 @@
+using System.Net;
+using System.Text.Json;
 using StackExchange.Redis;
 using UtsukiBot.Extensions;
 using Discord;
@@ -20,7 +22,6 @@ public class DynamicVoiceChannelService
         Console.WriteLine("Creating DynamicVoiceChannelService");
         _discord = discord;
         _discord.UserVoiceStateUpdated += OnUserVoiceStateUpdated;
-        _discord.ChannelDestroyed += OnChannelDestroyed;
         try {
             Console.WriteLine($"Trying connecting to redis");
             var redis = ConnectionMultiplexer.Connect("localhost:6379");
@@ -29,14 +30,6 @@ public class DynamicVoiceChannelService
         catch (Exception e) {
             Console.WriteLine(e);
         }
-    }
-
-    async Task OnChannelDestroyed(SocketChannel c)
-    {
-        Console.WriteLine($"Channel Destroyed");
-        if(c is not SocketVoiceChannel voiceChannel) return;
-        UpdateMainVoiceChannel();
-        await UpdateVoiceChannelsAsync(voiceChannel);
     }
 
     async Task OnUserVoiceStateUpdated(SocketUser user, SocketVoiceState previousVoiceState, SocketVoiceState newVoiceState)
@@ -81,8 +74,17 @@ public class DynamicVoiceChannelService
     async Task<bool> CreateDynamicVoiceChannel(int i, ulong guildId)
     {
         var targetGuild = _discord.GetGuild(guildId);
-        Console.WriteLine($"creating dynamic voice channel {i} at guild {targetGuild.Name}");
-        var name = $"Voice {i + 2}";
+
+        // get to URL "https://random-word-api.vercel.app/api?words=1&type=capitalized":
+        string sufix = "X";
+        var json = await new HttpClient().GetStringAsync("https://random-word-api.vercel.app/api?words=1&type=capitalized");
+        string[] resultado = JsonSerializer.Deserialize<string[]>(json) ?? [];
+        if(resultado != null && resultado.Length > 0) {
+            sufix = resultado[0];
+        }
+
+        Console.WriteLine($"creating dynamic voice channel {i} at guild {targetGuild.Name} with name '{sufix}'");
+        var name = $"Voice {sufix}";
         RestVoiceChannel? newVc = default;
         try {
             newVc = await targetGuild.CreateVoiceChannelAsync(name, p=>CopyChannelProperties(_mainVoiceChannel, p));
@@ -120,7 +122,8 @@ public class DynamicVoiceChannelService
             if(_dynamicCreatedVoiceChannels.GetIfInRange(i - 1, out var id)) {
                 if(await _discord.GetChannelAsync(id) is not IVoiceChannel otherVoiceChannel) continue;
                 if(await HasAnyUsers(otherVoiceChannel)) {
-                    break;
+                    i--;
+                    continue;
                 }
             }
 
