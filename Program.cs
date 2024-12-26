@@ -10,9 +10,9 @@ public class Program {
     static List<ulong> _rememberChannelIds = new();
     static Timer _timer;
     const int MessagesToRemember = 100000;
-    static readonly Random random = new Random();
+    static readonly Random random = new ();
 
-    public static readonly Version VERSION = new (1,1);
+    public static readonly Version VERSION = new (1,2);
 
     public static async Task Main(string[] args) {
         _client = new DiscordSocketClient(new DiscordSocketConfig {

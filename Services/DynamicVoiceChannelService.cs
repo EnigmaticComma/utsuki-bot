@@ -1,9 +1,9 @@
+using StackExchange.Redis;
 using UtsukiBot.Extensions;
-
-namespace UtsukiBot.Services;
-
 using Discord;
 using Discord.WebSocket;
+
+namespace UtsukiBot.Services;
 
 public class DynamicVoiceChannelService
 {
@@ -12,19 +12,26 @@ public class DynamicVoiceChannelService
 
     ulong _mainVoiceChannelId = 822721840404889620;
     IVoiceChannel _mainVoiceChannel;
-    // IDatabase db;
+    IDatabase _db;
 
     public DynamicVoiceChannelService(DiscordSocketClient discord) {
         Console.WriteLine("Creating DynamicVoiceChannelService");
         _discord = discord;
         _discord.UserVoiceStateUpdated += OnUserVoiceStateUpdated;
         _discord.ChannelDestroyed += OnChannelDestroyed;
-        // var redis = ConnectionMultiplexer.Connect("redis");
-        // db = redis.GetDatabase();
+        try {
+            Console.WriteLine($"Trying connecting to redis");
+            var redis = ConnectionMultiplexer.Connect("localhost");
+            _db = redis.GetDatabase();
+        }
+        catch (Exception e) {
+            Console.WriteLine(e);
+        }
     }
 
     async Task OnChannelDestroyed(SocketChannel c)
     {
+        Console.WriteLine($"Channel Destroyed");
         if(c is not SocketVoiceChannel voiceChannel) return;
         if(await _discord.GetChannelAsync(_mainVoiceChannelId) is not IVoiceChannel _mainVoiceChannel) return;
         await UpdateVoiceChannelsAsync(voiceChannel);
@@ -32,17 +39,20 @@ public class DynamicVoiceChannelService
 
     async Task OnUserVoiceStateUpdated(SocketUser user, SocketVoiceState previousVoiceState, SocketVoiceState newVoiceState)
     {
+        Console.WriteLine($"OnUserVoiceStateUpdated");
         if(await _discord.GetChannelAsync(_mainVoiceChannelId) is not IVoiceChannel _mainVoiceChannel) return;
         await UpdateVoiceChannelsAsync(newVoiceState.VoiceChannel);
     }
 
     async Task UpdateVoiceChannelsAsync(SocketVoiceChannel? newVoiceChannel)
     {
+        Console.WriteLine($"UpdateVoiceChannelsAsync");
         await CreateMoreIfNecessary(newVoiceChannel);
         await DeleteRemaining();
     }
     async Task CreateMoreIfNecessary(SocketVoiceChannel? newVoiceChannel)
     {
+        Console.WriteLine($"CreateMoreIfNecessary");
         if(newVoiceChannel == null) return;
         if(_dynamicCreatedVoiceChannels.Count <= 0) {
             await CreateDynamicVoiceChannel(0, newVoiceChannel.Guild.Id);
