@@ -114,6 +114,7 @@ public class DynamicVoiceChannelService
     async Task DeleteRemaining()
     {
         for (var i = _dynamicCreatedVoiceChannels.Count - 1; i >= 0; i--) {
+            Console.WriteLine($"check for channel index {i}");
             if(i == 0 && await HasAnyUsersOnVoiceChannel(_mainVoiceChannel)) {
                 Console.WriteLine("Will not delete the first dynamic created channel");
                 return;
@@ -121,12 +122,22 @@ public class DynamicVoiceChannelService
 
             var createdVcId = _dynamicCreatedVoiceChannels[i];
 
-            if(await _discord.GetChannelAsync(createdVcId) is not IVoiceChannel voiceChannel) continue;
-            if(await HasAnyUsersOnVoiceChannel(voiceChannel)) continue;
+            if(await _discord.GetChannelAsync(createdVcId) is not IVoiceChannel voiceChannel) {
+                Console.WriteLine("Channel not found");
+                continue;
+            }
+            if(await HasAnyUsersOnVoiceChannel(voiceChannel)) {
+                Console.WriteLine("Channel has users");
+                continue;
+            }
 
             if(_dynamicCreatedVoiceChannels.GetIfInRange(i - 1, out var id)) {
-                if(await _discord.GetChannelAsync(id) is not IVoiceChannel otherVoiceChannel) continue;
+                if(await _discord.GetChannelAsync(id) is not IVoiceChannel otherVoiceChannel) {
+                    Console.WriteLine("Other channel not found");
+                    continue;
+                }
                 if(await HasAnyUsersOnVoiceChannel(otherVoiceChannel)) {
+                    Console.WriteLine("Other channel has users");
                     continue;
                 }
             }
