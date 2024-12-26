@@ -67,6 +67,7 @@ public class DynamicVoiceChannelService
         }
         if(_dynamicCreatedVoiceChannels.Count <= 0 && (await _mainVoiceChannel.GetUsersAsync().FlattenAsync()).Any()) {
             await CreateDynamicVoiceChannel(0, newVoiceChannel.Guild.Id);
+            return;
         }
         for (var i = _dynamicCreatedVoiceChannels.Count - 1; i >= 0; i--) {
             var createdVcId = _dynamicCreatedVoiceChannels[i];
