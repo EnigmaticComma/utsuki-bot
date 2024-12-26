@@ -53,7 +53,10 @@ public class DynamicVoiceChannelService
     async Task CreateMoreIfNecessary(SocketVoiceChannel? newVoiceChannel)
     {
         Console.WriteLine($"CreateMoreIfNecessary");
-        if(newVoiceChannel == null) return;
+        if(newVoiceChannel == null) {
+            Console.WriteLine($"new voice channel is null");
+            return;
+        }
         if(_dynamicCreatedVoiceChannels.Count <= 0) {
             await CreateDynamicVoiceChannel(0, newVoiceChannel.Guild.Id);
         }
@@ -66,6 +69,7 @@ public class DynamicVoiceChannelService
     }
     async Task<bool> CreateDynamicVoiceChannel(int i, ulong guildId)
     {
+        Console.WriteLine($"creating dynamic voice channel {i}");
         var name = $"Voice {i + 2}";
         var newVc = await _discord.GetGuild(guildId).CreateVoiceChannelAsync(name, p=>CopyChannelProperties(_mainVoiceChannel, p));
         if(newVc == null) {
