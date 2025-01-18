@@ -10,4 +10,4 @@ WORKDIR /app
 
 COPY --from=build /app/out ./
 
-CMD ["dotnet", "utsuki-bot-net.dll"]
+CMD ["dotnet", "utsuki-bot.dll"]
