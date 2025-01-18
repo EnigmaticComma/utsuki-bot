@@ -34,7 +34,7 @@ jobs:
       - name: stop previous container
         run: docker rm -f utsuki-bot-net
       - name: run
-        run: docker run --name utsuki-bot-net --env-file./stack.env -d --restart=always utsuki-bot-net
+        run: docker run --name utsuki-bot-net --env-file ./stack.env -d --restart=always utsuki-bot-net
       - uses: sarisia/actions-status-discord@v1
         if: always()
         with:
