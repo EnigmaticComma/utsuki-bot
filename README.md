@@ -1,10 +1,10 @@
 
 # Utsuki Discord Bot
 
-![GitHub repo size](https://img.shields.io/github/repo-size/Chrisdbhr/utsuki-bot-in-rust?style=for-the-badge)
-![GitHub language count](https://img.shields.io/github/languages/count/Chrisdbhr/utsuki-bot-in-rust?style=for-the-badge)
-![GitHub forks](https://img.shields.io/github/forks/Chrisdbhr/utsuki-bot-in-rust?style=for-the-badge)
-[![Workflow](https://img.shields.io/github/actions/workflow/status/Chrisdbhr/utsuki-bot-in-rust/pipeline.yml?style=for-the-badge)](https://github.com/Chrisdbhr/utsuki-bot-in-rust/actions/workflows/pipeline.yml)
+![GitHub repo size](https://img.shields.io/github/repo-size/EnigmaticComma/utsuki-bot?style=for-the-badge)
+![GitHub language count](https://img.shields.io/github/languages/count/EnigmaticComma/utsuki-bot?style=for-the-badge)
+![GitHub forks](https://img.shields.io/github/forks/EnigmaticComma/utsuki-bot?style=for-the-badge)
+[![Workflow](https://img.shields.io/github/actions/workflow/status/EnigmaticComma/utsuki-bot/pipeline.yml?style=for-the-badge)](https://github.com/EnigmaticComma/utsuki-bot/actions/workflows/pipeline.yml)
 
 <img src="https://chrisdbhr.github.io/images/thumbs/utsuki-bot-banner.png" alt="Utsuki Bot Banner">
 

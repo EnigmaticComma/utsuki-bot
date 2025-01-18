@@ -34,7 +34,7 @@ jobs:
       - name: stop previous container
         run: docker rm -f utsuki-bot-net
       - name: run
-        run: docker run --name utsuki-bot-net -e DISCORD_TOKEN_UTSUKI=${{ secrets.DISCORD_TOKEN }} -d --restart=always utsuki-bot-net
+        run: docker run --name utsuki-bot-net -d --restart=always utsuki-bot-net
       - uses: sarisia/actions-status-discord@v1
         if: always()
         with:

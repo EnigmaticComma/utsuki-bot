@@ -1,35 +1,26 @@
-using System.Net;
 using System.Text.Json;
-using StackExchange.Redis;
 using UtsukiBot.Extensions;
 using Discord;
 using Discord.Rest;
 using Discord.WebSocket;
 
-namespace UtsukiBot.Services;
+namespace App.Services;
 
 public class DynamicVoiceChannelService
 {
-    readonly DiscordSocketClient _discord;
     List<ulong> _dynamicCreatedVoiceChannels = new ();
-
     ulong _mainVoiceChannelId = 822721840404889620;
     SocketVoiceChannel _mainVoiceChannel;
-    IDatabase _db;
 
+    readonly DbService _db;
+    readonly DiscordSocketClient _discord;
 
-    public DynamicVoiceChannelService(DiscordSocketClient discord) {
+    public DynamicVoiceChannelService(DiscordSocketClient discord, DbService db)
+    {
+        _db = db;
         Console.WriteLine("Creating DynamicVoiceChannelService");
         _discord = discord;
         _discord.UserVoiceStateUpdated += OnUserVoiceStateUpdated;
-        try {
-            Console.WriteLine($"Trying connecting to redis");
-            var redis = ConnectionMultiplexer.Connect("localhost:6379");
-            _db = redis.GetDatabase();
-        }
-        catch (Exception e) {
-            Console.WriteLine(e);
-        }
     }
 
     async Task OnUserVoiceStateUpdated(SocketUser user, SocketVoiceState previousVoiceState, SocketVoiceState newVoiceState)
@@ -77,9 +68,14 @@ public class DynamicVoiceChannelService
 
         // get to URL "https://random-word-api.vercel.app/api?words=1&type=capitalized":
         string sufix = "X";
-        var json = await new HttpClient().GetStringAsync("https://random-word-api.vercel.app/api?words=1&type=capitalized");
+        string json = default;
+        using (CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(3)))
+        {
+            json = await new HttpClient().GetStringAsync("https://random-word-api.vercel.app/api?words=1&type=capitalized", cts.Token);
+        }
+
         string[] resultado = JsonSerializer.Deserialize<string[]>(json) ?? [];
-        if(resultado != null && resultado.Length > 0) {
+        if(resultado.Length > 0) {
             sufix = resultado[0];
         }
 
