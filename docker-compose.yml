@@ -3,11 +3,14 @@ services:
     image: utsuki-bot-net
     container_name: utsuki-bot-net
     restart: always
+    environment:
+      DISCORD_TOKEN_UTSUKI: ${{ secrets.DISCORD_TOKEN_UTSUKI }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
   postgres:
     container_name: postgres
     image: postgres:17
     environment:
       PGUSER: postgres
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
