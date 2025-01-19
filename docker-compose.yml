@@ -1,14 +1,4 @@
 services:
-  utsuki-bot-net:
-    image: utsuki-bot-net
-    container_name: utsuki-bot-net
-    restart: always
-    environment:
-      DB_PASSWORD: ${DB_PASSWORD}
-      DISCORD_TOKEN_UTSUKI: ${DISCORD_TOKEN_UTSUKI}
-    depends_on:
-      postgres:
-        condition: service_healthy
   postgres:
     container_name: utsuki-bot-db
     image: postgres:17
@@ -22,3 +12,13 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  utsuki-bot-net:
+    image: utsuki-bot-net
+    container_name: utsuki-bot-net
+    restart: always
+    environment:
+      DB_PASSWORD: ${DB_PASSWORD}
+      DISCORD_TOKEN_UTSUKI: ${DISCORD_TOKEN_UTSUKI}
+    depends_on:
+      postgres:
+        condition: service_healthy
