@@ -7,11 +7,6 @@ services:
       POSTGRES_PASSWORD: $DB_PASSWORD
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
   utsuki-bot-net:
     image: utsuki-bot-net
     container_name: utsuki-bot-net
@@ -20,5 +15,4 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DISCORD_TOKEN_UTSUKI: ${DISCORD_TOKEN_UTSUKI}
     depends_on:
-      postgres:
-        condition: service_healthy
+      - postgres
