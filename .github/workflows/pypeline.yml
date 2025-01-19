@@ -40,7 +40,10 @@ jobs:
         env:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DISCORD_TOKEN_UTSUKI: ${{ secrets.DISCORD_TOKEN_UTSUKI }}
-        run: docker compose up -d
+        run: |
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" > .env
+          echo "DISCORD_TOKEN_UTSUKI=${{ secrets.DISCORD_TOKEN_UTSUKI }}" >> .env
+          docker compose up -d
       - uses: sarisia/actions-status-discord@v1
         if: always()
         with:
