@@ -6,6 +6,9 @@ services:
     environment:
       DB_PASSWORD: ${DB_PASSWORD}
       DISCORD_TOKEN_UTSUKI: ${DISCORD_TOKEN_UTSUKI}
+    depends_on:
+      postgres:
+        condition: service_healthy
   postgres:
     container_name: utsuki-bot-db
     image: postgres:17
@@ -14,3 +17,8 @@ services:
       POSTGRES_PASSWORD: $DB_PASSWORD
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
