@@ -1,12 +1,8 @@
-version: '3.8'
 services:
   utsuki-bot-net:
     image: utsuki-bot-net
     container_name: utsuki-bot-net
     restart: always
-    environment:
-      DISCORD_TOKEN_UTSUKI: ${DISCORD_TOKEN_UTSUKI}
-      DB_PASSWORD: ${DB_PASSWORD}
   postgres:
     container_name: postgres
     image: postgres:17
