@@ -31,19 +31,13 @@ jobs:
           push: false
           tags: 'utsuki-bot-net'
           file: Dockerfile
-          secrets: |
-            "DB_PASSWORD=${{ secrets.DB_PASSWORD }}"
-            "DISCORD_TOKEN_UTSUKI=${{ secrets.DISCORD_TOKEN_UTSUKI }}"
       - name: stop previous services
         run: docker compose down
       - name: run with docker-compose
         env:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DISCORD_TOKEN_UTSUKI: ${{ secrets.DISCORD_TOKEN_UTSUKI }}
-        run: |
-          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" > .env
-          echo "DISCORD_TOKEN_UTSUKI=${{ secrets.DISCORD_TOKEN_UTSUKI }}" >> .env
-          docker compose up -d
+        run: docker compose up -d
       - uses: sarisia/actions-status-discord@v1
         if: always()
         with:
