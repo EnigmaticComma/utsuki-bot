@@ -15,4 +15,4 @@ services:
       PGUSER: postgres
       POSTGRES_PASSWORD: $DB_PASSWORD
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - ./postgres-data:/var/lib/postgresql/data
