@@ -36,9 +36,9 @@ jobs:
           tags: 'utsuki-bot-net'
           file: Dockerfile
       - name: stop previous services
-        run: docker-compose down
+        run: docker compose down
       - name: run with docker-compose
-        run: docker-compose up -d
+        run: docker compose up -d
       - uses: sarisia/actions-status-discord@v1
         if: always()
         with:
