@@ -23,6 +23,10 @@ jobs:
         if: always()
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: set environment variables
+        run: |
+          echo "DISCORD_TOKEN_UTSUKI=${{ secrets.DISCORD_TOKEN_UTSUKI }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
       - name: checkout
         uses: actions/checkout@v3
       - name: build
@@ -31,17 +35,10 @@ jobs:
           push: false
           tags: 'utsuki-bot-net'
           file: Dockerfile
-      - name: stop previous container
-        run: docker rm -f utsuki-bot-net
-      - name: run
-        run: |
-          docker run \
-            --name utsuki-bot-net \
-            -d \
-            --restart=always \
-            -e DISCORD_TOKEN_UTSUKI=${{ secrets.DISCORD_TOKEN_UTSUKI }} \
-            -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
-            utsuki-bot-net
+      - name: stop previous services
+        run: docker-compose down
+      - name: run with docker-compose
+        run: docker-compose up -d
       - uses: sarisia/actions-status-discord@v1
         if: always()
         with:
