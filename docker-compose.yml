@@ -12,7 +12,7 @@ services:
     image: postgres:17
     environment:
       PGUSER: postgres
-      POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      POSTGRES_PASSWORD: $DB_PASSWORD
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
 secrets:
