@@ -32,10 +32,18 @@ namespace App.Modules {
         
 
         public ModeratorModule(DiscordSocketClient discord, ModeratorService moderatorService, LoggingService loggingService) {
-            this._moderatorService = moderatorService;
-            this._log = loggingService;
-            this._discord = discord;
-            this._discord.GuildAvailable += GuildAvailable;
+            _moderatorService = moderatorService;
+            _log = loggingService;
+            _discord = discord;
+            _discord.GuildAvailable += GuildAvailable;
+            _discord.MessageReceived += async message => {
+                // mock ggj staff role
+                await _log.Info($"Message received content: {message.Content}");
+                if(message.MentionedUsers == null || !message.Content.Contains("staff",StringComparison.InvariantCultureIgnoreCase)) return;
+                if(message.Author is not SocketGuildUser sgd) return;
+                await sgd.AddRoleAsync(1328551591250366571);
+                await message.AddReactionAsync(new Emoji("👍"));
+            };
         }
 
         public async Task GuildAvailable(SocketGuild socketGuild)
