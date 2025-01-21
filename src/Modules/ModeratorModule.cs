@@ -279,8 +279,7 @@ namespace App.Modules {
         [Command("teamname")]
         [RequireBotPermission(GuildPermission.ManageChannels)]
         public async Task RenameTeam(params string[] name) {
-            var json = JsonCache.LoadFromJson<JArray>("Moderation/guild-with-teams");
-            if (!json.Any(v => v.Value<ulong>() == this.Context.Guild.Id)) return;
+            if (this.Context.Guild.Id != 1328551591241846907) return;
 
             if (!(this.Context.Channel is SocketTextChannel textChannel)) return;
             name ??= new[] {"equipe"};
