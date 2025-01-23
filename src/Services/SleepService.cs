@@ -56,7 +56,7 @@ namespace App {
 			// var a = await this._db.UpdateData(COLLECTION_AMIMIR, filter, update);
 			// if (!a.IsAcknowledged) {
 			// 	await msg.AddReactionAsync(new Emoji("❌"));
-			// 	await this._log.Error("Error included Bson on db:\n "+update.ToBsonDocument());
+			// 	_log.Error("Error included Bson on db:\n "+update.ToBsonDocument());
 			// 	return;
 			// }
 			//
@@ -96,7 +96,7 @@ namespace App {
 			// 	}
 			// 	return;
 			// } catch (Exception e) {
-			// 	await this._log.Error(e.ToString());
+			// 	_log.Error(e.ToString());
 			// }
 			//
 			// // DM
@@ -104,7 +104,7 @@ namespace App {
 			// 	var dm = await user.CreateDMChannelAsync();
 			// 	await dm.SendMessageAsync("Acordou!", false, embed.Build());
 			// } catch (Exception e) {
-			// 	await this._log.Error(e.ToString());
+			// 	_log.Error(e.ToString());
 			// }
 		}
 

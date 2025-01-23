@@ -70,7 +70,7 @@ namespace App {
 				return;
 			}
 
-			await _log.Info(sb.ToString());
+			_log.Info(sb.ToString());
 		}
 
 		async Task OnUserUpdated(SocketUser oldUser, SocketUser newUser) {

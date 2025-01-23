@@ -34,7 +34,7 @@ namespace App.Twitter {
 
 			var response = await _twitterApi.Tweet(msg.Content);
 			
-			await _log.Warning($"Auto post on Twitter, response: {response}");
+			_log.Warning($"Auto post on Twitter, response: {response}");
 		}
 
 	}

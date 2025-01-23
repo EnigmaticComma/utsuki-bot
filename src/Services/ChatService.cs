@@ -94,7 +94,7 @@ namespace App {
 		async Task MessageDeletedAsync(Cacheable<IMessage, ulong> cacheable, Cacheable<IMessageChannel, ulong> cacheable1) {
 			if (!cacheable.HasValue) return;
 			var message = cacheable.Value;
-			await _log.Warning($"[MessageDeleted] from {message.Author.Username}: '{message.Content}'");
+			_log.Warning($"[MessageDeleted] from {message.Author.Username}: '{message.Content}'");
 		}
 
 
@@ -103,7 +103,7 @@ namespace App {
 		}
 
 		async Task PrivateMessageReceivedAsync(SocketMessage socketMessage, IDMChannel dmChannel) {
-			await _log.Info($"Private message received from {socketMessage.Author}: {socketMessage.Content}");
+			_log.Info($"Private message received from {socketMessage.Author}: {socketMessage.Content}");
 
 			if (socketMessage.Content.ToLower() == ",ip") {
 				var ip = await GetBotPublicIp();
@@ -182,14 +182,14 @@ namespace App {
 							&& !guildUser.IsBot
 							&& guildUser.JoinedAt.HasValue
 							&& DateTimeOffset.UtcNow < guildUser.JoinedAt.Value.AddDays(7)) {
-							await _log.Warning($"Deleting {guildUser.GetNameSafe()} message because this user is new on this guild.");
+							_log.Warning($"Deleting {guildUser.GetNameSafe()} message because this user is new on this guild.");
 							await userMessage.DeleteAsync();
 							return;
 						}
 					}
 				}
 			} catch (Exception e) {
-				await _log.Error(e.ToString());
+				_log.Error(e.ToString());
 			}
 
 			#endregion <<---------- New Users Anti Spam ---------->>
@@ -491,6 +491,9 @@ namespace App {
 			var statusText = $"v{Program.VERSION.ToString()}";
 			try {
 				var activitiesJsonArray = JsonCache.LoadFromJson<JArray>("BotStatus");
+				if(!activitiesJsonArray.HasValues) {
+					throw new Exception("No bot status options found");
+				}
 				var index = _rand.Next(0, activitiesJsonArray.Count);
 				var answers = activitiesJsonArray.ElementAt(index)["answers"];
 				var statusTextArray = answers;
@@ -502,7 +505,7 @@ namespace App {
 					);
 
 			} catch (Exception e) {
-				await _log.Error(e.ToString());
+				_log.Error(e.Message);
 				if (_discord == null) return;
 				await _discord.SetGameAsync(statusText, null, ActivityType.Watching);
 			}
@@ -520,7 +523,7 @@ namespace App {
 			var timeline = await client.ExecuteAsync(new RestRequest("http://ipinfo.io/ip", Method.Get));
 
 			if (!string.IsNullOrEmpty(timeline.ErrorMessage)) {
-				await _log.Error($"Error trying to get bot IP: {timeline.ErrorMessage}");
+				_log.Error($"Error trying to get bot IP: {timeline.ErrorMessage}");
 				return null;
 			}
 			if (string.IsNullOrEmpty(timeline.Content)) return null;
@@ -594,11 +597,11 @@ namespace App {
 							if(msgSend != null) await msgSend.ModifyAsync(p => p.Embed = embed.Build());
 						}
 					} catch (Exception e) {
-						await _log.Error(e.ToString());
+						_log.Error(e.ToString());
 					}
 
 				} catch (Exception e) {
-					await _log.Error(e.ToString());
+					_log.Error(e.ToString());
 					continue;
 				}
 
@@ -653,7 +656,7 @@ namespace App {
 			while (await allMsgs.MoveNextAsync()) {
 				var list = LastMessagesIdsInChannel[key];
 				list.AddRange(allMsgs.Current.Select(e=>e.Id));
-				await _log.Info($"Including {allMsgs.Current.Count} messages on list of {list.Count} messages in '{channel.Name}'");
+				_log.Info($"Including {allMsgs.Current.Count} messages on list of {list.Count} messages in '{channel.Name}'");
 				LastMessagesIdsInChannel[key] = list.Distinct().ToList();
 			}
 
@@ -695,7 +698,7 @@ namespace App {
 				maxTries--;
 			} while (maxTries > 0);
 
-			await _log.Info("Could not find valid message from channel cache.");
+			_log.Info("Could not find valid message from channel cache.");
 			return null;
 		}
 
@@ -736,7 +739,7 @@ namespace App {
 			var timeline = await client.ExecuteAsync(new RestRequest("https://www.pensador.com/recentes", Method.Get));
 
 			if (!string.IsNullOrEmpty(timeline.ErrorMessage) || string.IsNullOrEmpty(timeline.Content)) {
-				await _log.Error($"Error trying Random Motivation Phrase: {timeline.ErrorMessage}");
+				_log.Error($"Error trying Random Motivation Phrase: {timeline.ErrorMessage}");
 				return null;
 			}
 

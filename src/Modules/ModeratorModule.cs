@@ -38,10 +38,18 @@ namespace App.Modules {
             _discord.GuildAvailable += GuildAvailable;
             _discord.MessageReceived += async message => {
                 // mock ggj staff role
-                await _log.Info($"Message received content: {message.Content}");
-                if(message.MentionedUsers == null || !message.Content.Contains("staff",StringComparison.InvariantCultureIgnoreCase)) return;
-                if(message.Author is not SocketGuildUser sgd) return;
+                _log.Info($"Message received content: {message.Content}");
+                if(message.MentionedUsers == null || !message.Content.Contains("staff",StringComparison.InvariantCultureIgnoreCase)) {
+                    _log.Info("No user mentioned or no 'staff' in msg");
+                    return;
+                }
+                if(message.Author is not SocketGuildUser sgd) {
+                    _log.Info("Msg author is not a socket guild user");
+                    return;
+                }
+                _log.Info("setting role");
                 await sgd.AddRoleAsync(1328551591250366571);
+                _log.Info("add reaction");
                 await message.AddReactionAsync(new Emoji("👍"));
             };
         }
@@ -80,7 +88,7 @@ namespace App.Modules {
                 var json = JsonConvert.SerializeObject(exception.Errors, Formatting.Indented);
 
                 // You can send this error somewhere or just print it to the console, for this example we're just going to print it.
-                await this._log.Error(json);
+                _log.Error(json);
             }
         }
 
@@ -234,31 +242,31 @@ namespace App.Modules {
 
             try {
 
-                await this._log.Info($"Will delete all Teams in {guild.Name}");
+                _log.Info($"Will delete all Teams in {guild.Name}");
 
                 var allTextChannels = guild.TextChannels.Where(s => int.TryParse(s.Name.Split('-')[0], out _));
                 var allVoiceChannles = guild.VoiceChannels.Where(s => int.TryParse(s.Name.Split('-')[0], out _));
                 var allCategories = guild.CategoryChannels.Where(s => int.TryParse(s.Name.Split('-')[0], out _));
 
-                await this._log.Info($"Texts {allTextChannels.Count()}, Voices {allVoiceChannles.Count()}, Cats {allCategories.Count()}");
+                _log.Info($"Texts {allTextChannels.Count()}, Voices {allVoiceChannles.Count()}, Cats {allCategories.Count()}");
 
 
                 foreach (var c in allTextChannels) {
                     await Task.Delay(1000);
                     if (c == null) continue;
-                    await this._log.Info($"Deleting {c.Name}");
+                    _log.Info($"Deleting {c.Name}");
                     await c.DeleteAsync();
                 }
                 foreach (var c in allVoiceChannles) {
                     await Task.Delay(1000);
                     if (c == null) continue;
-                    await this._log.Info($"Deleting {c.Name}");
+                    _log.Info($"Deleting {c.Name}");
                     await c.DeleteAsync();
                 }
                 foreach (var c in allCategories) {
                     await Task.Delay(1000);
                     if (c == null) continue;
-                    await this._log.Info($"Deleting {c.Name}");
+                    _log.Info($"Deleting {c.Name}");
                     await c.DeleteAsync();
                 }
 
@@ -270,7 +278,7 @@ namespace App.Modules {
                 };
                 embed.Color = Color.Red;
 
-                await this._log.Error(e.ToString());
+                _log.Error(e.ToString());
 
                 if (msg != null) {
                     await msg.ModifyAsync(m => m.Embed = embed.Build());
@@ -354,7 +362,7 @@ namespace App.Modules {
                 };
                 embed.Color = Color.Red;
 
-                await this._log.Error(e.ToString());
+                _log.Error(e.ToString());
 
                 if (msg != null) {
                     await msg.ModifyAsync(m => m.Embed = embed.Build());
@@ -422,10 +430,10 @@ namespace App.Modules {
             int numberChanged = 0;
             foreach (var textChannel in this.Context.Guild.TextChannels) {
                 var nameSplited = textChannel.Name.Split('-');
-                await this._log.Info($"Vendo canal {textChannel.Name}");
+                _log.Info($"Vendo canal {textChannel.Name}");
                 foreach (var name in nameSplited) {
                     if (int.TryParse(name, out _)) {
-                        await this._log.Info($"Canal {textChannel.Name}");
+                        _log.Info($"Canal {textChannel.Name}");
                         numberChanged += 1;
                         await textChannel.AddPermissionOverwriteAsync(this.Context.Guild.EveryoneRole, new OverwritePermissions(
                             PermValue.Inherit,

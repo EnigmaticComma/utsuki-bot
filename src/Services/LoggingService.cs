@@ -43,12 +43,12 @@ namespace App {
 
 		async Task OnLogAsync(LogMessage msg) {
 			if (!Directory.Exists(_logDirectory)) Directory.CreateDirectory(_logDirectory);
-			if (!File.Exists(LogFile)) File.Create(LogFile).Dispose();// Create today's log file if it doesn't exist
+			if (!File.Exists(LogFile)) await File.Create(LogFile).DisposeAsync();// Create today's log file if it doesn't exist
 
 			string logText = $"{DateTime.UtcNow.ToString("hh:mm:ss tt")} [{msg.Severity}] {msg.Source}: {msg.Exception?.ToString() ?? msg.Message}";
 			await File.AppendAllTextAsync(LogFile, logText + "\n"); // Write the log text to a file
 
-			LogOnDiscordChannel(msg).CAwait();
+			LogOnDiscordChannel(msg).Forget();
 			
 			await Console.Out.WriteLineAsync(logText); // Write the log text to the console
 		}
@@ -96,20 +96,20 @@ namespace App {
 
 		#region <<---------- Log Categories ---------->>
 		
-		public async Task Critical(string msg, [CallerMemberName] string callingMethod = null) {
-			await OnLogAsync(new LogMessage(LogSeverity.Critical, callingMethod, msg));
+		public void Critical(string msg, [CallerMemberName] string callingMethod = null) {
+			OnLogAsync(new LogMessage(LogSeverity.Critical, callingMethod, msg)).Forget();
 		}
-		public async Task Error(string msg, [CallerMemberName] string callingMethod = null) {
-			await OnLogAsync(new LogMessage(LogSeverity.Error, callingMethod, msg));
+		public void Error(string msg, [CallerMemberName] string callingMethod = null) {
+			OnLogAsync(new LogMessage(LogSeverity.Error, callingMethod, msg)).Forget();
 		}
-		public async Task Warning(string msg, [CallerMemberName] string callingMethod = null) {
-			await OnLogAsync(new LogMessage(LogSeverity.Warning, callingMethod, msg));
+		public void Warning(string msg, [CallerMemberName] string callingMethod = null) {
+			OnLogAsync(new LogMessage(LogSeverity.Warning, callingMethod, msg)).Forget();
 		}
-		public async Task Info(string msg, [CallerMemberName] string callingMethod = null) {
-			await OnLogAsync(new LogMessage(LogSeverity.Info, callingMethod, msg));
+		public void Info(string msg, [CallerMemberName] string callingMethod = null) {
+			OnLogAsync(new LogMessage(LogSeverity.Info, callingMethod, msg)).Forget();
 		}
-		public async Task Debug(string msg, [CallerMemberName] string callingMethod = null) {
-			await OnLogAsync(new LogMessage(LogSeverity.Debug, callingMethod, msg));
+		public void Debug(string msg, [CallerMemberName] string callingMethod = null) {
+			OnLogAsync(new LogMessage(LogSeverity.Debug, callingMethod, msg)).Forget();
 		}
 
 		#endregion <<---------- Log Categories ---------->>

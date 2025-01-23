@@ -24,7 +24,7 @@ namespace App {
 
 			var feedbackMsg = await context.Channel.SendMessageAsync("", false, embed.Build());
 
-			await _log.Debug("Getting all messages in channel");
+			_log.Debug("Getting all messages in channel");
 			var lastMsgs = (await context.Channel.GetMessagesAsync(limit).FlattenAsync()).ToArray();
 
 			int messagesCount = lastMsgs.Length;
@@ -34,7 +34,7 @@ namespace App {
 			embed.Color = Color.Orange;
 			await feedbackMsg.ModifyAsync(properties => properties.Embed = new Optional<Embed>(embed.Build()));
 			
-			await _log.Info($"Starting deletion of {messagesCount} messages.");
+			_log.Info($"Starting deletion of {messagesCount} messages.");
 			foreach (var msg in lastMsgs) {
 				if (msg.Id == feedbackMsg.Id) continue;
 				await msg.DeleteAsync();
@@ -42,7 +42,7 @@ namespace App {
 			
 			embed.Title = $"Cleaned {messagesCount} messages";
 			embed.Color = Color.Green;
-			await _log.Debug(embed.Title);
+			_log.Debug(embed.Title);
 			embed.Description = "";
 			await feedbackMsg.ModifyAsync(properties => properties.Embed = new Optional<Embed>(embed.Build()));
 

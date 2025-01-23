@@ -74,7 +74,7 @@ namespace App {
 			foreach (var path in attachmentsPaths) {
 				var msg = await channel.SendFileAsync(path, socketMessage.Content, false, embed.Build());
 				if (msg == null) {
-					await _log.Error($"Could not backup file '{path}' on text channel '{channel.Name}'.");
+					_log.Error($"Could not backup file '{path}' on text channel '{channel.Name}'.");
 				}
 				else {
 					File.Delete(path);

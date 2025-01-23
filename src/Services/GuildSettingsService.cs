@@ -38,7 +38,7 @@ namespace App {
 		#endregion <<---------- Get Guild Settings ---------->>
 
 		async Task UserJoined(SocketGuildUser socketGuildUser) {
-			await _log.Info($"{socketGuildUser.Username} entrou no servidor {socketGuildUser.Guild.Name}");
+			_log.Info($"{socketGuildUser.Username} entrou no servidor {socketGuildUser.Guild.Name}");
 
 			var guild = socketGuildUser.Guild;
 			var guildSettings = GetGuildSettings(guild.Id);

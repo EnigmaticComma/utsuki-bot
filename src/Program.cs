@@ -61,7 +61,6 @@ static class Program {
         _serviceProvider.GetRequiredService<BackupService>();
         _serviceProvider.GetRequiredService<ModeratorService>();
         _serviceProvider.GetRequiredService<AutoReactService>();
-        _serviceProvider.GetRequiredService<TwitterService>();
         _serviceProvider.GetRequiredService<SleepService>();
 
         _serviceProvider.GetRequiredService<DynamicVoiceChannelService>();
@@ -101,7 +100,6 @@ static class Program {
         .AddSingleton<BackupService>()
         .AddSingleton<ModeratorService>()
         .AddSingleton<AutoReactService>()
-        .AddSingleton<TwitterService>()
         .AddSingleton<SleepService>()
         .AddSingleton(Configuration)
         ;
