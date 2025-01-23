@@ -26,10 +26,10 @@
   </ItemGroup>
   
   <ItemGroup>
-    <None Update="app.ico">
+    <None Update="resources\ggj_instructions.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="resources\ggj_instructions.txt">
+    <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
