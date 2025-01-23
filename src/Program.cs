@@ -35,9 +35,7 @@ static class Program {
         {
             _client = new DiscordSocketClient(new DiscordSocketConfig {
                 LogLevel = LogSeverity.Info,
-                GatewayIntents = GatewayIntents.AllUnprivileged
-                                 | GatewayIntents.Guilds | GatewayIntents.GuildMessages
-                                 | GatewayIntents.MessageContent | GatewayIntents.GuildPresences | GatewayIntents.GuildMembers,
+                GatewayIntents = GatewayIntents.All,
             });
             _client.Log += Log;
             _client.Ready += OnReady;
