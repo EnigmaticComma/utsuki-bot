@@ -40,7 +40,7 @@ static class Program {
     static void ConfigureServices(IServiceCollection services) {
         services
         .AddTransient<DbService>()
-        .AddActivatedSingleton<StartupService>()
+        .AddSingleton<StartupService>()
         .AddSingleton(new DiscordSocketClient(new DiscordSocketConfig {
             LogLevel = LogSeverity.Info,
             GatewayIntents = GatewayIntents.AllUnprivileged
