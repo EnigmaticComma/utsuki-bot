@@ -11,10 +11,12 @@ namespace App {
         readonly CommandService _commands;
         readonly IConfigurationRoot _config;
         readonly IServiceProvider _provider;
+        readonly LoggingService _log;
 
         // DiscordSocketClient, CommandService, IConfigurationRoot, and IServiceProvider are injected automatically from the IServiceProvider
-        public CommandHandler(DiscordSocketClient discord, CommandService commands, IConfigurationRoot config, IServiceProvider provider) {
+        public CommandHandler(DiscordSocketClient discord, LoggingService log, CommandService commands, IConfigurationRoot config, IServiceProvider provider) {
             _discord = discord;
+            _log = log;
             _commands = commands;
             _config = config;
             _provider = provider;
@@ -24,11 +26,12 @@ namespace App {
 
         async Task OnMessageReceivedAsync(SocketMessage s)
         {
-            if(string.IsNullOrEmpty(_config["prefix"])) return;
-            if (!(s is SocketUserMessage msg)) return;
-            if (msg.Author.IsBot) return;
-            if (msg.Author.Id == _discord.CurrentUser.Id) return;     // Ignore self when checking commands
-            
+            if (s.Author.IsBot) return;
+            if(string.IsNullOrEmpty(_config["prefix"])) {
+                _log.Info("No prefix set as command");
+                return;
+            }
+            if (s is not SocketUserMessage msg) return;
             var context = new SocketCommandContext(_discord, msg);     // Create the command context
 
             int argPos = 0;     // Check if the message has a valid command prefix
