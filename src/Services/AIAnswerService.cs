@@ -42,7 +42,7 @@ public class AIAnswerService
         var client = new HttpClient();
         var request = new HttpRequestMessage(HttpMethod.Post,requestUrl);
         request.Content = new StringContent(JsonSerializer.Serialize(new {
-            stop = "\n",
+            stream = "false",
             messages = new[] {
                 new {
                     role = "system",
@@ -55,7 +55,7 @@ public class AIAnswerService
             }
         }),Encoding.UTF8,"application/json");
 
-        _log.Info($"Preparing request to: {requestUrl}");
+        _log.Info($"Preparing request to: '{requestUrl}' with instructions: {instructions}");
         var response = await client.SendAsync(request);
         if(!response.IsSuccessStatusCode) {
             _log.Error($"Failed to get AI response: {response.StatusCode}");
