@@ -21,6 +21,7 @@ Você PRECISA estar inscrito no eventum para poder participar da jam!
 • Até 14h de 26/1 (Domingo) - Enviar vídeo de gameplay (jogo rodando) aqui. Também envie no seu canal e deixe fixo lá.
 • A qualquer momento da jam, envie screenshots (telas, concepts, etc) e protótipos do seu jogo quando quiser compartilhar com os demais.
 • Até 15h de 26/1 (Domingo) - Coloque o link de seu jogo no site da Global Game Jam (https://globalgamejam.org/). Coloque o link também fixo em seu canal.
+• Instruções de como enviar o jogo estão nesse link: https://drive.google.com/file/d/11UIMJWqfQsGpsFzuCiYlGciBT064O966/view
 
 # Segurança do evento
 Essencial atenção à segurança!
