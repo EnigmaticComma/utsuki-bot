@@ -5,7 +5,7 @@ using Timer = System.Timers.Timer;
 
 namespace App.Services;
 
-public class DiscordClientService
+public class WipServices
 {
     const int MessagesToRemember = 100000;
     static Timer _timer;
@@ -13,13 +13,8 @@ public class DiscordClientService
     static readonly Random _random = new ();
     readonly DiscordSocketClient _client;
 
-    public DiscordClientService()
+    public WipServices()
     {
-        _client = new DiscordSocketClient(new DiscordSocketConfig {
-            LogLevel = LogSeverity.Info,
-            GatewayIntents = GatewayIntents.AllUnprivileged
-                             | GatewayIntents.MessageContent | GatewayIntents.GuildPresences | GatewayIntents.GuildMembers,
-        });
         _client.Log += Log;
         _client.Ready += OnReady;
         _client.SlashCommandExecuted += SlashCommandHandler;

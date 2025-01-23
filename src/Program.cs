@@ -4,6 +4,7 @@ using Discord;
 using Discord.Commands;
 using Microsoft.Extensions.DependencyInjection;
 using App.Services;
+using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 
 namespace App;
@@ -34,12 +35,17 @@ static class Program {
         services
         .AddTransient<DbService>()
         .AddActivatedSingleton<StartupService>()
-        .AddActivatedSingleton<DiscordClientService>()
+        .AddSingleton(new DiscordSocketClient(new DiscordSocketConfig {
+            LogLevel = LogSeverity.Info,
+            GatewayIntents = GatewayIntents.AllUnprivileged
+                             | GatewayIntents.MessageContent | GatewayIntents.GuildPresences | GatewayIntents.GuildMembers,
+        }))
         .AddSingleton(new CommandService(new CommandServiceConfig
         {                                       // Add the command service to the collection
             LogLevel = LogSeverity.Verbose,     // Tell the logger to give Verbose amount of info
-            DefaultRunMode = Discord.Commands.RunMode.Async,     // Force all commands to run async by default
+            DefaultRunMode = RunMode.Async,     // Force all commands to run async by default
         }))
+        .AddActivatedSingleton<WipServices>()
         .AddActivatedSingleton<DynamicVoiceChannelService>()
         .AddActivatedSingleton<GuildSettingsService>()
         .AddActivatedSingleton<LoggingService>()
