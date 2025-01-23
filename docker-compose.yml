@@ -6,3 +6,4 @@ services:
     environment:
       DB_PASSWORD: ${DB_PASSWORD}
       DISCORD_TOKEN_UTSUKI: ${DISCORD_TOKEN_UTSUKI}
+      AI_ENDPOINT: ${AI_ENDPOINT}
