@@ -35,7 +35,7 @@ static class Program {
         services
         .AddTransient<DbService>()
         .AddActivatedSingleton<StartupService>()
-        .AddSingleton(new DiscordSocketClient(new DiscordSocketConfig {
+        .AddActivatedSingleton(serviceProvider=>new DiscordSocketClient(new DiscordSocketConfig {
             LogLevel = LogSeverity.Info,
             GatewayIntents = GatewayIntents.AllUnprivileged
                              | GatewayIntents.MessageContent | GatewayIntents.GuildPresences | GatewayIntents.GuildMembers,
