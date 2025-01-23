@@ -77,7 +77,7 @@ namespace App.Modules {
 			if (weatherJson == null) {
 				
 				var locationEncoded = HttpUtility.UrlEncode(location);
-				var apiKey = _config["api-key-weather"];
+				var apiKey = _config["API_KEY_WEATHER"];
 				
 				// api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
 				var client = new RestClient();

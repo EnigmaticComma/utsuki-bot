@@ -38,6 +38,7 @@ jobs:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DISCORD_TOKEN_UTSUKI: ${{ secrets.DISCORD_TOKEN_UTSUKI }}
           AI_ENDPOINT: ${{ secrets.AI_ENDPOINT }}
+          API_KEY_WEATHER: ${{ secrets.API_KEY_WEATHER }}
         run: docker compose up -d
       - uses: sarisia/actions-status-discord@v1
         if: always()

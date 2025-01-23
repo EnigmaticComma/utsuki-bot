@@ -19,6 +19,7 @@ static class Program {
     public static async Task Main(string[] args)
     {
         Configuration = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
             .AddEnvironmentVariables()
             .Build();
 
