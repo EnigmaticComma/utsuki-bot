@@ -175,19 +175,7 @@ namespace App {
 			#region <<---------- New Users Anti Spam ---------->>
 
 			try {
-				if (messageString.Length > 140) {
-					if (userMessage.Author is SocketGuildUser guildUser) {
-						bool antiSpamEnabled = _guildSettings.GetGuildSettings(guildUser.Guild.Id).EnableNewUserAntiSpam;
-						if (antiSpamEnabled
-							&& !guildUser.IsBot
-							&& guildUser.JoinedAt.HasValue
-							&& DateTimeOffset.UtcNow < guildUser.JoinedAt.Value.AddDays(7)) {
-							_log.Warning($"Deleting {guildUser.GetNameSafe()} message because this user is new on this guild.");
-							await userMessage.DeleteAsync();
-							return;
-						}
-					}
-				}
+
 			} catch (Exception e) {
 				_log.Error(e.ToString());
 			}
