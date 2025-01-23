@@ -20,7 +20,7 @@ public class AIAnswerService
         discord.MessageReceived += OnMessageReceived;
         try {
             string filePath = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
-            using var r = new StreamReader(filePath + "resources/ggj_instructions.txt");
+            using var r = new StreamReader(filePath + "/resources/ggj_instructions.txt");
             _instructions = r.ReadToEnd();
         }
         catch (Exception e) {
