@@ -39,7 +39,7 @@ namespace App.Modules {
             _discord.MessageReceived += async message => {
                 // mock ggj staff role
                 _log.Info($"Message received content: {message.Content}");
-                if(message.MentionedUsers == null || !message.Content.Contains("staff",StringComparison.InvariantCultureIgnoreCase)) {
+                if(message.MentionedUsers.Count <= 0 || !message.Content.Contains("staff",StringComparison.InvariantCultureIgnoreCase)) {
                     _log.Info("No user mentioned or no 'staff' in msg");
                     return;
                 }
