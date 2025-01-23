@@ -40,7 +40,7 @@ static class Program {
             GatewayIntents = GatewayIntents.AllUnprivileged
                              | GatewayIntents.MessageContent | GatewayIntents.GuildPresences | GatewayIntents.GuildMembers,
         }))
-        .AddSingleton(new CommandService(new CommandServiceConfig
+        .AddActivatedSingleton(serviceProvider=>new CommandService(new CommandServiceConfig
         {                                       // Add the command service to the collection
             LogLevel = LogSeverity.Verbose,     // Tell the logger to give Verbose amount of info
             DefaultRunMode = RunMode.Async,     // Force all commands to run async by default
