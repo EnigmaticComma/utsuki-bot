@@ -401,8 +401,6 @@ namespace App {
 					|| messageString.StartsWith("◻◾")
 					)) {
 
-				await userMessage.DeleteAsync();
-
 				if (userMessage.Channel is SocketGuildChannel guildChannel) {
 					var guild = _discord.GetGuild(guildChannel.Guild.Id);
 

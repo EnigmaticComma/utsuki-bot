@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using App.Extensions;
 using App.Models;
 using Discord;
 using Discord.WebSocket;
@@ -12,16 +13,11 @@ namespace App {
 		public const string PATH_PREFIX = "GuildSettings/";
 
 		readonly DiscordSocketClient _discord;
-		readonly LoggingService _log;
 		readonly Random _rand = new Random();
 
-		public GuildSettingsService(DiscordSocketClient discord) { // cant access Log service here
+		public GuildSettingsService(DiscordSocketClient discord) {
 			_discord = discord;
 
-			_discord.UserJoined += async user => {
-				await UserJoined(user);
-			};
-			
 			_discord.UserLeft += UserLeft;
 			_discord.UserBanned += UserBanned;
 			
@@ -36,21 +32,6 @@ namespace App {
 		}
 		
 		#endregion <<---------- Get Guild Settings ---------->>
-
-		async Task UserJoined(SocketGuildUser socketGuildUser) {
-			_log.Info($"{socketGuildUser.Username} entrou no servidor {socketGuildUser.Guild.Name}");
-
-			var guild = socketGuildUser.Guild;
-			var guildSettings = GetGuildSettings(guild.Id);
-			var channelId = guildSettings.JoinChannelId;
-			if (channelId == null) return;
-			
-			var channel = guild.GetTextChannel(channelId.Value);
-			if (channel == null) return;
-
-			var msgText = socketGuildUser.IsBot ? "Ah não mais um bot aqui 😭" : $"Temos uma nova pessoinha no servidor, digam **oi** para {socketGuildUser.Mention}!";
-			await channel.SendMessageAsync(msgText);
-		}
 
 
 		async Task UserBanned(SocketUser socketUser, SocketGuild socketGuild) {

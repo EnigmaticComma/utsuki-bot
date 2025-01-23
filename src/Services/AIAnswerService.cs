@@ -21,6 +21,7 @@ public class AIAnswerService
 
     async Task OnMessageReceived(SocketMessage socketMessage)
     {
+        _log.Info($"AI message received: {socketMessage.Content}");
         if(socketMessage is not SocketUserMessage userMessage) return;
         if(userMessage.Source != MessageSource.User) return;
         if(userMessage.Content == null || userMessage.Content.Length <= 5 || userMessage.Content.Last() != '?') return;
