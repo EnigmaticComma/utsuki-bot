@@ -26,8 +26,8 @@ static class Program {
         ConfigureServices(services);
         _serviceProvider = services.BuildServiceProvider();
 
-        _serviceProvider.GetService<DiscordSocketClient>();
-        _serviceProvider.GetService<CommandService>();
+        _serviceProvider.GetRequiredService<DiscordSocketClient>();
+        _serviceProvider.GetRequiredService<CommandService>();
 
         await _serviceProvider.GetRequiredService<StartupService>().StartAsync();
 
@@ -40,6 +40,8 @@ static class Program {
     static void ConfigureServices(IServiceCollection services) {
         services
         .AddTransient<DbService>()
+        .AddSingleton(Configuration)
+        .AddSingleton<Random>()
         .AddSingleton<StartupService>()
         .AddSingleton(new DiscordSocketClient(new DiscordSocketConfig {
             LogLevel = LogSeverity.Info,
@@ -57,7 +59,6 @@ static class Program {
         .AddActivatedSingleton<GuildSettingsService>()
         .AddActivatedSingleton<LoggingService>()
         .AddActivatedSingleton<CommandHandler>()
-        .AddSingleton<Random>()
         .AddActivatedSingleton<VoiceService>()
         .AddActivatedSingleton<ExchangeService>()
         .AddActivatedSingleton<ChatService>()
@@ -67,7 +68,6 @@ static class Program {
         .AddActivatedSingleton<ModeratorService>()
         .AddActivatedSingleton<AutoReactService>()
         .AddActivatedSingleton<SleepService>()
-        .AddSingleton(Configuration)
         ;
     }
 
