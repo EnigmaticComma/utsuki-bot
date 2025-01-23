@@ -25,6 +25,8 @@ public class AIAnswerService
         if(userMessage.Source != MessageSource.User) return;
         if(userMessage.Content.Length <= 5 || !userMessage.Content.Contains('?')) return;
 
+        _log.Info("Trying to answer with AI");
+
         var endpoint = _config["AI_ENDPOINT"];
         if(endpoint == null) {
             _log.Info("No AI endpoint to answer message.");
@@ -50,12 +52,14 @@ public class AIAnswerService
             }
         }),Encoding.UTF8,"application/json");
 
+        _log.Info($"Preparing request to: {requestUrl}");
         var response = await client.SendAsync(request);
         if(!response.IsSuccessStatusCode) {
             _log.Error($"Failed to get AI response: {response.StatusCode}");
             return;
         }
 
+        _log.Info($"Received response");
         var responseContent = await response.Content.ReadAsStringAsync();
         // deserialize generic json getting only the response text:
         var responseJson = JsonSerializer.Deserialize<JsonElement>(responseContent);
