@@ -17,6 +17,8 @@ public class AIAnswerService
         _log = loggingService;
         _config = config;
         discord.MessageReceived += OnMessageReceived;
+
+        _log.Info("Initialized AI Answer Service");
     }
 
     async Task OnMessageReceived(SocketMessage socketMessage)
