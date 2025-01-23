@@ -37,19 +37,16 @@ namespace App.Modules {
             _discord = discord;
             _discord.GuildAvailable += GuildAvailable;
             _discord.MessageReceived += async message => {
+                if (message.Source != MessageSource.User) return;
                 // mock ggj staff role
-                _log.Info($"Message received content: {message.Content}");
                 if(message.MentionedUsers.Count <= 0 || !message.Content.Contains("staff",StringComparison.InvariantCultureIgnoreCase)) {
-                    _log.Info("No user mentioned or no 'staff' in msg");
                     return;
                 }
                 if(message.Author is not SocketGuildUser sgd) {
-                    _log.Info("Msg author is not a socket guild user");
                     return;
                 }
-                _log.Info("setting role");
+                _log.Info($"Setting Staff role to '{message.Author.GetNameOrNickSafe()}'");
                 await sgd.AddRoleAsync(1328551591250366571);
-                _log.Info("add reaction");
                 await message.AddReactionAsync(new Emoji("👍"));
             };
         }

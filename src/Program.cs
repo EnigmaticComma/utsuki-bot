@@ -45,6 +45,7 @@ static class Program {
             LogLevel = LogSeverity.Verbose,     // Tell the logger to give Verbose amount of info
             DefaultRunMode = RunMode.Async,     // Force all commands to run async by default
         }))
+        .AddActivatedSingleton<AIAnswerService>()
         .AddActivatedSingleton<WipServices>()
         .AddActivatedSingleton<DynamicVoiceChannelService>()
         .AddActivatedSingleton<GuildSettingsService>()
