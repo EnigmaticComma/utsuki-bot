@@ -23,7 +23,7 @@ public class AIAnswerService
     {
         if(!(socketMessage is SocketUserMessage userMessage)) return;
         if(userMessage.Source != MessageSource.User) return;
-        if(userMessage.Content.Length <= 5 || !userMessage.Content.Contains('?')) return;
+        if(userMessage.Content == null || userMessage.Content.Length <= 5 || !userMessage.Content.Contains('?')) return;
 
         _log.Info("Trying to answer with AI");
 
@@ -42,13 +42,16 @@ public class AIAnswerService
         var client = new HttpClient();
         var request = new HttpRequestMessage(HttpMethod.Post,requestUrl);
         request.Content = new StringContent(JsonSerializer.Serialize(new {
-            prompt = question,
             stop = "\n",
             messages = new[] {
                 new {
                     role = "system",
                     content = instructions
-                }
+                },
+                new {
+                    role = "user",
+                    content = question
+                }!,
             }
         }),Encoding.UTF8,"application/json");
 
