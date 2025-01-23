@@ -25,7 +25,13 @@ static class Program {
         var services = new ServiceCollection();
         ConfigureServices(services);
         _serviceProvider = services.BuildServiceProvider();
+
+        _serviceProvider.GetService<DiscordSocketClient>();
+        _serviceProvider.GetService<CommandService>();
+
         await _serviceProvider.GetRequiredService<StartupService>().StartAsync();
+
+
         Console.WriteLine("Started");
         await Task.Delay(-1);                               // Keep the program alive
     }
@@ -35,12 +41,12 @@ static class Program {
         services
         .AddTransient<DbService>()
         .AddActivatedSingleton<StartupService>()
-        .AddActivatedSingleton(serviceProvider=>new DiscordSocketClient(new DiscordSocketConfig {
+        .AddSingleton(new DiscordSocketClient(new DiscordSocketConfig {
             LogLevel = LogSeverity.Info,
             GatewayIntents = GatewayIntents.AllUnprivileged
                              | GatewayIntents.MessageContent | GatewayIntents.GuildPresences | GatewayIntents.GuildMembers,
         }))
-        .AddActivatedSingleton(serviceProvider=>new CommandService(new CommandServiceConfig
+        .AddSingleton(new CommandService(new CommandServiceConfig
         {                                       // Add the command service to the collection
             LogLevel = LogSeverity.Verbose,     // Tell the logger to give Verbose amount of info
             DefaultRunMode = RunMode.Async,     // Force all commands to run async by default
