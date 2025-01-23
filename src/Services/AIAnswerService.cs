@@ -21,9 +21,9 @@ public class AIAnswerService
 
     async Task OnMessageReceived(SocketMessage socketMessage)
     {
-        if(!(socketMessage is SocketUserMessage userMessage)) return;
+        if(socketMessage is not SocketUserMessage userMessage) return;
         if(userMessage.Source != MessageSource.User) return;
-        if(userMessage.Content == null || userMessage.Content.Length <= 5 || !userMessage.Content.Contains('?')) return;
+        if(userMessage.Content == null || userMessage.Content.Length <= 5 || userMessage.Content.Last() != '?') return;
 
         _log.Info("Trying to answer with AI");
 
