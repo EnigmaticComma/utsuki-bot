@@ -36,16 +36,6 @@ public class AIAnswerService
             return;
         }
 
-        bool insideThread = false;
-
-        foreach (var t in await textChannel.GetActiveThreadsAsync()) {
-            if(t == null) continue;
-            if(t.ParentChannelId == textChannel.Id) {
-                insideThread = true;
-                break;
-            }
-        }
-
         var requestUrl = endpoint + "/v1/chat/completions";
 
         var question = userMessage.Content;
@@ -99,14 +89,15 @@ public class AIAnswerService
             .WithFooter("Resposta por IA experimental")
             .WithColor(Color.Blue);
 
-        if(!insideThread) {
+        try {
             var thread = await textChannel.CreateThreadAsync(userMessage.CleanContent,
                 ThreadType.PublicThread,
                 ThreadArchiveDuration.ThreeDays
             );
             await thread.SendMessageAsync("",false,embed.Build(), null, AllowedMentions.None, userMessage.Reference);
         }
-        else {
+        catch (Exception e) {
+            Console.WriteLine(e);
             await textChannel.SendMessageAsync("",false,embed.Build(), null, AllowedMentions.None, userMessage.Reference);
         }
 

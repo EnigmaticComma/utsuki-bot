@@ -127,8 +127,9 @@ namespace App {
 
 		#region <<---------- Message Answer ---------->>
 
-		async Task UserMessageReceivedAsync(SocketUserMessage userMessage) {
-
+		async Task UserMessageReceivedAsync(SocketUserMessage userMessage)
+		{
+			if(userMessage.Author.IsBot) return;
 			if (string.IsNullOrEmpty(userMessage.Content)) return;
 
 			// Parameters
@@ -303,17 +304,6 @@ namespace App {
 			if (messageString == "alguem ai") {
 				await userMessage.Channel.SendMessageAsync("Eu");
 				return;
-			}
-
-			if (messageString.Contains("que horas sao")
-				|| messageString.Contains("que horas e")
-				|| messageString.Contains("que horas que e")
-				|| messageString.Contains("que horas q e")
-				) {
-				if (isQuestion) {
-					await userMessage.Channel.SendMessageAsync("É hora de acertar as contas...");
-					return;
-				}
 			}
 
 			#endregion
