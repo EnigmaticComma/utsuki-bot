@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using App.Services;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 
 namespace App;
 
@@ -13,27 +14,27 @@ static class Program {
 
     public static readonly Version VERSION = Assembly.GetExecutingAssembly().GetName().Version ?? new ("7.0.0");
 
-    static ServiceProvider _serviceProvider;
     static IConfigurationRoot Configuration;
 
     public static async Task Main(string[] args)
     {
-        var builder = new ConfigurationBuilder()
-            .AddEnvironmentVariables();
-        Configuration = builder.Build();
+        Configuration = new ConfigurationBuilder()
+            .AddEnvironmentVariables()
+            .Build();
 
-        var services = new ServiceCollection();
-        ConfigureServices(services);
-        _serviceProvider = services.BuildServiceProvider();
+        var builder = Host.CreateApplicationBuilder(args);
 
-        _serviceProvider.GetRequiredService<DiscordSocketClient>();
-        _serviceProvider.GetRequiredService<CommandService>();
+        ConfigureServices(builder.Services);
 
-        await _serviceProvider.GetRequiredService<StartupService>().StartAsync();
+        var host = builder.Build();
 
+        host.Services.GetRequiredService<DiscordSocketClient>();
+        host.Services.GetRequiredService<CommandService>();
 
-        Console.WriteLine("Started");
-        await Task.Delay(-1);                               // Keep the program alive
+        await host.Services.GetRequiredService<StartupService>().StartAsync();
+
+        Console.WriteLine($"Program Started, v{VERSION}");
+        await host.RunAsync();
     }
 
 

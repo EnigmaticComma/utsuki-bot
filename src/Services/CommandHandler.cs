@@ -22,7 +22,9 @@ namespace App {
             _discord.MessageReceived += OnMessageReceivedAsync;
         }
 
-        async Task OnMessageReceivedAsync(SocketMessage s) {
+        async Task OnMessageReceivedAsync(SocketMessage s)
+        {
+            if(string.IsNullOrEmpty(_config["prefix"])) return;
             if (!(s is SocketUserMessage msg)) return;
             if (msg.Author.IsBot) return;
             if (msg.Author.Id == _discord.CurrentUser.Id) return;     // Ignore self when checking commands

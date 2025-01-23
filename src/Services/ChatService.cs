@@ -150,17 +150,6 @@ namespace App {
 				isQuestion = true;
 			}
 
-			// if user said her name
-			if (HasAtLeastOneWord(messageString, new[] {"nyu", "nuy"})) {
-				userSaidHerName = true;
-				messageString = RemoveBotNameFromMessage(messageString);
-			}
-			else if (userMessage.MentionedUsers.Contains(_discord.CurrentUser)) {
-				// remove the mention string from text
-				messageString = messageString.Replace(_discord.CurrentUser.Mention, "");
-				userSaidHerName = true;
-			}
-
 			// remove double and tripple spaces
 			messageString = messageString.Replace("  ", " ").Replace("   ", " ");
 
@@ -170,18 +159,6 @@ namespace App {
 			}
 
 			#endregion <<---------- Setup message string to read ---------->>
-
-
-			#region <<---------- New Users Anti Spam ---------->>
-
-			try {
-
-			} catch (Exception e) {
-				_log.Error(e.ToString());
-			}
-
-			#endregion <<---------- New Users Anti Spam ---------->>
-
 
 			// #region <<---------- User Specific ---------->>
 			//
@@ -296,17 +273,6 @@ namespace App {
 					}
 				}
 
-				// Zueras
-				if (messageString == ("vo ti cume")
-					|| messageString == ("vo ti come")
-					|| messageString == ("vou te come")
-					|| messageString == ("quero te come")
-					|| messageString == ("quero te pega")
-				) {
-					await userMessage.AddReactionAsync(new Emoji("😠")); // angry
-					return;
-				}
-
 				// Praises
 				if (messageString.Contains("gata")
 					|| messageString.Contains("cremosa")
@@ -330,33 +296,6 @@ namespace App {
 				}
 
 			}
-			#endregion
-
-			#region Animes
-			// Check for `Boku no picu`
-			if (messageString.Contains("boku no picu")
-				|| messageString.Contains("boku no pico")
-				|| messageString.Contains("boku no piku")
-				|| messageString.Contains("boku no piku")
-			) {
-				await userMessage.AddReactionAsync(new Emoji("😶"));
-				return;
-			}
-			#endregion
-
-			#region Memes
-			// Ahhh agora eu entendi
-			if (messageString.EndsWith("agora eu entendi")) {
-				await userMessage.Channel.SendMessageAsync(ChooseAnAnswer(new[] {
-					"Agora eu saqueeeeei!",
-					"Agora tudo faz sentido!",
-					"Eu estava cego agora estou enchergaaaando!",
-					"Agora tudo vai mudar!",
-					"Agora eu vou ficar de olhos abertos!"
-				}));
-				return;
-			}
-
 			#endregion
 
 			#region General
@@ -389,36 +328,6 @@ namespace App {
 				return;
 			}
 			#endregion
-
-			#region <<---------- Anti trava discord ---------->>
-
-			if (messageString.Length > 500 && (
-					messageString.StartsWith("𒀱")
-					|| messageString.StartsWith("⬛")
-					|| messageString.StartsWith("◼")
-					|| messageString.StartsWith("\\ðŸ¤")
-					|| messageString.StartsWith("¡ê")
-					|| messageString.StartsWith("◻◾")
-					)) {
-
-				if (userMessage.Channel is SocketGuildChannel guildChannel) {
-					var guild = _discord.GetGuild(guildChannel.Guild.Id);
-
-					// quarantine role
-					if (userMessage.Author is SocketGuildUser guildUser) {
-						var roleToAdd = guild.GetRole(474627963221049344);
-						if (roleToAdd != null) {
-							await guildUser.AddRoleAsync(roleToAdd);
-						}
-					}
-
-					var msg = $"{MentionUtils.MentionUser(guild.OwnerId)} o {MentionUtils.MentionUser(userMessage.Author.Id)} enviou uma mensagem suspeita...";
-					await userMessage.Channel.SendMessageAsync(msg);
-				}
-				return; // return because spam message is delete and not any more threatment is required
-			}
-
-			#endregion <<---------- Anti trava discord ---------->>
 
 			//!!! THIS PART OF THE CODE BELOW MUST BE AS THE LAST BECAUSE:
 			// TODO bot log unknown commands on file

@@ -13,8 +13,9 @@ public class WipServices
     static readonly Random _random = new ();
     readonly DiscordSocketClient _client;
 
-    public WipServices()
+    public WipServices(DiscordSocketClient client)
     {
+        _client = client;
         _client.Log += Log;
         _client.Ready += OnReady;
         _client.SlashCommandExecuted += SlashCommandHandler;
@@ -40,8 +41,6 @@ public class WipServices
                 .AddOption("action", ApplicationCommandOptionType.String, "Use 'on' to activate or 'off' to deactivate", true)
                 .Build());
         }
-
-        Console.WriteLine("Bot is ready!");
     }
 
     [CommandContextType(InteractionContextType.Guild)]
