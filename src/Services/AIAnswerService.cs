@@ -11,13 +11,21 @@ public class AIAnswerService
 {
     readonly LoggingService _log;
     readonly IConfigurationRoot _config;
-
+    string _instructions;
 
     public AIAnswerService(DiscordSocketClient discord, LoggingService loggingService, IConfigurationRoot config)
     {
         _log = loggingService;
         _config = config;
         discord.MessageReceived += OnMessageReceived;
+        try {
+            string filePath = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
+            using var r = new StreamReader(filePath + "resources/ggj_instructions.txt");
+            _instructions = r.ReadToEnd();
+        }
+        catch (Exception e) {
+            _log.Error(e.Message);
+        }
         Console.WriteLine("AIAnswerService init!");
     }
 
@@ -39,7 +47,6 @@ public class AIAnswerService
         var requestUrl = endpoint + "/v1/chat/completions";
 
         var question = userMessage.Content;
-        var instructions = _config["EVENT_INSTRUCTIONS"];
 
         // construct request to AI API without auth:
         var client = new HttpClient();
@@ -49,7 +56,7 @@ public class AIAnswerService
             messages = new[] {
                 new {
                     role = "system",
-                    content = instructions
+                    content = _instructions
                 },
                 new {
                     role = "user",

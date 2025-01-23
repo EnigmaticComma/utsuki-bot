@@ -22,7 +22,13 @@
 
   <ItemGroup>
     <Content Include=".github\workflows\pypeline.yml" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <None Update="app.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\ggj_instructions.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
