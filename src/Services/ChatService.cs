@@ -392,7 +392,7 @@ namespace App {
 
 			#region <<---------- Anti trava discord ---------->>
 
-			if (messageString.Length > 16 && (
+			if (messageString.Length > 500 && (
 					messageString.StartsWith("𒀱")
 					|| messageString.StartsWith("⬛")
 					|| messageString.StartsWith("◼")
