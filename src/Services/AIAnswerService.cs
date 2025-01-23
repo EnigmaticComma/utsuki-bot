@@ -66,7 +66,7 @@ public class AIAnswerService
         var responseContent = await response.Content.ReadAsStringAsync();
         // deserialize generic json getting only the response text:
         var responseJson = JsonSerializer.Deserialize<JsonElement>(responseContent);
-        var responseText = responseJson.GetProperty("choices")[0].GetProperty("text").GetString();
+        var responseText = responseJson.GetProperty("choices")[0].GetProperty("message").GetProperty("content").GetString();
 
         _log.Info($"AI Answer: {responseText}");
 
