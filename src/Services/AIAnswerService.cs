@@ -92,17 +92,12 @@ public class AIAnswerService
 
         _log.Info($"AI Answer: {responseText}");
 
-        string? title;
-        string? description;
-
-        using (var reader = new StringReader(responseText))
-        {
-            title = await reader.ReadLineAsync();
-            description = await reader.ReadToEndAsync();
-        }
+        int index = responseText.IndexOf('\n');
+        string? title = index >= 0 ? responseText.Substring(0, index) : responseText;
+        string? description = index >= 0 ? responseText.Substring(index + 1) : string.Empty;
 
         var embed = new EmbedBuilder()
-            .WithDescription(string.IsNullOrWhiteSpace(description) ? title : description)
+            .WithDescription(string.IsNullOrWhiteSpace(description) ? title : description.Trim())
             .WithFooter(new EmbedFooterBuilder {
                 Text = "Resposta por IA experimental",
                 IconUrl = "https://raw.githubusercontent.com/EnigmaticComma/enigmaticcomma.github.io/refs/heads/main/favicon-32x32.png"
@@ -112,7 +107,7 @@ public class AIAnswerService
         if(!string.IsNullOrEmpty(title)) embed.WithTitle(title);
 
         try {
-            var thread = await textChannel.CreateThreadAsync(userMessage.CleanContent,
+            var thread = await textChannel.CreateThreadAsync(title,
                 ThreadType.PublicThread,
                 ThreadArchiveDuration.ThreeDays
             );
