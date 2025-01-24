@@ -34,6 +34,7 @@ public class AIAnswerService
         if (socketMessage.Author.IsBot) return;
         if(socketMessage is not SocketUserMessage userMessage) return;
         if(userMessage.Channel is not SocketTextChannel textChannel) return;
+        if(userMessage.ReferencedMessage != null) return;
         if(textChannel.Guild.Id != 1328551591241846907) return;
         if(userMessage.Content == null || userMessage.Content.Length <= 5 || userMessage.Content.Last() != '?') return;
 
