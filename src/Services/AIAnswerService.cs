@@ -85,7 +85,7 @@ public class AIAnswerService
         dynamic responseJson = JObject.Parse(responseContent);
         string responseText = responseJson["choices"][0]["message"]["content"];
 
-        if(responseText == "?????") {
+        if(responseText.Contains("?????")) {
             await userMessage.AddReactionAsync(new Emoji("❔"));
             return;
         }
