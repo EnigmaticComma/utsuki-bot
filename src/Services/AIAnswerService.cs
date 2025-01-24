@@ -106,7 +106,7 @@ public class AIAnswerService
                 ThreadType.PublicThread,
                 ThreadArchiveDuration.ThreeDays
             );
-            await thread.SendMessageAsync("",false,embed.Build(), null, AllowedMentions.None, userMessage.Reference);
+            await thread.SendMessageAsync("",false,embed.Build(), null, AllowedMentions.None);
         }
         catch (Exception e) {
             Console.WriteLine(e);
