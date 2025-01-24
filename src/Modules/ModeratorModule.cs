@@ -50,7 +50,9 @@ namespace App.Modules {
         }
 
         [SlashCommand("randomimg", "Get random image from picsum")]
-        public async Task GetRandomImg(int desiredResolution = 512) {
+        public async Task GetRandomImg(int desiredResolution)
+        {
+            await RespondAsync("Getting random image");
             var client = new RestClient();
             var timeline = await client.ExecuteAsync(new RestRequest($"https://picsum.photos/{desiredResolution}", Method.Get));
 
@@ -60,7 +62,7 @@ namespace App.Modules {
                 ThumbnailUrl = timeline.ResponseUri.OriginalString
             };
 
-            await ReplyAsync("", false, embed.Build());
+            await RespondAsync("",[embed.Build()]);
         }
 
         [SlashCommand("deletelastmessages", "Delete a number of messages in current channel")]
