@@ -4,8 +4,7 @@ using System.Text;
 
 namespace App.Extensions {
 	public static class StringExtensions {
-		
-		private static readonly StringBuilder sb = new StringBuilder();
+		static readonly StringBuilder sb = new StringBuilder();
 		
 		
 		

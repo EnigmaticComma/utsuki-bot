@@ -9,8 +9,8 @@ using Newtonsoft.Json;
 public static class JsonCache {
 
 	#region <<---------- Properties ---------->>
-	
-	private const string ROOT_FOLDER = "../JsonData/";
+
+	const string ROOT_FOLDER = "../JsonData/";
 
 	public static readonly JsonSerializerSettings DefaultSerializer = new() {
 		Culture = CultureInfo.InvariantCulture,
@@ -123,8 +123,8 @@ public static class JsonCache {
 	
 	
 	#region <<---------- Private ---------->>
-	
-	private static string LoadJsonString(string filePath, TimeSpan maxCacheAge = default) {
+
+	static string LoadJsonString(string filePath, TimeSpan maxCacheAge = default) {
 		filePath = filePath.Replace('\\', '/').Trim();
 		try {
 			var filePathWithExtension = $"{ROOT_FOLDER}{filePath}.json";

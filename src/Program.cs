@@ -12,7 +12,7 @@ using RunMode = Discord.Commands.RunMode;
 
 namespace App;
 
-static class Program {
+internal static class Program {
 
     public static readonly Version VERSION = Assembly.GetExecutingAssembly().GetName().Version ?? new ("7.0.0");
 
@@ -63,7 +63,7 @@ static class Program {
             DefaultRunMode = RunMode.Async,     // Force all commands to run async by default
         }))
         .AddActivatedSingleton(x => new InteractionService(x.GetRequiredService<DiscordSocketClient>()))
-        .AddSingleton<InteractionHandler>()
+        .AddActivatedSingleton<InteractionHandler>()
         .AddActivatedSingleton<AIAnswerService>()
         .AddActivatedSingleton<WipServices>()
         .AddActivatedSingleton<DynamicVoiceChannelService>()

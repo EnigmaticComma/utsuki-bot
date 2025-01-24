@@ -10,17 +10,19 @@ namespace App;
 
 public class InteractionHandler
 {
-    private readonly DiscordSocketClient _client;
-    private readonly InteractionService _handler;
-    private readonly IServiceProvider _services;
-    private readonly IConfiguration _configuration;
+    readonly DiscordSocketClient _client;
+    readonly InteractionService _handler;
+    readonly IServiceProvider _services;
+    readonly IConfiguration _configuration;
+    readonly LoggingService _log;
 
-    public InteractionHandler(DiscordSocketClient client, InteractionService handler, IServiceProvider services, IConfiguration config)
+    public InteractionHandler(DiscordSocketClient client, InteractionService handler, IServiceProvider services, IConfiguration config, LoggingService log)
     {
         _client = client;
         _handler = handler;
         _services = services;
         _configuration = config;
+        _log = log;
     }
 
     public async Task InitializeAsync()
@@ -30,7 +32,9 @@ public class InteractionHandler
         _handler.Log += LogAsync;
 
         // Add the public modules that inherit InteractionModuleBase<T> to the InteractionService
-        await _handler.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
+        var assembly = Assembly.GetEntryAssembly();
+        _log.Info($"Assembly name: {assembly.FullName}");
+        await _handler.AddModulesAsync(assembly, _services);
 
         // Process the InteractionCreated payloads to execute Interactions commands
         _client.InteractionCreated += HandleInteraction;
@@ -39,20 +43,21 @@ public class InteractionHandler
         _handler.InteractionExecuted += HandleInteractionExecute;
     }
 
-    private Task LogAsync(LogMessage log)
+    Task LogAsync(LogMessage log)
     {
-        Console.WriteLine(log);
+        if(log.Exception != null) _log.Error(log.Exception.Message);
+        else _log.Info(log.Message);
         return Task.CompletedTask;
     }
 
-    private async Task ReadyAsync()
+    async Task ReadyAsync()
     {
         // Register the commands globally.
         // alternatively you can use _handler.RegisterCommandsGloballyAsync() to register commands to a specific guild.
         await _handler.RegisterCommandsGloballyAsync();
     }
 
-    private async Task HandleInteraction(SocketInteraction interaction)
+    async Task HandleInteraction(SocketInteraction interaction)
     {
         try
         {
@@ -83,7 +88,7 @@ public class InteractionHandler
         }
     }
 
-    private Task HandleInteractionExecute(ICommandInfo commandInfo, IInteractionContext context, IResult result)
+    Task HandleInteractionExecute(ICommandInfo commandInfo, IInteractionContext context, IResult result)
     {
         if (!result.IsSuccess)
             switch (result.Error)
