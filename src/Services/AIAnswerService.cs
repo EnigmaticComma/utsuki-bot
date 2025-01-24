@@ -101,7 +101,7 @@ public class AIAnswerService
             .WithColor(new Color(0x2c5d87));
 
         try {
-            var thread = await textChannel.CreateThreadAsync(responseText,
+            var thread = await textChannel.CreateThreadAsync(userMessage.CleanContent,
                 ThreadType.PublicThread,
                 ThreadArchiveDuration.ThreeDays
             );
