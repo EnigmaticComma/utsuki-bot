@@ -92,10 +92,24 @@ public class AIAnswerService
 
         _log.Info($"AI Answer: {responseText}");
 
+        string? title;
+        string? description;
+
+        using (var reader = new StringReader(responseText))
+        {
+            title = await reader.ReadLineAsync();
+            description = await reader.ReadToEndAsync();
+        }
+
         var embed = new EmbedBuilder()
-            .WithDescription(responseText)
-            .WithFooter("Resposta por IA experimental")
-            .WithColor(Color.Blue);
+            .WithDescription(string.IsNullOrWhiteSpace(description) ? title : description)
+            .WithFooter(new EmbedFooterBuilder {
+                Text = "Resposta por IA experimental",
+                IconUrl = "https://raw.githubusercontent.com/EnigmaticComma/enigmaticcomma.github.io/refs/heads/main/favicon-32x32.png"
+            })
+            .WithColor(new Color(0x2c5d87));
+
+        if(!string.IsNullOrEmpty(title)) embed.WithTitle(title);
 
         try {
             var thread = await textChannel.CreateThreadAsync(userMessage.CleanContent,
