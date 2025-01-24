@@ -32,7 +32,6 @@ namespace App.Modules {
 		}
 
 		async Task Client_Ready() {
-			Console.WriteLine("Registering guild commnads");
 			var mainGuild = client.GetGuild(264800866169651203);
 
 			var command_clima = new SlashCommandBuilder {

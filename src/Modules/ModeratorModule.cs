@@ -8,20 +8,18 @@ namespace App.Modules {
 
     public class ModeratorModule : InteractionModuleBase<SocketInteractionContext> {
 
-        public InteractionService Commands { get; set; }
+        public InteractionService _commands { get; set; }
         readonly InteractionHandler _handler;
         readonly ModeratorService _moderatorService;
         readonly LoggingService _log;
         readonly DiscordSocketClient _discord;
 
-        Dictionary<ulong, DateTime> _lastChangedChannelsTimes = new();
-        TimeSpan _cooldownToChangeTeamName = TimeSpan.FromSeconds(20);
-
-        public ModeratorModule(DiscordSocketClient discord, ModeratorService moderatorService, LoggingService loggingService, InteractionHandler handler) {
+        public ModeratorModule(DiscordSocketClient discord, ModeratorService moderatorService, LoggingService loggingService, InteractionHandler handler,InteractionService commands) {
             _moderatorService = moderatorService;
             _log = loggingService;
             _discord = discord;
             _handler = handler;
+            _commands = commands;
 
             _discord.MessageReceived += async message => {
                 if (message.Source != MessageSource.User) return;
@@ -172,136 +170,13 @@ namespace App.Modules {
 
         [SlashCommand("teamname", "Set the team name")]
         [RequireBotPermission(GuildPermission.ManageChannels)]
-        public async Task RenameTeam(string name) {
-            if (Context.Guild.Id != 1328551591241846907) return;
-
-            await RespondAsync($"Definindo nome para {name}");
-
-            if (!(Context.Channel is SocketTextChannel textChannel)) return;
-            name ??= "equipe";
-
-            var embed = new EmbedBuilder();
-            IUserMessage msg = null;
-
-            if (_lastChangedChannelsTimes.ContainsKey(Context.Channel.Id)) {
-                var nextTime = _lastChangedChannelsTimes[Context.Channel.Id] + _cooldownToChangeTeamName;
-                if (DateTime.UtcNow <= nextTime) {
-                    embed.Title = "calma";
-                    embed.Description = $"a equipe mudou o nome agora a pouco, espera mais uns {(DateTime.UtcNow - nextTime).TotalSeconds} segundos pra tentar denovo";
-                    embed.Color = Color.Orange;
-                    await ReplyAsync(string.Empty, false, embed.Build());
-                    return;
-                }
-                else {
-                    _lastChangedChannelsTimes.Remove(Context.Channel.Id);
-                }
-            }
-
-            try {
-                // name
-                var names = Context.Channel.Name.Split('-').ToList();
-                if (names.Count == 1) {
-                    names.Add("");
-                }
-
-                if (names.Count < 2 && !(int.TryParse(names[0], out var teamNumber))) {
-                    throw new Exception("names count is lesser than 2 or first item is not a number");
-                }
-                names[1] = string.Join('-', name);
-
-                var fullName = $"{names[0]}-{names[1]}";
-
-                // answer
-                embed.Title = "perai q eu so lenta";
-                embed.Description = $"vo tentar mudar o nome da equipe pra '{fullName}'";
-                embed.Color = Color.Blue;
-
-                msg = await ReplyAsync(string.Empty, false, embed.Build());
-
-                await textChannel.ModifyAsync(p => p.Name = fullName);
-                await textChannel.Category.ModifyAsync(p => p.Name = fullName);
-
-                foreach (var voiceChannel in Context.Guild.VoiceChannels) {
-                    if (voiceChannel.Category != textChannel.Category) continue;
-                    await voiceChannel.ModifyAsync(p => p.Name = fullName);
-                    break;
-                }
-
-                // done
-                embed.Title = "Pronto";
-                embed.Description = $"troquei o nome da equipe pra **{fullName}**, {GetNameChangeAnswer(names[1])}";
-                embed.Color = Color.Green;
-                _lastChangedChannelsTimes[Context.Channel.Id] = DateTime.UtcNow;
-                await msg.ModifyAsync(m => m.Embed = embed.Build());
-
-            } catch (Exception e) {
-                embed.Title = "oh no";
-                embed.Description = $"{Context.Guild.Owner.Mention} socorro nao entendi o q o {(Context.User as SocketGuildUser).GetNameSafe()} falou";
-                embed.Footer = new EmbedFooterBuilder {
-                    Text = e.Message.SubstringSafe(256)
-                };
-                embed.Color = Color.Red;
-
-                _log.Error(e.ToString());
-
-                if (msg != null) {
-                    await msg.ModifyAsync(m => m.Embed = embed.Build());
-                }
-                else {
-                    await ReplyAsync(string.Empty, false, embed.Build());
-                }
-
-            }
+        public async Task RenameTeam(string name)
+        {
+            await RespondAsync($"Definindo nome da equipe para {name}");
+            await _moderatorService.RenameTeam(name, Context.Guild, Context.Channel);
         }
 
-        string GetNameChangeAnswer(string teamName) {
-            teamName = ChatService.RemoveDiacritics(teamName);
-            teamName = teamName.ToLower()
-                               .Replace(" ", string.Empty);
 
-            if (teamName == "equipe") {
-                return "nome padrão";
-            }
-
-            if (teamName == "rocket" || teamName == "equiperocket") {
-                return "decolando pra lua";
-            }
-
-            if (teamName.Contains("naro") || teamName.Contains("taok") || teamName.Contains("bozo")) {
-                return "ta ok";
-            }
-
-            if (teamName.Contains("studio")) {
-                return "um studio melhor que CD Project Red";
-            }
-
-            if (teamName.Contains("team")) {
-                return "team é equipe em ingles";
-            }
-
-            if (teamName.Contains("ufpr")) {
-                return "e me deu saudade do RU";
-            }
-
-            if (teamName == "nomeaqui") {
-                return "mas era pra vc digitar o nome da equipe no lugar de NOME AQUI";
-            }
-
-
-            var listOfDefaultAnswers = new[] {
-                "mas nao gostei do nome",
-                "mas achei q iam colocar outro nome",
-                "mas eu queria outro nome",
-                "um belo nome",
-                "só gente bonita nessa equipe",
-                "agora vao dormi",
-                "agora vai beber agua",
-                "mas continuo com fome",
-                "igual o daquela outra equipe"
-            };
-
-            return listOfDefaultAnswers.RandomElement();
-        }
 
         [SlashCommand("teampins", "set pinned message")]
         [RequireBotPermission(GuildPermission.ManageChannels)]
