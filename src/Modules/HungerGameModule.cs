@@ -7,8 +7,7 @@ using Discord.Commands;
 namespace App.Modules {
 	[Name("Hunger Games")]
 	public class HungerGameModule : ModuleBase<SocketCommandContext> {
-	
-		private readonly HungerGameService _service;
+		readonly HungerGameService _service;
 
 		
 		public HungerGameModule(HungerGameService service) {

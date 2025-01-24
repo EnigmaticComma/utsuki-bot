@@ -14,8 +14,7 @@ namespace App.Modules {
     [Name("Backup")]
     [RequireContext(ContextType.Guild)]
 	public class BackupModule : ModuleBase<SocketCommandContext> {
-		
-		private readonly BackupService _service;
+		readonly BackupService _service;
 
 		public BackupModule(BackupService service) {
 			_service = service;

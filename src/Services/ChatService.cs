@@ -12,6 +12,7 @@ using Newtonsoft.Json.Linq;
 using RestSharp;
 
 using App.Extensions;
+using Discord.Interactions;
 using HtmlAgilityPack;
 
 namespace App {
@@ -497,16 +498,12 @@ namespace App {
 
 		#region <<---------- Chat Messages ---------->>
 
-		public async Task GetAndRepplyRememberMessage(SocketUserMessage msg, int amount, bool downloadIfNeeded) {
-			var emoji = new Emoji("⌚") ;
-
-			await msg.AddReactionAsync(emoji);
-
-			await UpdateMessagesCacheForChannel(msg.Channel, amount, downloadIfNeeded);
-			var channelId = msg.Channel.Id;
+		public async Task GetAndRepplyRememberMessage(SocketInteractionContext context, int amount, bool downloadIfNeeded) {
+			await UpdateMessagesCacheForChannel(context.Channel, amount, downloadIfNeeded);
+			var channelId = context.Channel.Id;
 			SerializeMessages(LastMessagesIdsInChannel[channelId], channelId.ToString());
 
-			var selectedMsg = await GetRandomUserMessageFromChannelCache(msg.Channel, 7);
+			var selectedMsg = await GetRandomUserMessageFromChannelCache(context.Channel, 7);
 			if (selectedMsg == null) return;
 			if (selectedMsg is not IUserMessage userMsg) return;
 
@@ -518,8 +515,6 @@ namespace App {
 				ThumbnailUrl = selectedMsg.Author.GetAvatarUrl() ?? selectedMsg.Author.GetDefaultAvatarUrl()
 			};
 
-			await msg.RemoveAllReactionsForEmoteAsync(emoji);
-			await msg.AddReactionAsync(new Emoji("👇"));
 			await userMsg.ReplyAsync($"Lembrança de **{userMsg.Author.Mention}**",false,embed.Build(), AllowedMentions.None);
 		}
 

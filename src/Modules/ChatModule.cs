@@ -1,14 +1,10 @@
-using System.Threading.Tasks;
 using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
-using App.Extensions;
+using Discord.Interactions;
 
 namespace App.Modules {
-	public class ChatModule : ModuleBase<SocketCommandContext> {
-
-		private const int DEFAULT_MESSAGES_AMOUNT = 500;
-		private readonly ChatService _service;
+	public class ChatModule : InteractionModuleBase<SocketInteractionContext> {
+		const int DEFAULT_MESSAGES_AMOUNT = 500;
+		readonly ChatService _service;
 
 
 
@@ -20,8 +16,7 @@ namespace App.Modules {
 		
 		
 		
-		[Command("randomphrase"), Alias("rf")]
-		[Summary("Get a random motivacional phrase")]
+		[SlashCommand("randomphrase", "Get a random motivacional phrase")]
 		public async Task GetRandomPhrase() {
 			var phrase = await _service.GetRandomMotivationPhrase();
 			if (string.IsNullOrEmpty(phrase)) return;
@@ -34,31 +29,15 @@ namespace App.Modules {
 			};
 			
 			await ReplyAsync(string.Empty, false, embed.Build());
-			await Context.Message.DeleteAsync();
 		}
 
-		[Command("remember"), Alias("rm")]
-		[Summary("Get a random message from a user in all chats")]
-		[RequireUserPermission(GuildPermission.SendMessages)]
-		public async Task GetRandomUserMessage() {
-			await _service.GetAndRepplyRememberMessage(Context.Message, DEFAULT_MESSAGES_AMOUNT, false);
-			if (Context.Message != null) {
-				await Context.Message.DeleteAsync();
-			}
-		}
-
-		[Command("remember"), Alias("rm")]
-		[Summary("Get a random message from a user in all chats, adm version")]
+		[SlashCommand("remember","Get a random message from a user in current chat")]
 		[RequireUserPermission(GuildPermission.Administrator)]
-		public async Task GetRandomUserMessage(int ammount) {
-			await _service.GetAndRepplyRememberMessage(Context.Message, ammount, true);
-			if (Context.Message != null) {
-				await Context.Message.DeleteAsync();
-			}
+		public async Task RememberSomeMessage(int ammount) {
+			await _service.GetAndRepplyRememberMessage(Context, ammount, true);
 		}
 
-		[Command("updatestatus")]
-		[Summary("Update bot self status")]
+		[SlashCommand("updatestatus", "Update bot self status")]
 		[RequireUserPermission(GuildPermission.Administrator)]
 		public async Task UpdateSelfStatus() {
 			await _service.UpdateSelfStatusAsync();

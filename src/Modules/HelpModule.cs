@@ -8,8 +8,8 @@ namespace App.Modules
 {
     public class HelpModule : ModuleBase<SocketCommandContext>
     {
-        private readonly CommandService _service;
-        private readonly IConfigurationRoot _config;
+        readonly CommandService _service;
+        readonly IConfigurationRoot _config;
 
         public HelpModule(CommandService service, IConfigurationRoot config) {
             _service = service;

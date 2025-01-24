@@ -4,9 +4,11 @@ using Discord;
 using Discord.Commands;
 using Microsoft.Extensions.DependencyInjection;
 using App.Services;
+using Discord.Interactions;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using RunMode = Discord.Commands.RunMode;
 
 namespace App;
 
@@ -18,23 +20,29 @@ static class Program {
 
     public static async Task Main(string[] args)
     {
+        Console.WriteLine($"Program Started, v{VERSION}");
         Configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
             .AddEnvironmentVariables()
             .Build();
 
+        var discordToken = Configuration["DISCORD_TOKEN_UTSUKI"];
+        if (string.IsNullOrWhiteSpace(discordToken))
+            throw new Exception("Bot cannot be started without the bot's token into enviroment variable.");
+
         var builder = Host.CreateApplicationBuilder(args);
-
         ConfigureServices(builder.Services);
-
         var host = builder.Build();
 
-        host.Services.GetRequiredService<DiscordSocketClient>();
-        host.Services.GetRequiredService<CommandService>();
+        var client = host.Services.GetRequiredService<DiscordSocketClient>();
+        await client.LoginAsync(TokenType.Bot, discordToken);
+        await client.StartAsync();
 
-        await host.Services.GetRequiredService<StartupService>().StartAsync();
+        var commands = host.Services.GetRequiredService<CommandService>();
+        await commands.AddModulesAsync(Assembly.GetEntryAssembly(), host.Services);
 
-        Console.WriteLine($"Program Started, v{VERSION}");
+        await host.Services.GetRequiredService<InteractionHandler>().InitializeAsync();
+
         await host.RunAsync();
     }
 
@@ -44,7 +52,6 @@ static class Program {
         .AddTransient<DbService>()
         .AddSingleton(Configuration)
         .AddSingleton<Random>()
-        .AddSingleton<StartupService>()
         .AddSingleton(new DiscordSocketClient(new DiscordSocketConfig {
             LogLevel = LogSeverity.Info,
             GatewayIntents = GatewayIntents.AllUnprivileged
@@ -55,6 +62,8 @@ static class Program {
             LogLevel = LogSeverity.Verbose,     // Tell the logger to give Verbose amount of info
             DefaultRunMode = RunMode.Async,     // Force all commands to run async by default
         }))
+        .AddActivatedSingleton(x => new InteractionService(x.GetRequiredService<DiscordSocketClient>()))
+        .AddSingleton<InteractionHandler>()
         .AddActivatedSingleton<AIAnswerService>()
         .AddActivatedSingleton<WipServices>()
         .AddActivatedSingleton<DynamicVoiceChannelService>()

@@ -1,8 +1,7 @@
-﻿using Discord.Commands;
+﻿using System.Reflection;
+using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
-using System.Threading.Tasks;
-using System;
 using Discord;
 
 namespace App {

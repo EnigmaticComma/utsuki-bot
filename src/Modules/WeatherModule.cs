@@ -16,12 +16,11 @@ using RestSharp;
 
 namespace App.Modules {
 	public class WeatherModule : ModuleBase<SocketCommandContext> {
-
-		private const string PATH = "WeatherInfo/";
-		private readonly WeatherService _service;
-		private readonly DiscordSocketClient client;
-		private readonly IConfigurationRoot _config;
-		private readonly TimeSpan MAX_CACHE_AGE = TimeSpan.FromMinutes(30);
+		const string PATH = "WeatherInfo/";
+		readonly WeatherService _service;
+		readonly DiscordSocketClient client;
+		readonly IConfigurationRoot _config;
+		readonly TimeSpan MAX_CACHE_AGE = TimeSpan.FromMinutes(30);
 
 		public WeatherModule(DiscordSocketClient client, IConfigurationRoot config, WeatherService service) {
 			_service = service;
@@ -32,7 +31,7 @@ namespace App.Modules {
 			client.SlashCommandExecuted += SlashCommandHandler;
 		}
 
-		private async Task Client_Ready() {
+		async Task Client_Ready() {
 			Console.WriteLine("Registering guild commnads");
 			var mainGuild = client.GetGuild(264800866169651203);
 
@@ -56,7 +55,7 @@ namespace App.Modules {
 			}
 		}
 
-		private async Task SlashCommandHandler(SocketSlashCommand command) {
+		async Task SlashCommandHandler(SocketSlashCommand command) {
 			switch (command.Data.Name) {
 				case "clima":
 					await ShowWeather(command.Data.Options.First().Value.ToString());
@@ -183,7 +182,7 @@ namespace App.Modules {
 			await ReplyAsync(GetWeatherVerbalStatus((int)feelsLike), false, embed.Build());
 		}
 
-		private string GetWeatherVerbalStatus(int celsiusTemp) {
+		string GetWeatherVerbalStatus(int celsiusTemp) {
 			if (celsiusTemp >= 45) {
 				return "+ quente q o cu do sabs kkk";
 			}

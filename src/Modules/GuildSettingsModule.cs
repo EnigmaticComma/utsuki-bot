@@ -6,8 +6,7 @@ using Discord.WebSocket;
 
 namespace App.Modules {
 	public class GuildSettingsModule : ModuleBase<SocketCommandContext> {
-
-		private GuildSettingsService _service;
+		GuildSettingsService _service;
 		
 		public GuildSettingsModule(GuildSettingsService service) {
 			_service = service;

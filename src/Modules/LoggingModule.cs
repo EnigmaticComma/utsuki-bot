@@ -6,9 +6,8 @@ using Discord.Commands;
 
 namespace App.Modules {
 	public class LoggingModule : ModuleBase<SocketCommandContext> {
-
-		private const int DEFAULT_BUFFER_SIZE = 4096;
-		private readonly LoggingService _loggingService; 
+		const int DEFAULT_BUFFER_SIZE = 4096;
+		readonly LoggingService _loggingService; 
 		
 		public LoggingModule(LoggingService loggingService) {
 			_loggingService = loggingService;

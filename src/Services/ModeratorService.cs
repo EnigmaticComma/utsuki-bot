@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Discord.Interactions;
 
 namespace App {
 	public class ModeratorService {
@@ -11,9 +12,9 @@ namespace App {
 			_log = loggingService;
 		}
 
-		public async Task DeleteLastMessages(SocketCommandContext context, int limit) {
+		public async Task DeleteLastMessages(SocketInteractionContext context, int limit) {
 			if (limit < 1 || limit > 500) {
-				await context.Message.AddReactionAsync(new Emoji("🚫"));
+				await context.Channel.SendMessageAsync("Invalid range");
 				return;
 			}
 
