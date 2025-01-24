@@ -20,21 +20,20 @@ namespace App {
             _config = config;
             _provider = provider;
 
+            _log.Info($"Bot prefix is '{_config["prefix"]}'");
+
             _discord.MessageReceived += OnMessageReceivedAsync;
         }
 
         async Task OnMessageReceivedAsync(SocketMessage s)
         {
             if (s.Author.IsBot) return;
-            if(string.IsNullOrEmpty(_config["prefix"])) {
-                _log.Info("No prefix set as command");
-                return;
-            }
             if (s is not SocketUserMessage msg) return;
             var context = new SocketCommandContext(_discord, msg);     // Create the command context
 
             int argPos = 0;     // Check if the message has a valid command prefix
-            if (msg.HasStringPrefix(_config["prefix"], ref argPos) || msg.HasMentionPrefix(_discord.CurrentUser, ref argPos))
+            if (msg.HasMentionPrefix(_discord.CurrentUser, ref argPos)
+                || (!string.IsNullOrEmpty(_config["prefix"]) && msg.HasStringPrefix(_config["prefix"], ref argPos)))
             {
                 var result = await _commands.ExecuteAsync(context, argPos, _provider);     // Execute the command
 
