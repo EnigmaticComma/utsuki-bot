@@ -119,23 +119,23 @@ Deixe perto do bloco!
 
 # Segue abaixo a programação do evento:
 
-Sexta - 24/1
-16h – início do credenciamento no último andar do Bloco Amarelo;
-17h às 19h – Concentração e abertura oficial do evento no TUCA (térreo do Bloco Azul) a partir das 18h;
-19h – Dinâmica de formação de equipes e discussão do tema;
-Até 23h  - Envio de foto da equipe no canal da equipe no Discord E em ⁠📸-foto-da-equipe  Deixe FIXO no seu canal;
-23h – Fechamento do Portão da PUCPR, não é possível sair ou entrar, inclusive delivery.
+## Sexta - 24/1
+• 16h – início do credenciamento no último andar do Bloco Amarelo;
+• 17h às 19h – Concentração e abertura oficial do evento no TUCA (térreo do Bloco Azul) a partir das 18h;
+• 19h – Dinâmica de formação de equipes e discussão do tema;
+• Até 23h  - Envio de foto da equipe no canal da equipe no Discord E em ⁠📸-foto-da-equipe  Deixe FIXO no seu canal;
+• 23h – Fechamento do Portão da PUCPR, não é possível sair ou entrar, inclusive delivery.
 
-Sábado - 25/1
-6:40 – Abertura do Portão 1 da PUCPR;
-15h – Prazo para cadastrar seu projeto de jogo e maior parte dos integrantes no site da Global Game Jam. O nome e integrantes pode mudar depois.
-20h – Vídeo de 2 a 3 minutos sobre a equipe desenvolvedora e qual é a ideia básica do jogo. Enviar no canal da equipe em ⁠🎥-video-sobre-equipe-e-jogo . Deixe FIXO no seu canal.
-23h – Fechamento do Portão da PUCPR, não é possível sair ou entrar, inclusive delivery.
+## Sábado - 25/1
+• 6:40 – Abertura do Portão 1 da PUCPR;
+• 15h – Prazo para cadastrar seu projeto de jogo e maior parte dos integrantes no site da Global Game Jam. O nome e integrantes pode mudar depois.
+• 20h – Vídeo de 2 a 3 minutos sobre a equipe desenvolvedora e qual é a ideia básica do jogo. Enviar no canal da equipe em ⁠🎥-video-sobre-equipe-e-jogo . Deixe FIXO no seu canal.
+• 23h – Fechamento do Portão da PUCPR, não é possível sair ou entrar, inclusive delivery.
 
-Domingo - 26/1
-6:40 – Abertura do Portão 1 da PUCPR;
-14h – Prazo para cadastrar nome definitivo do jogo e enviar vídeo de gameplay (jogo rodando) no canal do jogo e em  ⁠🎮-video-de-gameplay ;
-15h – Fim do desenvolvimento do jogo! Enviar para o site da jam e coloque o link final em ⁠🌎-links-jogo-final , deixando fixo;
-15h às 18h – Play Party, jogatina geral dos jogos produzidos no Térreo do Bloco Amarelo. Vote até as 18h usando o link em sua credencial.
-18h – Resultados da jam, jogos mais votados, sorteio de brindes, encerramento;
-19h – 20h – Organização das salas, precisamos de ajuda.
+## Domingo - 26/1
+• 6:40 – Abertura do Portão 1 da PUCPR;
+• 14h – Prazo para cadastrar nome definitivo do jogo e enviar vídeo de gameplay (jogo rodando) no canal do jogo e em  ⁠🎮-video-de-gameplay ;
+• 15h – Fim do desenvolvimento do jogo! Enviar para o site da jam e coloque o link final em ⁠🌎-links-jogo-final , deixando fixo;
+• 15h às 18h – Play Party, jogatina geral dos jogos produzidos no Térreo do Bloco Amarelo. Vote até as 18h usando o link em sua credencial.
+• 18h – Resultados da jam, jogos mais votados, sorteio de brindes, encerramento;
+• 19h – 20h – Organização das salas, precisamos de ajuda.
