@@ -55,6 +55,7 @@ public class AIAnswerService
         var request = new HttpRequestMessage(HttpMethod.Post,requestUrl);
         request.Content = new StringContent(JsonSerializer.Serialize(new {
             stream = false,
+            model = _config["AI_MODEL"],
             messages = new[] {
                 new {
                     role = "system",
