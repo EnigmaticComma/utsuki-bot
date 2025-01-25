@@ -13,6 +13,13 @@ public class GGJService(LoggingService _log)
     readonly Dictionary<ulong, DateTime> _lastChangedChannelsTimes = new();
     readonly TimeSpan _cooldownToChangeTeamName = TimeSpan.FromMinutes(5);
 
+    public bool CheckIfChannelIsTeam(ISocketMessageChannel channel)
+	{
+		if (channel is not SocketTextChannel textChannel) return false;
+		if (textChannel.Category == null) return false;
+		return char.IsDigit(textChannel.Category.Name[0]);
+	}
+
     public async Task RenameTeam(string name, SocketGuild contextGuild,ISocketMessageChannel contextChannel)
 	{
         if (!(contextChannel is SocketTextChannel textChannel)) return;

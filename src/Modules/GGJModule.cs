@@ -11,6 +11,7 @@ public class GGJModule(GGJService _ggjService, LoggingService _log) : Interactio
     [RequireBotPermission(GuildPermission.ManageChannels)]
     public async Task RenameTeam(string name)
     {
+        if(_ggjService.CheckIfChannelIsTeam(Context.Channel)) return;
         await RespondAsync($"Definindo nome da equipe para {name}");
         await _ggjService.RenameTeam(name, Context.Guild, Context.Channel);
     }
