@@ -11,7 +11,7 @@ public class LegacyGGJModule(GGJService _ggjService) : ModuleBase<SocketCommandC
     [RequireBotPermission(GuildPermission.ManageChannels)]
     public async Task RenameTeam(params string[] names)
     {
-        if(_ggjService.CheckIfChannelIsTeam(this.Context.Channel)) return;
+        if(!_ggjService.CheckIfChannelCategoryIsTeam(this.Context.Channel)) return;
         await _ggjService.RenameTeam(string.Join(' ', names), Context.Guild, Context.Channel);
     }
 }
