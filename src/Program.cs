@@ -79,6 +79,7 @@ internal static class Program {
         .AddActivatedSingleton<ModeratorService>()
         .AddActivatedSingleton<AutoReactService>()
         .AddActivatedSingleton<SleepService>()
+        .AddActivatedSingleton<GGJService>()
         ;
     }
 
