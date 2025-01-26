@@ -80,6 +80,7 @@ internal static class Program {
         .AddActivatedSingleton<AutoReactService>()
         .AddActivatedSingleton<SleepService>()
         .AddActivatedSingleton<GGJService>()
+        .AddActivatedSingleton<DiceService>()
         ;
     }
 
