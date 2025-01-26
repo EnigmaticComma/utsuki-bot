@@ -20,6 +20,6 @@ public class LegacyDiceModule(DiceService _diceService) : ModuleBase<SocketComma
 
         if(!string.IsNullOrEmpty(description)) embedBuilder.WithDescription(description);
 
-        await Context.Channel.SendMessageAsync(embed: embedBuilder.Build());
+        await Context.Channel.SendMessageAsync(embed: embedBuilder.Build(), messageReference: Context.Message.Reference);
     }
 }
