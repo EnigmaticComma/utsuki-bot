@@ -1,13 +1,13 @@
 ﻿using App.Services;
 using Discord;
-using Discord.Interactions;
+using Discord.Commands;
 
-namespace App.Modules;
+namespace App.Modules.Legacy;
 
-public class DiceModule(DiceService _diceService) : InteractionModuleBase<SocketInteractionContext>
+public class LegacyDiceModule(DiceService _diceService) : ModuleBase<SocketCommandContext>
 {
-
-    [SlashCommand("d20", "Rola um d20 e retorna o resultado")]
+    [Command("d20")]
+    [Summary("Rola um d20 e retorna o resultado")]
     public async Task RollD20()
     {
         var (result, description) = _diceService.RollD20();
@@ -20,6 +20,6 @@ public class DiceModule(DiceService _diceService) : InteractionModuleBase<Socket
 
         if(!string.IsNullOrEmpty(description)) embedBuilder.WithDescription(description);
 
-        await RespondAsync(embed: embedBuilder.Build());
+        await Context.Channel.SendMessageAsync(embed: embedBuilder.Build());
     }
 }

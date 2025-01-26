@@ -9,6 +9,6 @@ public class DiceService(Random _random)
             return (roll, "Falha Crítica!");
         if (roll == 20)
             return (roll, "Sucesso Crítico!");
-        return (roll, "Rolagem Normal.");
+        return (roll, "");
     }
 }
