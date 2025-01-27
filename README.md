@@ -8,17 +8,18 @@
 
 <img src="https://chrisdbhr.github.io/images/thumbs/utsuki-bot-banner.png" alt="Utsuki Bot Banner">
 
-> Bot Discord de entretenimento e moderação escrito em Rust com processo automatizado de compilação e implantação usando um Github Action auto-hospedado
+> Bot Discord de entretenimento e moderação com processo automatizado de compilação e implantação usando um Github Action auto-hospedado.
+> Usado anualmente principalmente no gerenciamento do evento [Global Game Jam Curitiba](https://www.instagram.com/ggjcwb/)
 
 ### Ajustes e melhorias
 
 O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas nas seguintes tarefas:
 
 - [x] Build e deploy usando uma Github Action self hosted (thanks to [Joojano](https://github.com/joojano))
-- [x] Comandos auxiliares de gerenciamento do evento *Global Game Jam 2025*
+- [ ] Comandos auxiliares de gerenciamento do evento *Global Game Jam 2026*
 - [ ] Atualização automática de status (descrição) de canal de voz
       
-## 📫 Contribuindo para Utsuki Bot in Rust
+## 📫 Contribuindo para Utsuki Bot
 
 Para contribuir com esse projeto, siga estas etapas:
 
