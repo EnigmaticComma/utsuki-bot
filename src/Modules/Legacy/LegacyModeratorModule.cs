@@ -1,4 +1,4 @@
-﻿using Discord;
+﻿using App.Services;
 using Discord.Commands;
 
 namespace App.Modules.Legacy;
@@ -11,7 +11,4 @@ public class LegacyModeratorModule : ModuleBase<SocketCommandContext>
     {
         _moderatorService = moderatorService;
     }
-
-
-
 }

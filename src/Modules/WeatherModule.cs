@@ -12,6 +12,7 @@ using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using App.Extensions;
+using App.Services;
 using RestSharp;
 
 namespace App.Modules {

@@ -1,4 +1,6 @@
 using System.Threading.Tasks;
+using App.Attributes;
+using App.Services;
 using Discord;
 using Discord.WebSocket;
 

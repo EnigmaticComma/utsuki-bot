@@ -1,10 +1,12 @@
-﻿using Discord;
+﻿using App.Attributes;
+using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
 using Timer = System.Timers.Timer;
 
 namespace App.Services;
 
+[Service]
 public class WipServices
 {
     const int MessagesToRemember = 100000;

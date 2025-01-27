@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using App.Extensions;
+using App.Services;
 using Discord.Interactions;
 using RestSharp;
 

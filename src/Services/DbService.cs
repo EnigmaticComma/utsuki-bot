@@ -1,9 +1,12 @@
+using App.Attributes;
 using App.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace App;
 
+[Service(ServiceLifetime.Transient)]
 public class DbService : DbContext, IDisposable {
 
 	public DbSet<GuildSettings> GuildSettings { get; set; }

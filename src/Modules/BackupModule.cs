@@ -13,14 +13,9 @@ using App.Extensions;
 namespace App.Modules {
     [Name("Backup")]
     [RequireContext(ContextType.Guild)]
-	public class BackupModule : ModuleBase<SocketCommandContext> {
-		readonly BackupService _service;
-
-		public BackupModule(BackupService service) {
-			_service = service;
-		}
-		
-        [Command("backupchannel")]
+	public class BackupModule(BackupService _service) : ModuleBase<SocketCommandContext>
+	{
+		[Command("backupchannel")]
         [Summary("Backups a channel messages and media")]
         [RequireBotPermission(GuildPermission.ReadMessageHistory)]
         [RequireBotPermission(GuildPermission.ViewChannel)]

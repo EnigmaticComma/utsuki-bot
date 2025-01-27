@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.Json;
+using App.Attributes;
 using Discord;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
@@ -7,6 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace App.Services;
 
+[Service]
 public class AIAnswerService
 {
     readonly LoggingService _log;

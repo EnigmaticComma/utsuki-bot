@@ -1,5 +1,8 @@
-﻿namespace App.Services;
+﻿using App.Attributes;
 
+namespace App.Services;
+
+[Service]
 public class DiceService(Random _random)
 {
     public (int result, string description) RollD20()

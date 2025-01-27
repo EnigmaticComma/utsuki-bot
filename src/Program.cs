@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using App.Extensions;
 using App.HungerGames;
 using Discord;
 using Discord.Commands;
@@ -49,7 +50,6 @@ internal static class Program {
 
     static void ConfigureServices(IServiceCollection services) {
         services
-        .AddTransient<DbService>()
         .AddSingleton(Configuration)
         .AddSingleton<Random>()
         .AddSingleton(new DiscordSocketClient(new DiscordSocketConfig {
@@ -63,24 +63,7 @@ internal static class Program {
             DefaultRunMode = RunMode.Async,     // Force all commands to run async by default
         }))
         .AddActivatedSingleton(x => new InteractionService(x.GetRequiredService<DiscordSocketClient>()))
-        .AddActivatedSingleton<InteractionHandler>()
-        .AddActivatedSingleton<AIAnswerService>()
-        .AddActivatedSingleton<WipServices>()
-        .AddActivatedSingleton<DynamicVoiceChannelService>()
-        .AddActivatedSingleton<GuildSettingsService>()
-        .AddActivatedSingleton<LoggingService>()
-        .AddActivatedSingleton<CommandHandler>()
-        .AddActivatedSingleton<VoiceService>()
-        .AddActivatedSingleton<ExchangeService>()
-        .AddActivatedSingleton<ChatService>()
-        .AddActivatedSingleton<HungerGameService>()
-        .AddActivatedSingleton<WeatherService>()
-        .AddActivatedSingleton<BackupService>()
-        .AddActivatedSingleton<ModeratorService>()
-        .AddActivatedSingleton<AutoReactService>()
-        .AddActivatedSingleton<SleepService>()
-        .AddActivatedSingleton<GGJService>()
-        .AddActivatedSingleton<DiceService>()
+        .AddAnnotatedServices(Assembly.GetExecutingAssembly())
         ;
     }
 

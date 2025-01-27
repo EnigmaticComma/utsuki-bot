@@ -1,4 +1,5 @@
 using System.Text.Json;
+using App.Attributes;
 using UtsukiBot.Extensions;
 using Discord;
 using Discord.Rest;
@@ -6,6 +7,7 @@ using Discord.WebSocket;
 
 namespace App.Services;
 
+[Service]
 public class DynamicVoiceChannelService
 {
     List<ulong> _dynamicCreatedVoiceChannels = new ();

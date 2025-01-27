@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using App.HungerGames;
+using App.Services.HungerGames;
 using Discord.Commands;
 
 namespace App.Modules {

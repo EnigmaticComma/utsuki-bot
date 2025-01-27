@@ -5,12 +5,16 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using App.Attributes;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using App.Extensions;
+using App.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace App {
+	[Service(ServiceLifetime.Singleton)]
 	public class BackupService {
 
 		#region <<---------- Properties ---------->>

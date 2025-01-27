@@ -2,12 +2,13 @@
 using Discord.Interactions;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Reflection;
-using System.Threading.Tasks;
+using App.Attributes;
+using App.Services;
 
 namespace App;
 
+[Service]
 public class InteractionHandler
 {
     readonly DiscordSocketClient _client;

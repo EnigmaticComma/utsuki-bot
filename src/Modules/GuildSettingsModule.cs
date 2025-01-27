@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using App.Models;
+using App.Services;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;

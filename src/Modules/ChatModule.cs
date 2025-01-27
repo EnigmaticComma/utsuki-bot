@@ -1,3 +1,4 @@
+using App.Services;
 using Discord;
 using Discord.Interactions;
 

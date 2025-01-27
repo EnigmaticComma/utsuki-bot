@@ -1,4 +1,5 @@
-﻿using App.Extensions;
+﻿using App.Attributes;
+using App.Extensions;
 using Discord;
 using Discord.WebSocket;
 
@@ -8,6 +9,7 @@ namespace App.Services;
 /// Methods related to the Global Game Jame Discord event managment.
 /// </summary>
 /// <param name="_log"></param>
+[Service]
 public class GGJService(LoggingService _log)
 {
     readonly Dictionary<ulong, DateTime> _lastChangedChannelsTimes = new();
