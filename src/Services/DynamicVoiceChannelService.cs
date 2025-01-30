@@ -20,7 +20,6 @@ public class DynamicVoiceChannelService
     public DynamicVoiceChannelService(DiscordSocketClient discord, DbService db)
     {
         _db = db;
-        Console.WriteLine("Creating DynamicVoiceChannelService");
         _discord = discord;
         _discord.UserVoiceStateUpdated += OnUserVoiceStateUpdated;
     }

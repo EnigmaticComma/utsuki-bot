@@ -11,11 +11,15 @@ public static class ServiceCollectionExtensions
         var typesWithAttribute = assembly.GetTypes()
             .Where(type => type is { IsClass: true,IsAbstract: false } && type.GetCustomAttribute<ServiceAttribute>() != null);
 
+        Console.Write("Begin add services: ");
+
         foreach (var type in typesWithAttribute)
         {
             var attribute = type.GetCustomAttribute<ServiceAttribute>();
 
-            if(attribute == null)continue;
+            if(attribute == null) continue;
+
+            Console.Write($"'{type.Name}' ");
 
             if (attribute.IsActivatedSingleton)
             {
@@ -37,6 +41,8 @@ public static class ServiceCollectionExtensions
                 }
             }
         }
+
+        Console.WriteLine("Finished add services");
 
         return services;
     }
