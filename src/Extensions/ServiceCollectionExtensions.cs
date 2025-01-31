@@ -49,10 +49,4 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddActivatedSingleton(this IServiceCollection services, Type type)
-    {
-        services.AddSingleton(type, serviceProvider => ActivatorUtilities.CreateInstance(serviceProvider, type));
-
-        return services;
-    }
 }

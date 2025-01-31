@@ -24,7 +24,6 @@ public class DynamicVoiceChannelService
         _db = db;
         _discord = discord;
         _discord.UserVoiceStateUpdated += OnUserVoiceStateUpdated;
-        _log.Info("Initializing Dynamic Voice Channel service!");
     }
 
     async Task OnUserVoiceStateUpdated(SocketUser user, SocketVoiceState previousVoiceState, SocketVoiceState newVoiceState)
