@@ -16,12 +16,15 @@ public class DynamicVoiceChannelService
 
     readonly DbService _db;
     readonly DiscordSocketClient _discord;
+    readonly LoggingService _log;
 
-    public DynamicVoiceChannelService(DiscordSocketClient discord, DbService db)
+    public DynamicVoiceChannelService(DiscordSocketClient discord, DbService db, LoggingService log)
     {
+        _log = log;
         _db = db;
         _discord = discord;
         _discord.UserVoiceStateUpdated += OnUserVoiceStateUpdated;
+        _log.Info("Initializing Dynamic Voice Channel service!");
     }
 
     async Task OnUserVoiceStateUpdated(SocketUser user, SocketVoiceState previousVoiceState, SocketVoiceState newVoiceState)
