@@ -11,7 +11,7 @@ public static class ServiceCollectionExtensions
         var typesWithAttribute = assembly.GetTypes()
             .Where(type => type is { IsClass: true,IsAbstract: false } && type.GetCustomAttribute<ServiceAttribute>() != null);
 
-        Console.Write("Begin add services: ");
+        Console.WriteLine("Begin add services:");
 
         foreach (var type in typesWithAttribute)
         {
@@ -19,10 +19,9 @@ public static class ServiceCollectionExtensions
 
             if(attribute == null) continue;
 
-            Console.Write($"'{type.Name}' ");
-
             if (attribute.IsActivatedSingleton)
             {
+                Console.Write($"'{type.Name} (Activated Singleton)' ");
                 services.AddActivatedSingleton(type);
             }
             else
@@ -30,12 +29,15 @@ public static class ServiceCollectionExtensions
                 switch (attribute.Lifetime)
                 {
                     case ServiceLifetime.Transient:
+                        Console.Write($"'{type.Name} (Transient)' ");
                         services.AddTransient(type);
                         break;
                     case ServiceLifetime.Scoped:
+                        Console.Write($"'{type.Name} (Scoped)' ");
                         services.AddScoped(type);
                         break;
                     default:
+                        Console.Write($"'{type.Name} (Singleton)' ");
                         services.AddSingleton(type);
                         break;
                 }
