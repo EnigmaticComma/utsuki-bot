@@ -5,7 +5,7 @@
 ![GitHub language count](https://img.shields.io/github/languages/count/EnigmaticComma/utsuki-bot?style=for-the-badge)
 ![GitHub forks](https://img.shields.io/github/forks/EnigmaticComma/utsuki-bot?style=for-the-badge)
 
-<img src="https://chrisdbhr.github.io/images/thumbs/utsuki-bot-banner.png" alt="Utsuki Bot Banner">
+<img src="https://chrisjogos.com/assets/images/thumbs/utsuki-bot-banner.png" alt="Utsuki Bot Banner">
 
 > Bot Discord de entretenimento e moderação com processo automatizado de compilação e implantação usando um Github Action auto-hospedado.
 > Usado anualmente principalmente no gerenciamento do evento [Global Game Jam Curitiba](https://www.instagram.com/ggjcwb/)
