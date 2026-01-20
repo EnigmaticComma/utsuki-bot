@@ -37,55 +37,82 @@ public class AIAnswerService
     {
         if (socketMessage.Author.IsBot) return;
         if(socketMessage is not SocketUserMessage userMessage) return;
-        if(userMessage.Channel is not SocketTextChannel textChannel) return;
+        if(userMessage.Channel is not ITextChannel textChannel) return;
         if(userMessage.ReferencedMessage != null) return;
         if(textChannel.Guild.Id != 1333473843674878015) return;
+        
         // Basic filter to avoid processing everything, but allow AI to decide relevance
         if(string.IsNullOrWhiteSpace(userMessage.Content) || userMessage.Content.Length < 3) return;
 
-        // Check relevance
-        bool isRelevant = await CheckIfRelevant(userMessage.Content);
-        if (!isRelevant) return;
+        bool isThread = textChannel is IThreadChannel;
 
-        _log.Info("Message deemed relevant by AI. Proceeding to answer.");
-        await userMessage.AddReactionAsync(new Emoji("👀"));
+        if (!isThread)
+        {
+            // Flow for new question (creates thread)
+            bool isRelevant = await CheckIfRelevant(userMessage.Content);
+            if (!isRelevant) return;
 
-        // Generate Thread Title
-        string threadTitle = await GenerateThreadTitle(userMessage.Content);
-        if (string.IsNullOrWhiteSpace(threadTitle)) threadTitle = "Dúvida GGJ";
+            _log.Info("Message deemed relevant by AI. Proceeding to answer.");
+            await userMessage.AddReactionAsync(new Emoji("👀"));
 
-        // Create Thread
-        IThreadChannel thread = null;
-        try {
-            thread = await textChannel.CreateThreadAsync(threadTitle, ThreadType.PublicThread, ThreadArchiveDuration.ThreeDays, userMessage);
+            // Generate Thread Title
+            string threadTitle = await GenerateThreadTitle(userMessage.Content);
+            if (string.IsNullOrWhiteSpace(threadTitle)) threadTitle = "Dúvida GGJ";
+
+            // Create Thread
+            IThreadChannel? thread = null;
+            try {
+                if (textChannel is SocketTextChannel socketTextChannel)
+                {
+                    thread = await socketTextChannel.CreateThreadAsync(threadTitle, ThreadType.PublicThread, ThreadArchiveDuration.ThreeDays, userMessage);
+                }
+            }
+            catch (Exception e) {
+                _log.Error($"Failed to create thread: {e.Message}");
+            }
+
+            // Generate Answer
+            string answer = await GenerateAnswer(userMessage.Content, null, threadTitle);
+            if (string.IsNullOrWhiteSpace(answer)) {
+                 _log.Error("AI failed to generate an answer.");
+                 return;
+            }
+
+            var embed = new EmbedBuilder()
+                .WithDescription(answer)
+                .WithFooter(new EmbedFooterBuilder {
+                    Text = "Resposta por IA experimental",
+                    IconUrl = "https://raw.githubusercontent.com/EnigmaticComma/enigmaticcomma.github.io/refs/heads/main/favicon-32x32.png"
+                })
+                .WithColor(new Color(0x2c5d87));
+
+            if (thread != null) {
+                 await thread.SendMessageAsync(string.Empty, false, embed.Build());
+            } else {
+                 await userMessage.ReplyAsync(string.Empty, false, embed.Build());
+            }
         }
-        catch (Exception e) {
-            _log.Error($"Failed to create thread: {e.Message}");
-            // Fallback to replying in channel if thread creation fails, or just abort? 
-            // The requirement says "inside the thread created", so let's try to proceed carefully.
-            // If we can't create a thread, we might not want to spam the main channel. 
-            // But let's fallback to main channel for now to ensure user gets an answer.
-        }
+        else
+        {
+            // Flow for conversation within existing thread
+            var thread = (IThreadChannel)textChannel;
+            
+            // Fetch thread history
+            var history = await thread.GetMessagesAsync(15).FlattenAsync();
+            
+            // Generate answer with context
+            string answer = await GenerateAnswer(userMessage.Content, history, thread.Name);
+            if (string.IsNullOrWhiteSpace(answer)) return;
 
-        // Generate Answer
-        string answer = await GenerateAnswer(userMessage.Content);
-        if (string.IsNullOrWhiteSpace(answer)) {
-             _log.Error("AI failed to generate an answer.");
-             return;
-        }
+            var embed = new EmbedBuilder()
+                .WithDescription(answer)
+                .WithFooter(new EmbedFooterBuilder {
+                    Text = "Resposta por IA experimental",
+                    IconUrl = "https://raw.githubusercontent.com/EnigmaticComma/enigmaticcomma.github.io/refs/heads/main/favicon-32x32.png"
+                })
+                .WithColor(new Color(0x2c5d87));
 
-        var embed = new EmbedBuilder()
-            .WithDescription(answer)
-            .WithFooter(new EmbedFooterBuilder {
-                Text = "Resposta por IA experimental",
-                IconUrl = "https://raw.githubusercontent.com/EnigmaticComma/enigmaticcomma.github.io/refs/heads/main/favicon-32x32.png"
-            })
-            .WithColor(new Color(0x2c5d87));
-
-        if (thread != null) {
-             await thread.SendMessageAsync(string.Empty, false, embed.Build());
-        } else {
-             await userMessage.ReplyAsync(string.Empty, false, embed.Build());
+            await thread.SendMessageAsync(string.Empty, false, embed.Build());
         }
     }
 
@@ -172,12 +199,46 @@ public class AIAnswerService
         return title;
     }
 
-     private async Task<string> GenerateAnswer(string userMessage)
+    private async Task<string> GenerateAnswer(string userMessage, IEnumerable<IMessage>? context, string? threadTitle)
     {
-        var messages = new[] {
-            new { role = "system", content = _instructions + "\n\nIMPORTANTE: Responda a dúvida do usuário com base APENAS nas informações acima. Seja direto e prestativo. Não comece com 'Olá' nem termine com 'Atenciosamente', apenas dê a informação. Se a informação não estiver no texto, diga que não sabe e sugere falar com um organizador." },
-            new { role = "user", content = userMessage }
-        };
-        return await CallAI(messages, 0.7);
+        var messages = new List<object>();
+        string systemPrompt = _instructions + "\n\nIMPORTANTE: Responda a dúvida do usuário com base APENAS nas informações acima. Seja direto e prestativo. Não comece com 'Olá' nem termine com 'Atenciosamente', apenas dê a informação. Se a informação não estiver no texto, diga que não sabe e sugere falar com um organizador. Se for uma continuação de conversa, mantenha o contexto.";
+        
+        if (!string.IsNullOrEmpty(threadTitle))
+        {
+            systemPrompt += $"\nO tópico desta conversa (título da thread) é: '{threadTitle}'.";
+        }
+
+        messages.Add(new { role = "system", content = systemPrompt });
+
+        if (context != null)
+        {
+            // Discord provides messages from newest to oldest. We need them chronological.
+            var sortedContext = context.OrderBy(m => m.Timestamp);
+            foreach (var msg in sortedContext)
+            {
+                // Ignore the current message as it will be added at the end
+                if (msg.Content == userMessage) continue;
+
+                string role = msg.Author.IsBot ? "assistant" : "user";
+                string content = msg.Content;
+
+                // Handle bot messages that might be embeds (our answers)
+                if (msg.Author.IsBot && string.IsNullOrWhiteSpace(content) && msg.Embeds.Count > 0)
+                {
+                    content = msg.Embeds.First().Description;
+                }
+
+                if (!string.IsNullOrWhiteSpace(content))
+                {
+                    messages.Add(new { role = role, content = content });
+                }
+            }
+        }
+
+        messages.Add(new { role = "user", content = userMessage });
+
+        return await CallAI(messages.ToArray(), 0.7);
     }
 }
+
