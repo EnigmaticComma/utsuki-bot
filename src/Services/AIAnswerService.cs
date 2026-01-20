@@ -108,6 +108,11 @@ public class AIAnswerService
         var request = new HttpRequestMessage(HttpMethod.Post, requestUrl);
         request.Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
 
+        var token = _config["AI_TOKEN"];
+        if(!string.IsNullOrEmpty(token)) {
+            request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+        }
+
         try {
              var response = await _httpClient.SendAsync(request);
              if(!response.IsSuccessStatusCode) {
