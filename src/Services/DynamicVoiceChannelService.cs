@@ -1,9 +1,12 @@
-using System.Text.Json;
 using App.Attributes;
-using UtsukiBot.Extensions;
+
 using Discord;
 using Discord.Rest;
 using Discord.WebSocket;
+
+using System.Text.Json;
+
+using UtsukiBot.Extensions;
 
 namespace App.Services;
 
@@ -14,14 +17,12 @@ public class DynamicVoiceChannelService
     ulong _mainVoiceChannelId = 822721840404889620;
     SocketVoiceChannel _mainVoiceChannel;
 
-    readonly DbService _db;
     readonly DiscordSocketClient _discord;
     readonly LoggingService _log;
 
-    public DynamicVoiceChannelService(DiscordSocketClient discord, DbService db, LoggingService log)
+    public DynamicVoiceChannelService(DiscordSocketClient discord, LoggingService log)
     {
         _log = log;
-        _db = db;
         _discord = discord;
         _discord.UserVoiceStateUpdated += OnUserVoiceStateUpdated;
     }

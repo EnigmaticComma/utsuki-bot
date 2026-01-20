@@ -130,5 +130,70 @@ public class GGJModule(GGJService _ggjService, LoggingService _log) : Interactio
     }
 
 
+
+    [SlashCommand("deleteallteams", "Delete all teams")]
+    [RequireBotPermission(GuildPermission.ManageChannels)]
+    [RequireUserPermission(GuildPermission.Administrator)]
+    public async Task DeleteAllTeams()
+    {
+        await RespondAsync("Deleting all teams...", ephemeral: true);
+        var guild = Context.Guild;
+        var categories = guild.CategoryChannels;
+        var teamCategories = categories.Where(c => char.IsDigit(c.Name[0])).ToList();
+
+        _log.Info($"Found {teamCategories.Count} team categories to delete.");
+
+        foreach (var category in teamCategories)
+        {
+            try 
+            {
+                _log.Info($"Deleting team category: {category.Name}");
+                
+                // Delete channels inside the category
+                var channels = guild.Channels.Where(c => c is INestedChannel nested && nested.CategoryId == category.Id).ToList();
+
+                var textChannels = channels.OfType<SocketTextChannel>().ToList();
+                var voiceChannels = channels.OfType<SocketVoiceChannel>().ToList();
+                var deletedIds = new HashSet<ulong>();
+
+                foreach (var channel in textChannels)
+                {
+                    if (deletedIds.Contains(channel.Id)) continue;
+                    try {
+                        _log.Info($"Deleting text channel: {channel.Name} ({channel.Id})");
+                        await channel.DeleteAsync();
+                        deletedIds.Add(channel.Id);
+                    } catch (Exception ex) {
+                         _log.Error($"Failed to delete text channel {channel.Name}: {ex.Message}");
+                    }
+                }
+
+                foreach (var channel in voiceChannels)
+                {
+                    if (deletedIds.Contains(channel.Id)) continue;
+                    try {
+                        _log.Info($"Deleting voice channel: {channel.Name} ({channel.Id})");
+                        await channel.DeleteAsync();
+                        deletedIds.Add(channel.Id);
+                    } catch (Exception ex) {
+                         // Ignore 10003 (Unknown Channel) as it likely means it was already deleted or doesn't exist
+                         if (ex is Discord.Net.HttpException httpEx && httpEx.DiscordCode == DiscordErrorCode.UnknownChannel) {
+                             _log.Info($"Channel {channel.Name} already deleted (Unknown Channel).");
+                         } else {
+                             _log.Error($"Failed to delete voice channel {channel.Name}: {ex.Message}");
+                         }
+                    }
+                }
+
+                await category.DeleteAsync();
+            }
+            catch (Exception ex)
+            {
+                _log.Error($"Failed to delete category {category.Name}: {ex}");
+            }
+        }
+
+        await ModifyOriginalResponseAsync(m => m.Content = $"Deleted {teamCategories.Count} teams.");
+    }
 }
 

@@ -4,7 +4,6 @@ services:
     container_name: utsuki-bot-net
     restart: always
     environment:
-      DB_PASSWORD: ${DB_PASSWORD}
       DISCORD_TOKEN_UTSUKI: ${DISCORD_TOKEN_UTSUKI}
       AI_ENDPOINT: ${AI_ENDPOINT}
       API_KEY_WEATHER: ${API_KEY_WEATHER}

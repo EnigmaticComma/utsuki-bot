@@ -1,13 +1,9 @@
 namespace App.Models;
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-[Table("GuildSettings")]
+
 public class GuildSettings {
 
-	[Key]
-	[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 	public int Id { get; set; }
 
 	/// <summary>
