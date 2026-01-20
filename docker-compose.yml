@@ -6,4 +6,5 @@ services:
     environment:
       DISCORD_TOKEN_UTSUKI: ${DISCORD_TOKEN_UTSUKI}
       AI_ENDPOINT: ${AI_ENDPOINT}
+      AI_TOKEN: ${AI_TOKEN}
       API_KEY_WEATHER: ${API_KEY_WEATHER}
