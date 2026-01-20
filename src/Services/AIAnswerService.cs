@@ -13,8 +13,11 @@ public class AIAnswerService
 {
     readonly LoggingService _log;
     readonly IConfigurationRoot _config;
-    string _instructions;
+    string _instructions = string.Empty;
+    DateTime _lastInstructionsUpdate = DateTime.MinValue;
     HttpClient _httpClient;
+
+    const string InstructionsUrl = "https://raw.githubusercontent.com/EnigmaticComma/utsuki-bot/master/resources/ggj_instructions.txt";
 
     public AIAnswerService(DiscordSocketClient discord, LoggingService loggingService, IConfigurationRoot config)
     {
@@ -22,15 +25,55 @@ public class AIAnswerService
         _config = config;
         _httpClient = new HttpClient();
         discord.MessageReceived += OnMessageReceived;
-        try {
-            string filePath = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
-            using var r = new StreamReader(filePath + "/resources/ggj_instructions.txt");
-            _instructions = r.ReadToEnd();
-        }
-        catch (Exception e) {
-            _log.Error(e.Message);
-        }
         Console.WriteLine("AIAnswerService init!");
+    }
+
+    private async Task<string> GetInstructionsAsync()
+    {
+        if (DateTime.UtcNow - _lastInstructionsUpdate < TimeSpan.FromHours(1) && !string.IsNullOrEmpty(_instructions))
+        {
+            return _instructions;
+        }
+
+        try
+        {
+            _log.Info("Fetching instructions from GitHub...");
+            var response = await _httpClient.GetAsync(InstructionsUrl);
+            if (response.IsSuccessStatusCode)
+            {
+                _instructions = await response.Content.ReadAsStringAsync();
+                _lastInstructionsUpdate = DateTime.UtcNow;
+                _log.Info("Instructions updated from GitHub.");
+                return _instructions;
+            }
+            _log.Warning($"Failed to fetch instructions from GitHub: {response.StatusCode}. Falling back to local file.");
+        }
+        catch (Exception ex)
+        {
+            _log.Error($"Exception while fetching remote instructions: {ex.Message}. Falling back to local file.");
+        }
+
+        // Fallback to local file
+        try
+        {
+            string filePath = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory) + "/resources/ggj_instructions.txt";
+            if (File.Exists(filePath))
+            {
+                _instructions = await File.ReadAllTextAsync(filePath);
+                _lastInstructionsUpdate = DateTime.UtcNow; // Still count as an update to avoid spamming the remote if it's down
+                _log.Info("Instructions loaded from local fallback.");
+            }
+            else
+            {
+                _log.Error("Local instructions file not found for fallback!");
+            }
+        }
+        catch (Exception e)
+        {
+            _log.Error($"Failed to load local instructions fallback: {e.Message}");
+        }
+
+        return _instructions;
     }
 
     async Task OnMessageReceived(SocketMessage socketMessage)
@@ -201,8 +244,9 @@ public class AIAnswerService
 
     private async Task<string> GenerateAnswer(string userMessage, IEnumerable<IMessage>? context, string? threadTitle)
     {
+        var instructions = await GetInstructionsAsync();
         var messages = new List<object>();
-        string systemPrompt = _instructions + "\n\nIMPORTANTE: Responda a dúvida do usuário com base APENAS nas informações acima. Seja direto e prestativo. Não comece com 'Olá' nem termine com 'Atenciosamente', apenas dê a informação. Se a informação não estiver no texto, diga que não sabe e sugere falar com um organizador. Se for uma continuação de conversa, mantenha o contexto.";
+        string systemPrompt = instructions + "\n\nIMPORTANTE: Responda a dúvida do usuário com base APENAS nas informações acima. Seja direto e prestativo. Não comece com 'Olá' nem termine com 'Atenciosamente', apenas dê a informação. Se a informação não estiver no texto, diga que não sabe e sugere falar com um organizador. Se for uma continuação de conversa, mantenha o contexto.";
         
         if (!string.IsNullOrEmpty(threadTitle))
         {

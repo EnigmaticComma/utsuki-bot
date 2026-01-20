@@ -22,6 +22,11 @@ public class GuildSettings {
 	public ulong? AttachmentsBackupChannelId { get; set; }
 
 	/// <summary>
+	/// The voice channel ID that will trigger the creation of dynamic voice channels.
+	/// </summary>
+	public ulong? DynamicVoiceSourceId { get; set; }
+
+	/// <summary>
 	/// Array of dynamic renamed voice channels.
 	/// </summary>
 	public string? DynamicVoiceChannels { get; private set; }

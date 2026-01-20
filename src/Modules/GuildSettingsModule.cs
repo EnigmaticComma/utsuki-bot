@@ -62,6 +62,34 @@ namespace App.Modules {
 		}
 
 		#endregion <<---------- User Leave and Join ---------->>
+		
+		#region <<---------- Dynamic Voice ---------->>
+
+		[Command("setvoicehub")]
+		[Alias("svh")]
+		[Summary("Set the voice channel that triggers dynamic channel creation.")]
+		[RequireUserPermission(GuildPermission.Administrator)]
+		public async Task SetVoiceHub(SocketVoiceChannel voiceChannel) {
+			var path = $"{GuildSettingsService.PATH_PREFIX}{Context.Guild.Id}";
+			var guildSettings = JsonCache.LoadFromJson<GuildSettings>(path) ?? new GuildSettings();
+
+			guildSettings.DynamicVoiceSourceId = voiceChannel?.Id;
+			JsonCache.SaveToJson(path, guildSettings);
+
+			var embed = new EmbedBuilder();
+			if (voiceChannel != null) {
+				embed.Title = $"Dynamic Voice Hub set to";
+				embed.Description = voiceChannel.Name;
+			}
+			else {
+				embed.Title = $"Disabled Dynamic Voice Hub";
+			}
+			
+			embed.Color = Color.Green;
+			await ReplyAsync("", false, embed.Build());
+		}
+
+		#endregion <<---------- Dynamic Voice ---------->>
 
 		
 		
