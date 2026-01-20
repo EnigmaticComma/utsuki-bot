@@ -1,34 +1,41 @@
 ﻿# Instruções gerais do evento:
 
-• O evento é presencial na PUCPR.
+• O evento é presencial na PUCPR (Centro de Realidade Estendida - Bloco 1 Amarelo).
 • Portões fecham as 23h e abrem as 06:40h
 • O link do convite para o servidor do Discord é: https://discord.gg/BNnhK7r7d4
-• A confirmação de sua inscrição é PRESENCIAL e exclusiva aos inscritos no Eventum (https://eventum.pucpr.br/ggjcwb26) e acontece a partir das 16h de sexta (24/1/25)!
-Você PRECISA estar inscrito no eventum para poder participar da jam!
+• A confirmação de sua inscrição é PRESENCIAL e exclusiva aos inscritos no Eventum (https://eventum.pucpr.br/ggjcwb26) e acontece a partir das 16h de sexta (30/1/26)!
+• Você PRECISA estar inscrito no eventum para poder participar da jam!
 • Nosso principal canal de comunicação durante a jam será o Discord, mas também vou enviar essa mensagem via email aos inscritos no Eventum (https://eventum.pucpr.br/ggjcwb26).
-• Insistimos que é essencial que TODOS os participantes estejam inscritos no Eventum (https://eventum.pucpr.br/ggjcwb26) para poder acessar com segurança o ambiente da jam! Mas não deixe de divulgar também que no DOMINGO (26/1), das 15h às 18h  temos a nossa Play Party, ou seja, a exposição e jogatina dos jogos que foram desenvolvidos. Esse é o único momento aberto ao público que NÃO precisa se inscrever no evento, agradecemos se puder divulgá-lo! Coloquei arte em anexo!
-• Além do TEMA, que reforçaremos no início do evento, também temos ⁠🎲diversificadores ! São desafios adicionais e opcionais! Acabamos de publicar os diversificadores de nossos parceiros locais do evento. Estão descritos em canais próprios ( ⁠🔋🍕-diver-4d , ⁠🔋💬-diver-idiomas , ⁠🔋✈-diver-internacional , ⁠🔋🗯-diver-riachuelo  e ⁠🔋🎮-diver-lupi ) e são uma EXCELENTE oportunidade para estimular sua criatividade e abrir novas possibilidades de desenvolvimento dos jogos e mesmo de sua exposição posterior!
+• Insistimos que é essencial que TODOS os participantes estejam inscritos no Eventum (https://eventum.pucpr.br/ggjcwb26) para poder acessar com segurança o ambiente da jam!
+• Mas não deixe de divulgar também que no DOMINGO (01/2), das 15h às 18h temos a nossa Play Party, ou seja, a exposição e jogatina dos jogos que foram desenvolvidos.
+• Esse é o único momento aberto ao público que NÃO precisa se inscrever no evento, agradecemos se puder divulgá-lo!
+• Além do TEMA, que reforçaremos no início do evento, também temos ⁠🎲diversificadores !
+• São desafios adicionais e opcionais! Acabamos de publicar os diversificadores de nossos parceiros locais do evento.
+• Estão descritos em canais próprios ( ⁠🔋🍕-diver-4d , ⁠🔋💬-diver-idiomas , ⁠🔋✈-diver-internacional , ⁠🔋🗯-diver-riachuelo  e ⁠🔋🎮-diver-lupi ) e são uma EXCELENTE oportunidade para estimular sua criatividade e abrir novas possibilidades de desenvolvimento dos jogos e mesmo de sua exposição posterior!
 • o banho será Sábado das 9h às 18h e Domingo das 9h às 17h no ginásio, do lado da cantina.
 • Os diversificadores são desafios ADICIONAIS e OPCIONAIS ao tema da jam.
 • Você pode escolher até 4 para implementar em seu jogo!
 • Os diversificadores sempre são um estímulo à criatividade, uma maneira de limitar o seu escopo e refinar suas ideias!!
 • Lembramos que por serem OPCIONAIS, são mais adequados para equipes já experientes.
 • A lista dos diversificadores MUNDIAIS está disponível abaixo e também nos links: https://globalgamejam.org/global-game-jam-2026-diversifiers-have-arrived com a tradução para português em: https://v3.globalgamejam.org/pt-br/news/global-game-jam-2026-diversifiers-have-arrived
-• Até 23h de 24/1 (sexta) - Enviar uma foto de sua equipe em nosso fotopoint. Não esqueça de indicar qual é o seu canal de equipe e também deixar fixo lá. Aproveite e coloque o nome de cada um.
-• Até 20h de 25/1 (Sábado): Enviar vídeo de 2 a 3 minutos sobre a equipe desenvolvedora e qual é a ideia básica do jogo. Marcar também o canal da equipe. Enviar também no canal da equipe e deixar FIXO lá.
-• Até 14h de 26/1 (Domingo) - Enviar vídeo de gameplay (jogo rodando) aqui. Também envie no seu canal e deixe fixo lá.
+• Até 23h de 30/1 (sexta) - Enviar uma foto de sua equipe em nosso fotopoint.
+• Não esqueça de indicar qual é o seu canal de equipe e também deixar fixo lá.
+• Aproveite e coloque o nome de cada um.
+• Até 20h de 31/1 (Sábado): Enviar vídeo de 2 a 3 minutos sobre a equipe desenvolvedora e qual é a ideia básica do jogo.
+• Marcar também o canal da equipe. Enviar também no canal da equipe e deixar FIXO lá.
+• Até 14h de 01/2 (Domingo) - Enviar vídeo de gameplay (jogo rodando) aqui.
+• Também envie no seu canal e deixe fixo lá.
 • A qualquer momento da jam, envie screenshots (telas, concepts, etc) e protótipos do seu jogo quando quiser compartilhar com os demais.
-• Até 15h de 26/1 (Domingo) - Coloque o link de seu jogo no site da Global Game Jam (https://globalgamejam.org/). Coloque o link também fixo em seu canal.
+• Até 15h de 01/2 (Domingo) - Coloque o link de seu jogo no site da Global Game Jam (https://globalgamejam.org/).
+• Coloque o link também fixo em seu canal.
 • Instruções de como enviar o jogo estão nesse link: https://drive.google.com/file/d/11UIMJWqfQsGpsFzuCiYlGciBT064O966/view
 
 # Segurança do evento
 Essencial atenção à segurança!
-• Entrada preferencial para carros pelo portão que fica ao lado do
-ginásio de esportes (Portão 1) e pedestres pelo Portal;
+• Entrada preferencial para carros pelo portão que fica ao lado do ginásio de esportes (Portão 1) e pedestres pelo Portal;
 • Temos hall, salas, laboratório aberto e o Centro de XR;
 • Proibido: bebida alcoólica, etc;
-• Evitar circular pela PUCPR e sair depois das 23h. Fumantes fiquem
-próximos ao bloco;
+• Evitar circular pela PUCPR e sair depois das 23h. Fumantes fiquem próximos ao bloco;
 • Circulação à noite para Espaço Rangô (micro-ondas) com cuidado!
 • Não é permitido dormir no carro;
 • PUCPR fecha 23h e abre 6h40.
@@ -48,15 +55,17 @@ próximos ao bloco;
 Deixe perto do bloco!
 • Prefira estacionar PRÓXIMO ao Bloco Amarelo (1);
 • Estacionamento terceirizado – empresa Auto Park;
-• Para os participantes que permanecerão no campus, a tarifa será de R$ 18,00 o período. Considerando os 3 dias, R$ 54,00. Durante esse período, caso seja necessário sair da Universidade com o carro, será cobrada uma nova tarifa;
+• Para os participantes que permanecerão no campus, a tarifa será de R$ 18,00 o período.
+• Considerando os 3 dias, R$ 54,00. Durante esse período, caso seja necessário sair da Universidade com o carro, será cobrada uma nova tarifa;
 • Alunos pagam a taxa correspondente ao aluno;
 • Para validação do pagamento, o caixa fica aberto até as 22:00 no Ginásio
 
 # Alimentação
 • Aproveite para se alimentar bem durante o fim de semana!
-• Café da manhã reforçado: Sábado 8h - 9h e Domingo (Universiteit Utrecht) 8h – 9h;
+• Café da manhã reforçado: Sábado 8h - 9h e Domingo 8h – 9h;
 • Energético ZTX: no credenciamento;
-• Pizza 4d: Distribuição no Sábado das 20h às 21h no 2º andar do Amarelo, pegue o voucher ANTES da ação durante o credenciamento e no sábado 14h às 18h. Essencial o voucher para participar da ação;
+• Pizza 4d: Distribuição no Sábado das 20h às 21h no 2º andar do Amarelo, pegue o voucher ANTES da ação durante o credenciamento e no sábado 14h às 18h.
+• Essencial o voucher para participar da ação;
 • Prestigiem as cantinas abertas: Angra (bloco azul), Oliveiras, Carrinho Ultra, Oz Café;
 • Café ao longo do dia feito pelo staff no hall do 2º andar.
 • Caso peça delivery, peça BEM CEDO;
@@ -98,7 +107,8 @@ Deixe perto do bloco!
 • Também temos segurança no próprio bloco 24 horas;
 • Emergência médica / Plus Santé: acionar primeiro segurança / staff;
 • Ambulatório até 23h da sexta;
-• Contatos prof. Bruno: @bcp no Discord ou 3271-2454 (WhatsApp)
+• Contatos prof.
+• Bruno: @bcp no Discord ou 3271-2454 (WhatsApp)
 
 # Locais de trabalho e descanso
 • Temos salas separadas para DESCANSO: A22, A24, A25, A26, A28 e A29 no primeiro andar do bloco;
@@ -117,23 +127,26 @@ Deixe perto do bloco!
 
 # Segue abaixo a programação do evento:
 
-## Sexta - 24/1
+## Sexta - 30/1
 • 16h – início do credenciamento no último andar do Bloco Amarelo;
 • 17h às 19h – Concentração e abertura oficial do evento no TUCA (térreo do Bloco Azul) a partir das 18h;
 • 19h – Dinâmica de formação de equipes e discussão do tema;
 • Até 23h  - Envio de foto da equipe no canal da equipe no Discord E em ⁠📸-foto-da-equipe  Deixe FIXO no seu canal;
 • 23h – Fechamento do Portão da PUCPR, não é possível sair ou entrar, inclusive delivery.
 
-## Sábado - 25/1
+## Sábado - 31/1
 • 6:40 – Abertura do Portão 1 da PUCPR;
-• 15h – Prazo para cadastrar seu projeto de jogo e maior parte dos integrantes no site da Global Game Jam. O nome e integrantes pode mudar depois.
-• 20h – Vídeo de 2 a 3 minutos sobre a equipe desenvolvedora e qual é a ideia básica do jogo. Enviar no canal da equipe em ⁠🎥-video-sobre-equipe-e-jogo . Deixe FIXO no seu canal.
+• 15h – Prazo para cadastrar seu projeto de jogo e maior parte dos integrantes no site da Global Game Jam.
+• O nome e integrantes pode mudar depois.
+• 20h – Vídeo de 2 a 3 minutos sobre a equipe desenvolvedora e qual é a ideia básica do jogo.
+• Enviar no canal da equipe em ⁠🎥-video-sobre-equipe-e-jogo . Deixe FIXO no seu canal.
 • 23h – Fechamento do Portão da PUCPR, não é possível sair ou entrar, inclusive delivery.
 
-## Domingo - 26/1
+## Domingo - 01/2
 • 6:40 – Abertura do Portão 1 da PUCPR;
 • 14h – Prazo para cadastrar nome definitivo do jogo e enviar vídeo de gameplay (jogo rodando) no canal do jogo e em  ⁠🎮-video-de-gameplay ;
 • 15h – Fim do desenvolvimento do jogo! Enviar para o site da jam e coloque o link final em ⁠🌎-links-jogo-final , deixando fixo;
-• 15h às 18h – Play Party, jogatina geral dos jogos produzidos no Térreo do Bloco Amarelo. Vote até as 18h usando o link em sua credencial.
+• 15h às 18h – Play Party, jogatina geral dos jogos produzidos no Térreo do Bloco Amarelo.
+• Vote até as 18h usando o link em sua credencial.
 • 18h – Resultados da jam, jogos mais votados, sorteio de brindes, encerramento;
 • 19h – 20h – Organização das salas, precisamos de ajuda.
