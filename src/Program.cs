@@ -31,6 +31,10 @@ internal static class Program {
         if (string.IsNullOrWhiteSpace(discordToken))
             throw new Exception("Bot cannot be started without the bot's token into enviroment variable.");
 
+        var aiToken = Configuration["AI_TOKEN"];
+        if (string.IsNullOrWhiteSpace(aiToken))
+            throw new Exception("Bot cannot be started without the AI token into enviroment variable.");
+
         var builder = Host.CreateApplicationBuilder(args);
         ConfigureServices(builder.Services);
         var host = builder.Build();
