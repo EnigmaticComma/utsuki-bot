@@ -1,32 +1,32 @@
-﻿using Discord.Commands;
+﻿using Discord.Interactions;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace App.Modules
 {
-    [Name("Math")]
-    [Summary("Do some math I guess")]
-    public class MathModule : ModuleBase<SocketCommandContext>
+    public class MathModule : InteractionModuleBase<SocketInteractionContext>
     {
-        [Command("isinteger")]
-        [Summary("Check if the input text is a whole number.")]
+        [SlashCommand("isinteger", "Check if the input text is a whole number.")]
         public Task IsInteger(int number)
-            => ReplyAsync($"The text {number} is a number!");
+            => RespondAsync($"The text {number} is a number!");
         
-        [Command("multiply")]
-        [Summary("Get the product of two numbers.")]
-        public async Task Say(int a, int b)
+        [SlashCommand("multiply", "Get the product of two numbers.")]
+        public async Task Multiply(int a, int b)
         {
             int product = a * b;
-            await ReplyAsync($"The product of `{a} * {b}` is `{product}`.");
+            await RespondAsync($"The product of `{a} * {b}` is `{product}`.");
         }
 
-        [Command("addmany")]
-        [Summary("Get the sum of many numbers")]
-        public async Task Say(params int[] numbers)
+        [SlashCommand("addmany", "Get the sum of many numbers (space separated)")]
+        public async Task AddMany(string numbersString)
         {
+            var numbers = numbersString.Split(' ').Select(s => int.TryParse(s, out var n) ? n : (int?)null).Where(n => n.HasValue).Select(n => n!.Value).ToArray();
+            if (numbers.Length == 0) {
+                await RespondAsync("Nenhum número válido fornecido.", ephemeral: true);
+                return;
+            }
             int sum = numbers.Sum();
-            await ReplyAsync($"The sum of `{string.Join(", ", numbers)}` is `{sum}`.");
+            await RespondAsync($"The sum of `{string.Join(", ", numbers)}` is `{sum}`.");
         }
     }
 }

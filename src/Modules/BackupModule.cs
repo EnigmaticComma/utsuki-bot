@@ -5,31 +5,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Discord;
-using Discord.Commands;
+using Discord.Interactions;
 using Discord.Rest;
 using Discord.WebSocket;
 using App.Extensions;
+using App.Services;
 
 namespace App.Modules {
-    [Name("Backup")]
-    [RequireContext(ContextType.Guild)]
-	public class BackupModule(BackupService _service) : ModuleBase<SocketCommandContext>
+	public class BackupModule(BackupService _service) : InteractionModuleBase<SocketInteractionContext>
 	{
-		[Command("backupchannel")]
-        [Summary("Backups a channel messages and media")]
+		[SlashCommand("backupchannel", "Backups a channel messages and media")]
         [RequireBotPermission(GuildPermission.ReadMessageHistory)]
         [RequireBotPermission(GuildPermission.ViewChannel)]
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task BackupChannel(int messagesLimit = 100) {
 			if (messagesLimit <= 0) return;
-			if (Context.Channel is not SocketTextChannel textChannel) return;
+			if (Context.Channel is not SocketTextChannel textChannel) {
+                await RespondAsync("Este comando só pode ser usado em canais de texto.", ephemeral: true);
+                return;
+            }
 
-			var reply = await Context.Message.ReplyAsync("Starting backup\nReading messages...");
+			await RespondAsync("Starting backup\nReading messages...");
+            var firstResponse = await GetOriginalResponseAsync();
+
 			var allAttachments = new List<Attachment>();
-
 			var sb = new StringBuilder();
 
-			var allMsgs = await textChannel.GetMessagesAsync(messagesLimit).FlattenAsync();
+			var messagesRaw = await textChannel.GetMessagesAsync(messagesLimit).FlattenAsync();
+            var allMsgs = messagesRaw.ToList();
+
 			foreach (var message in allMsgs) {
 				if (message is not RestUserMessage userMessage || message.Author.IsBot) continue;
 
@@ -62,9 +66,9 @@ namespace App.Modules {
 				sb.AppendLine();
 			}
 				
-			await reply.ModifyAsync(p => p.Content = $"{reply.Content}\nSaving {allMsgs.Count()} messages to disk...");
+			await ModifyOriginalResponseAsync(p => p.Content = $"{firstResponse.Content}\nSaving {allMsgs.Count} messages to disk...");
 
-			var dir = $"Backups/{Context.Channel.Id.ToString()}";
+			var dir = Path.Combine("Backups", Context.Channel.Id.ToString());
 
 			try {
 				Directory.CreateDirectory(dir);
@@ -75,11 +79,11 @@ namespace App.Modules {
 			}
 			
 			if (allAttachments.Count > 0) {
-				await reply.ModifyAsync(p => p.Content = $"{reply.Content}\nDownloading {allAttachments.Count} attachments...");
+				await ModifyOriginalResponseAsync(p => p.Content = $"{firstResponse.Content}\nDownloading {allAttachments.Count} attachments...");
 
 				var backupPaths = await _service.BackupAttachments(allAttachments);
 				if (backupPaths.Length > 0) {
-					await reply.ModifyAsync(p => p.Content = $"{reply.Content}\nMoving {backupPaths.Length} files to folder...");
+					await ModifyOriginalResponseAsync(p => p.Content = $"{firstResponse.Content}\nMoving {backupPaths.Length} files to folder...");
 
 					foreach (var backupPath in backupPaths) {
 						var nameSeparated = backupPath.Replace(BackupService.TempDirPrefix, string.Empty);
@@ -93,8 +97,7 @@ namespace App.Modules {
 				}
 			}
 			
-			await reply.ModifyAsync(p=>p.Content = $"{reply.Content}\nDone ✔");
+			await ModifyOriginalResponseAsync(p=>p.Content = $"{firstResponse.Content}\nDone ✔");
 		}
-		
 	}
 }

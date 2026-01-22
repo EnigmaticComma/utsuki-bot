@@ -44,14 +44,18 @@ namespace App.Modules {
             if (newName.Length <= 0) return;
             if (!(Context.User is SocketGuildUser user)) return;
             var vc = user.VoiceChannel;
-            if (vc == null) return;
+            if (vc == null) {
+                await RespondAsync("Você não está em um canal de voz.", ephemeral: true);
+                return;
+            }
             await vc.ModifyAsync(p => p.Name = newName);
+            await RespondAsync($"Canal de voz renomeado para: {newName}");
         }
 
         [SlashCommand("randomimg", "Get random image from picsum")]
         public async Task GetRandomImg(int desiredResolution)
         {
-            await RespondAsync("Getting random image");
+            await DeferAsync();
             var client = new RestClient();
             var timeline = await client.ExecuteAsync(new RestRequest($"https://picsum.photos/{desiredResolution}", Method.Get));
 
@@ -61,7 +65,7 @@ namespace App.Modules {
                 ThumbnailUrl = timeline.ResponseUri.OriginalString
             };
 
-            await RespondAsync("",[embed.Build()]);
+            await FollowupAsync(embed: embed.Build());
         }
 
         [SlashCommand("deletelastmessages", "Delete a number of messages in current channel")]
@@ -69,6 +73,7 @@ namespace App.Modules {
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
         public async Task DeleteLastMessages(int limit) {
+            await RespondAsync($"Deletando as últimas {limit} mensagens...", ephemeral: true);
             await _moderatorService.DeleteLastMessages(Context, limit);
         }
 
@@ -79,11 +84,11 @@ namespace App.Modules {
         public async Task GetTextChannelInfo(ulong channelId) {
             var channel = Context.Guild.GetChannel(channelId);
             if (channel == null) {
-                await ReplyAsync("nao achei canal com esse id");
+                await RespondAsync("nao achei canal com esse id", ephemeral: true);
                 return;
             }
 
-            await ReplyAsync($"nome do canal: {channel.Name}");
+            await RespondAsync($"nome do canal: {channel.Name}");
 
         }
 

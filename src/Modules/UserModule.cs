@@ -2,16 +2,16 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 using Discord;
-using Discord.Commands;
+using Discord.Interactions;
 using Discord.WebSocket;
 using App.Extensions;
 
 namespace App.Modules {
-	public class UserModule : ModuleBase<SocketCommandContext> {
+	public class UserModule : InteractionModuleBase<SocketInteractionContext> {
 
-		[Command("profilepicture"), Alias("pp")]
-		[Summary("Get user profile picture")]
-		public async Task GetUserProfilePicture(SocketGuildUser user = null) {
+		[SlashCommand("profilepicture", "Get user profile picture")]
+		public async Task GetUserProfilePicture(SocketGuildUser? user = null) {
+			user ??= (SocketGuildUser)Context.User;
 			var userAvatarUrl = user.GetAvatarUrlSafe();
 			
 			var uri = new Uri(userAvatarUrl);
@@ -21,13 +21,11 @@ namespace App.Modules {
 			embed.Title = $"Foto de perfil de {user.GetNameSafe()}";
 			embed.ImageUrl = urlString;
 
-			await ReplyAsync("", false, embed.Build());
-			await Context.Message.DeleteAsync();
+			await RespondAsync(embed: embed.Build());
 		}
 
-		[Command("accounttime"), Alias("actime")]
-		[Summary("Get other user account creation time")]
-		public async Task GetUserAccountTime(SocketUser user = null) {
+		[SlashCommand("accounttime", "Get other user account creation time")]
+		public async Task GetUserAccountTime(SocketUser? user = null) {
 			user ??= Context.User;
 			
 			var now = DateTime.UtcNow;
@@ -40,9 +38,9 @@ namespace App.Modules {
 			var days = difference.TotalDays / 30.4;
 			
 			var sb = new StringBuilder();
-			if (years > 0) sb.Append($"{years:0} ano(s), ");
-			if (months > 0) sb.Append($"{months:0} mes(es), ");
-			if (days > 0) sb.Append($"{days:0} dias");
+			if (years >= 1) sb.Append($"{years:0} ano(s), ");
+			if (months >= 1) sb.Append($"{months:0} mes(es), ");
+			if (days >= 1) sb.Append($"{days:0} dias");
 			
 			var e = new EmbedBuilder {
 				Title = sb.ToString(),
@@ -50,7 +48,7 @@ namespace App.Modules {
 			};
 			e.ImageUrl = user.GetAvatarUrl() ?? user.GetDefaultAvatarUrl();
 
-			await ReplyAsync(Context.User.Mention, false, e.Build());
+			await RespondAsync(embed: e.Build());
 		}
 
 	}

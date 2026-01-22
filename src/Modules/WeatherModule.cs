@@ -1,106 +1,30 @@
-using System;
 using System.Globalization;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
 using App.Models;
 using Discord;
-using Discord.Commands;
-using Discord.Net;
+using Discord.Interactions;
 using Discord.WebSocket;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using App.Extensions;
 using App.Services;
-using RestSharp;
 
 namespace App.Modules {
-	public class WeatherModule : ModuleBase<SocketCommandContext> {
-		const string PATH = "WeatherInfo/";
+	public class WeatherModule : InteractionModuleBase<SocketInteractionContext> {
 		readonly WeatherService _service;
-		readonly DiscordSocketClient client;
-		readonly IConfigurationRoot _config;
-		readonly TimeSpan MAX_CACHE_AGE = TimeSpan.FromMinutes(30);
 
-		public WeatherModule(DiscordSocketClient client, IConfigurationRoot config, WeatherService service) {
+		public WeatherModule(WeatherService service) {
 			_service = service;
-			this.client = client;
-			_config = config;
-
-			client.Ready += Client_Ready;
-			client.SlashCommandExecuted += SlashCommandHandler;
 		}
 
-		async Task Client_Ready() {
-			var mainGuild = client.GetGuild(264800866169651203);
-
-			var command_clima = new SlashCommandBuilder {
-				Name = "clima",
-				Description = "Ver o clima de uma região",
-				IsDMEnabled = false,
-				IsNsfw = false
-			};
-
-			try {
-				await mainGuild.CreateApplicationCommandAsync(command_clima.Build());
-				await client.CreateGlobalApplicationCommandAsync(command_clima.Build());
-			}
-			catch(HttpException exception) {
-				// If our command was invalid, we should catch an ApplicationCommandException. This exception contains the path of the error as well as the error message. You can serialize the Error field in the exception to get a visual of where your error is.
-				var json = JsonConvert.SerializeObject(exception.Errors, Formatting.Indented);
-
-				// You can send this error somewhere or just print it to the console, for this example we're just going to print it.
-				Console.WriteLine(json);
-			}
-		}
-
-		async Task SlashCommandHandler(SocketSlashCommand command) {
-			switch (command.Data.Name) {
-				case "clima":
-					await ShowWeather(command.Data.Options.First().Value.ToString());
-					break;
-			}
-		}
-
-		public async Task ShowWeather(params string[] locationStrings) {
-			if (locationStrings.Length <= 0) return;
-			var location = locationStrings.CJoin();
+		[SlashCommand("clima", "Ver o clima de uma região")]
+		public async Task ShowWeather(string location) {
 			if (string.IsNullOrEmpty(location)) return;
-			location = ChatService.RemoveDiacritics(location.ToLower());
 
-			Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-
-			// check cache
-			var weatherJson = JsonCache.LoadFromJson<WeatherResponse>($"{PATH}{location}", MAX_CACHE_AGE);
+			var weatherJson = await _service.GetWeatherAsync(location);
 			if (weatherJson == null) {
-				
-				var locationEncoded = HttpUtility.UrlEncode(location);
-				var apiKey = _config["API_KEY_WEATHER"];
-				
-				// api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
-				var client = new RestClient();
-				var timeline = await client.ExecuteAsync(new RestRequest($"https://api.openweathermap.org/data/2.5/weather?q={locationEncoded}&appid={apiKey}", Method.Get));
-
-				if (!string.IsNullOrEmpty(timeline.ErrorMessage)) {
-					Console.WriteLine($"Error trying to get weather for '{locationEncoded}': {timeline.ErrorMessage}");
-					return;
-				}
-				if (string.IsNullOrEmpty(timeline.Content)) return;
-
-				weatherJson = JsonConvert.DeserializeObject<WeatherResponse>(timeline.Content, JsonCache.DefaultSerializer);
-				if (weatherJson == null || weatherJson.ErrorCode != 200) {
-					Console.WriteLine($"Error trying to parse weather json for {location}! timeline.Content:\n{timeline.Content}");
-					return;
-				}
-
-				weatherJson.CacheTime = (DateTime.UtcNow - TimeSpan.FromHours(3)).ToString("hh:mm:ss tt");
-				
-				JsonCache.SaveToJson($"{PATH}{location}", weatherJson);
+				await RespondAsync("Não consegui encontrar informações para essa localização.", ephemeral: true);
+				return;
 			}
 
 			var feelsLike = weatherJson.MainWeatherTemperature.FeelsLikeCelsius;
-			
 			var embed = new EmbedBuilder();
 
 			embed.Title = $"{feelsLike:0} °C";
@@ -116,109 +40,50 @@ namespace App.Modules {
 			try {
 				var iconCode = weatherJson.WeatherInfoModel[0].Icon;
 				embed.ThumbnailUrl = $"http://openweathermap.org/img/w/{iconCode}.png";
-
-			} catch (Exception e) {
-				Console.WriteLine($"Error trying to set icon from weather {location}:\n{e}");
-			}
+			} catch { /* ignore */ }
 			
-			// get humildade
+			// get humidity
 			try {
 				var value = weatherJson.MainWeatherTemperature.Humidity;
-				embed.AddField(
-					new EmbedFieldBuilder {
-						Name = $"{value}%",
-						Value = "Humildade",
-						IsInline = true
-					}
-				);
-			} catch (Exception e) {
-				Console.WriteLine($"Error trying to set humidity: {e}");
-			}
+				embed.AddField("Humildade", $"{value}%", true);
+			} catch { /* ignore */ }
 
 			// temperature
-			float temperature = 0;
 			try {
-				temperature = weatherJson.MainWeatherTemperature.TemperatureCelsius;
-				embed.AddField(
-					new EmbedFieldBuilder {
-						Name = $"{temperature:0} °C",
-						Value = "Temperatura",
-						IsInline = true
-					}
-				);
-			} catch (Exception e) {
-				Console.WriteLine($"Error trying to set sensation: {e}");
-			}
+				var temperature = weatherJson.MainWeatherTemperature.TemperatureCelsius;
+				embed.AddField("Temperatura", $"{temperature:0} °C", true);
+			} catch { /* ignore */ }
 			
 			// get wind
 			try {
 				var value = weatherJson.Wind.Speed * 3.6f; // mp/s to km/h
-				embed.AddField(
-					new EmbedFieldBuilder {
-						Name = $"{value:0} (km/h)",
-						Value = "Ventos",
-						IsInline = true
-					}
-				);
-			} catch (Exception e) {
-				Console.WriteLine($"Error trying to set wind: {e}");
-			}
+				embed.AddField("Ventos", $"{value:0} (km/h)", true);
+			} catch { /* ignore */ }
 
 			// get weather name
 			try {
 				var value = weatherJson.WeatherInfoModel[0].Main;
 				var description = weatherJson.WeatherInfoModel[0].Description;
-				embed.AddField(
-					new EmbedFieldBuilder {
-						Name = value,
-						Value = description,
-						IsInline = true
-					}
-				);
-			} catch (Exception e) {
-				Console.WriteLine($"Error trying to set weather name and description field: {e}");
-			}
+				embed.AddField(value, description, true);
+			} catch { /* ignore */ }
 			
-			await ReplyAsync(GetWeatherVerbalStatus((int)feelsLike), false, embed.Build());
+			await RespondAsync(GetWeatherVerbalStatus((int)feelsLike), embed: embed.Build());
 		}
 
 		string GetWeatherVerbalStatus(int celsiusTemp) {
-			if (celsiusTemp >= 45) {
-				return "+ quente q o cu do sabs kkk";
-			}
-			if (celsiusTemp >= 40) {
-				return "40 graus que tipo de Nordeste eh esse?";
-			}
-			if (celsiusTemp >= 35) {
-				return "ta quente pracaralho";
-			}
-			if (celsiusTemp >= 30) {
-				return "muito quente se eh loco";
-			}
-			if (celsiusTemp >= 23) {
-				return "quente";
-			}
-			if (celsiusTemp >= 20) {
-				return "maravilha";
-			}
-			if (celsiusTemp >= 15) {
-				return "friozin";
-			}
-			if (celsiusTemp >= 10) {
-				return "sul só pode";
-			}
-			if (celsiusTemp >= 5) {
-				return "friodaporra";
-			}
-			if (celsiusTemp >= -4) {
-				return "temperatura ideal de sulista";
-			}
-			if (celsiusTemp < -4) {
-				return "boa bot, ta mais frio q dentro de uma geladeira kkk";
-			}
+			if (celsiusTemp >= 45) return "+ quente q o cu do sabs kkk";
+			if (celsiusTemp >= 40) return "40 graus que tipo de Nordeste eh esse?";
+			if (celsiusTemp >= 35) return "ta quente pracaralho";
+			if (celsiusTemp >= 30) return "muito quente se eh loco";
+			if (celsiusTemp >= 23) return "quente";
+			if (celsiusTemp >= 20) return "maravilha";
+			if (celsiusTemp >= 15) return "friozin";
+			if (celsiusTemp >= 10) return "sul só pode";
+			if (celsiusTemp >= 5) return "friodaporra";
+			if (celsiusTemp >= -4) return "temperatura ideal de sulista";
+			if (celsiusTemp < -4) return "boa bot, ta mais frio q dentro de uma geladeira kkk";
 			
 			return string.Empty;
 		}
-		
 	}
 }

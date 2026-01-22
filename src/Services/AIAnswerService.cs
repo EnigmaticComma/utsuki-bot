@@ -1,10 +1,12 @@
 ﻿using System.Text;
 using System.Text.Json;
 using App.Attributes;
+using App.Models;
 using Discord;
 using Discord.WebSocket;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
+using System.Net.Http;
 
 namespace App.Services;
 
@@ -12,18 +14,18 @@ namespace App.Services;
 public class AIAnswerService
 {
     readonly LoggingService _log;
-    readonly IConfigurationRoot _config;
+    readonly BotSettings _settings;
+    readonly IHttpClientFactory _httpClientFactory;
     string _instructions = string.Empty;
     DateTime _lastInstructionsUpdate = DateTime.MinValue;
-    HttpClient _httpClient;
 
     const string InstructionsUrl = "https://raw.githubusercontent.com/EnigmaticComma/utsuki-bot/master/resources/ggj_instructions.txt";
 
-    public AIAnswerService(DiscordSocketClient discord, LoggingService loggingService, IConfigurationRoot config)
+    public AIAnswerService(DiscordSocketClient discord, LoggingService loggingService, IOptionsSnapshot<BotSettings> settings, IHttpClientFactory httpClientFactory)
     {
         _log = loggingService;
-        _config = config;
-        _httpClient = new HttpClient();
+        _settings = settings.Value;
+        _httpClientFactory = httpClientFactory;
         discord.MessageReceived += OnMessageReceived;
         Console.WriteLine("AIAnswerService init!");
     }
@@ -35,10 +37,11 @@ public class AIAnswerService
             return _instructions;
         }
 
+        var httpClient = _httpClientFactory.CreateClient();
         try
         {
             _log.Info("Fetching instructions from GitHub...");
-            var response = await _httpClient.GetAsync(InstructionsUrl);
+            var response = await httpClient.GetAsync(InstructionsUrl);
             if (response.IsSuccessStatusCode)
             {
                 _instructions = await response.Content.ReadAsStringAsync();
@@ -56,7 +59,7 @@ public class AIAnswerService
         // Fallback to local file
         try
         {
-            string filePath = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory) + "/resources/ggj_instructions.txt";
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "resources", "ggj_instructions.txt");
             if (File.Exists(filePath))
             {
                 _instructions = await File.ReadAllTextAsync(filePath);
@@ -65,7 +68,7 @@ public class AIAnswerService
             }
             else
             {
-                _log.Error("Local instructions file not found for fallback!");
+                _log.Error($"Local instructions file not found for fallback! Path: {filePath}");
             }
         }
         catch (Exception e)
@@ -82,7 +85,7 @@ public class AIAnswerService
         if(socketMessage is not SocketUserMessage userMessage) return;
         if(userMessage.Channel is not ITextChannel textChannel) return;
         if(userMessage.ReferencedMessage != null) return;
-        if(textChannel.Guild.Id != 1333473843674878015) return;
+        if(textChannel.Guild.Id != _settings.GgjGuildId) return;
         
         // Basic filter to avoid processing everything, but allow AI to decide relevance
         if(string.IsNullOrWhiteSpace(userMessage.Content) || userMessage.Content.Length < 3) return;
@@ -161,7 +164,7 @@ public class AIAnswerService
 
     private async Task<string> CallAI(object messagesPayload, double temperature = 0.7)
     {
-         var endpoint = _config["AI_ENDPOINT"];
+        var endpoint = _settings.AiEndpoint;
         if(string.IsNullOrEmpty(endpoint)) {
             _log.Error("No AI endpoint configured.");
             return null;
@@ -170,21 +173,22 @@ public class AIAnswerService
 
         var payload = new {
             stream = false,
-            model = _config["AI_MODEL"],
+            model = _settings.AiModel,
             temperature = temperature,
             messages = messagesPayload
         };
 
+        var httpClient = _httpClientFactory.CreateClient();
         var request = new HttpRequestMessage(HttpMethod.Post, requestUrl);
         request.Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
 
-        var token = _config["AI_TOKEN"];
+        var token = _settings.AiToken;
         if(!string.IsNullOrEmpty(token)) {
             request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
         }
 
         try {
-             var response = await _httpClient.SendAsync(request);
+             var response = await httpClient.SendAsync(request);
              if(!response.IsSuccessStatusCode) {
                  _log.Error($"AI Request failed: {response.StatusCode}");
                  return null;

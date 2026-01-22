@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using App.Extensions;
-using App.HungerGames;
+using App.Models;
 using Discord;
 using Discord.Commands;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +9,7 @@ using Discord.Interactions;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using RunMode = Discord.Commands.RunMode;
 
 namespace App;
@@ -17,30 +18,39 @@ internal static class Program {
 
     public static readonly Version VERSION = Assembly.GetExecutingAssembly().GetName().Version ?? new ("7.0.0");
 
-    static IConfigurationRoot Configuration;
+    static IConfigurationRoot Configuration = null!;
 
     public static async Task Main(string[] args)
     {
         Console.WriteLine($"Program Started, v{VERSION}");
         Configuration = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json")
+            .AddJsonFile("appsettings.json", optional: true)
             .AddEnvironmentVariables()
             .Build();
 
-        var discordToken = Configuration["DISCORD_TOKEN_UTSUKI"];
-        if (string.IsNullOrWhiteSpace(discordToken))
-            throw new Exception("Bot cannot be started without the bot's token into enviroment variable.");
-
-        var aiToken = Configuration["AI_TOKEN"];
-        if (string.IsNullOrWhiteSpace(aiToken))
-            throw new Exception("Bot cannot be started without the AI token into enviroment variable.");
-
         var builder = Host.CreateApplicationBuilder(args);
+        
+        // Bind settings
+        builder.Services.Configure<BotSettings>(settings => {
+            settings.DiscordToken = Configuration["DISCORD_TOKEN_UTSUKI"] ?? string.Empty;
+            settings.AiToken = Configuration["AI_TOKEN"] ?? string.Empty;
+            settings.AiEndpoint = Configuration["AI_ENDPOINT"] ?? string.Empty;
+            settings.AiModel = Configuration["AI_MODEL"] ?? string.Empty;
+            settings.WeatherApiKey = Configuration["API_KEY_WEATHER"] ?? string.Empty;
+            settings.MainGuildId = ulong.TryParse(Configuration["MAIN_GUILD_ID"], out var mgid) ? mgid : 264800866169651203; // Concord
+            settings.GgjGuildId = ulong.TryParse(Configuration["GGJ_GUILD_ID"], out var ggid) ? ggid : 1333473843674878015; // GGJCWB 2026
+        });
+
         ConfigureServices(builder.Services);
         var host = builder.Build();
 
+        var settings = host.Services.GetRequiredService<IOptionsSnapshot<BotSettings>>().Value;
+
+        if (string.IsNullOrWhiteSpace(settings.DiscordToken))
+            throw new Exception("Bot cannot be started without the bot's token.");
+
         var client = host.Services.GetRequiredService<DiscordSocketClient>();
-        await client.LoginAsync(TokenType.Bot, discordToken);
+        await client.LoginAsync(TokenType.Bot, settings.DiscordToken);
         await client.StartAsync();
 
         var commands = host.Services.GetRequiredService<CommandService>();
@@ -56,15 +66,16 @@ internal static class Program {
         services
         .AddSingleton(Configuration)
         .AddSingleton<Random>()
+        .AddHttpClient()
         .AddSingleton(new DiscordSocketClient(new DiscordSocketConfig {
             LogLevel = LogSeverity.Info,
             GatewayIntents = GatewayIntents.AllUnprivileged
                              | GatewayIntents.MessageContent | GatewayIntents.GuildPresences | GatewayIntents.GuildMembers,
         }))
         .AddSingleton(new CommandService(new CommandServiceConfig
-        {                                       // Add the command service to the collection
-            LogLevel = LogSeverity.Verbose,     // Tell the logger to give Verbose amount of info
-            DefaultRunMode = RunMode.Async,     // Force all commands to run async by default
+        {
+            LogLevel = LogSeverity.Verbose,
+            DefaultRunMode = RunMode.Async,
         }))
         .AddActivatedSingleton(x => new InteractionService(x.GetRequiredService<DiscordSocketClient>()))
         .AddAnnotatedServices(Assembly.GetExecutingAssembly())
