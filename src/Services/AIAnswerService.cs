@@ -95,7 +95,7 @@ public class AIAnswerService
         if (!isThread)
         {
             // Flow for new question (creates thread)
-            bool isRelevant = await CheckIfRelevant(userMessage.Content);
+            bool isRelevant = await CheckIfRelevant(userMessage.Content, false);
             if (!isRelevant) return;
 
             _log.Info("Message deemed relevant by AI. Proceeding to answer.");
@@ -142,6 +142,10 @@ public class AIAnswerService
         {
             // Flow for conversation within existing thread
             var thread = (IThreadChannel)textChannel;
+
+            // Only respond inside support threads if it's a question/relevant
+            bool isRelevant = await CheckIfRelevant(userMessage.Content, true);
+            if (!isRelevant) return;
             
             // Fetch thread history
             var history = await thread.GetMessagesAsync(15).FlattenAsync();
@@ -207,16 +211,17 @@ public class AIAnswerService
         }
     }
 
-    private async Task<bool> CheckIfRelevant(string userMessage)
+    private async Task<bool> CheckIfRelevant(string userMessage, bool isInsideThread)
     {
+        string systemPrompt = isInsideThread
+            ? "Você está em uma thread de suporte da Global Game Jam. Sua única tarefa é identificar se a mensagem do usuário é uma PERGUNTA ou DÚVIDA que requer uma resposta. Responda 'TRUE' se for uma pergunta ou demonstrar necessidade de informação. Responda 'FALSE' se for apenas um agradecimento ('obrigado', 'vlw'), saudação ('oi', 'tudo bem'), afirmação ('entendi', 'ok') ou comentário sem pergunta."
+            : "Você é um classificador para o evento Global Game Jam. Sua tarefa é identificar se a mensagem é uma PERGUNTA diretamente RELACIONADA ao evento. Responda 'TRUE' apenas se for uma dúvida sobre o evento (horários, regras, local, etc). Responda 'FALSE' se for apenas conversa, comentário sobre o evento sem ser pergunta, saudação, ou assunto não relacionado.";
+
         var messages = new[] {
-            new { role = "system", content = "Você é um classificador de mensagens para um evento de Game Jam (Global Game Jam). Sua única tarefa é dizer se a mensagem do usuário é uma DÚVIDA PERTINENTE ao evento ou não. Responda apenas com 'TRUE' se for uma dúvida sobre o evento, regras, horários, locais, etc. Responda 'FALSE' se for conversa fiada, 'oi', 'bom dia', spam ou não relacionado. A dúvida não precisa ser formal, apenas ter intenção de saber algo sobre o evento." },
+            new { role = "system", content = systemPrompt + "\nResponda APENAS 'TRUE' ou 'FALSE'." },
             new { role = "user", content = userMessage }
         };
 
-        // Retry logic for consistency check could go here, but for now let's trust a low temp call.
-        // The user asked for "majority vote" check. Let's implement a simple 3-check loop.
-        
         int trueCount = 0;
         int falseCount = 0;
 
