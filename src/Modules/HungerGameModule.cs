@@ -39,7 +39,7 @@ namespace App.Modules {
 			if (!usersList.Any()) return;
 
 			_service.PlayingChannels.Add(channelId);
-			await _service.NewHungerGameSimulation(Context, usersList, numberOfPlayers);
+			await _service.NewHungerGameSimulation(Context.Channel, usersList, numberOfPlayers);
 			_service.PlayingChannels.Remove(channelId);
 		}
 		

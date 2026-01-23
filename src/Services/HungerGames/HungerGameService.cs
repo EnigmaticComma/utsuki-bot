@@ -57,7 +57,7 @@ public class HungerGameService : IDisposable {
 
 	#region <<---------- General ---------->>
 
-	public async Task NewHungerGameSimulation(SocketCommandContext context, IReadOnlyCollection<IUser> users, int numberOfPlayers) {
+	public async Task NewHungerGameSimulation(IMessageChannel channel, IReadOnlyCollection<IUser> users, int numberOfPlayers) {
 		var characters = new List<Character>();
 		foreach (var user in users) {
 			if (!(user is SocketGuildUser guildUser)) continue;
@@ -86,13 +86,13 @@ public class HungerGameService : IDisposable {
 		var build = version.Build;
 		embed.WithFooter($"Hunger Games & Battle Royale Simulation - © CHRISdbhr", "https://chrisdbhr.github.io/images/avatar.png");
 
-		await context.Channel.SendMessageAsync(string.Empty, false, embed.Build());
+		await channel.SendMessageAsync(string.Empty, false, embed.Build());
 
 		// game task
-		await ProcessTurn(context, characters);
+		await ProcessTurn(channel, characters);
 	}
 
-	async Task ProcessTurn(SocketCommandContext context, IReadOnlyCollection<Character> allCharacters) {
+	async Task ProcessTurn(IMessageChannel channel, IReadOnlyCollection<Character> allCharacters) {
 
 		// settings
 		int maxTurns = 100;
@@ -103,14 +103,14 @@ public class HungerGameService : IDisposable {
 			EmbedBuilder embed;
 
 			// is game canceled?
-			if (!PlayingChannels.Contains(context.Channel.Id)) {
+			if (!PlayingChannels.Contains(channel.Id)) {
 				embed = new EmbedBuilder {
 					Color = Color.Orange,
 					Title = $"Jogo cancelado"
 				};
 
 				await Task.Delay(_timeToWaitEachMessage);
-				await context.Channel.SendMessageAsync(string.Empty, false, embed.Build());
+				await channel.SendMessageAsync(string.Empty, false, embed.Build());
 				return;
 			}
 
@@ -129,7 +129,7 @@ public class HungerGameService : IDisposable {
 			}
 
 			await Task.Delay(_timeToWaitEachMessage);
-			await context.Channel.SendMessageAsync(string.Empty, false, embed.Build());
+			await channel.SendMessageAsync(string.Empty, false, embed.Build());
 
 
 			// foreach character
@@ -142,28 +142,28 @@ public class HungerGameService : IDisposable {
 				// check for finish conditions
 				if (alive.Length == 1) {
 					// winner
-					await EndGame(context, GameEndReason.victory, allCharacters, alive[0]);
+					await EndGame(channel, GameEndReason.victory, allCharacters, alive[0]);
 					return;
 				}
 
 				// everyone died
 				if(alive.Length <= 0) {
-					await EndGame(context, GameEndReason.allDied, allCharacters);
+					await EndGame(channel, GameEndReason.allDied, allCharacters);
 					return;
 				}
 
 				await Task.Delay(_timeToWaitEachMessage);
-				await currentChar.Act(context, allCharacters);
+				await currentChar.Act(channel, allCharacters);
 			}
 			currentTurn += 1;
 		}
 
 
 		// max turns reached, end game
-		await EndGame(context, GameEndReason.timeOut, allCharacters);
+		await EndGame(channel, GameEndReason.timeOut, allCharacters);
 	}
 
-	async Task EndGame(SocketCommandContext context, GameEndReason reason, IReadOnlyCollection<Character> allCharacters, Character winner = null) {
+	async Task EndGame(IMessageChannel channel, GameEndReason reason, IReadOnlyCollection<Character> allCharacters, Character winner = null) {
 		await Task.Delay(_timeToWaitEachMessage);
 
 		var embed = new EmbedBuilder {
@@ -209,7 +209,7 @@ public class HungerGameService : IDisposable {
 			embed.AddField("Matador", $"{name} matou mais nessa partida, com {mostKill.Kills} mortes");
 		}
 
-		await context.Channel.SendMessageAsync(string.Empty, false, embed.Build());
+		await channel.SendMessageAsync(string.Empty, false, embed.Build());
 	}
 
 	#endregion <<---------- General ---------->>

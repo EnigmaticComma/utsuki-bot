@@ -1,0 +1,10 @@
+  Determinando os projetos a serem restaurados...
+  Todos os projetos estão atualizados para restauração.
+  utsuki-bot -> C:\projetos\utsuki-bot\bin\Debug\net8.0\App.dll
+  tests -> C:\projetos\utsuki-bot\tests\bin\Debug\net8.0\tests.dll
+
+Compilação com êxito.
+    0 Aviso(s)
+    0 Erro(s)
+
+Tempo Decorrido 00:00:05.66

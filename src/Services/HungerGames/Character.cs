@@ -21,7 +21,7 @@ namespace App.HungerGames {
 		
 		
 		
-		public async Task Act(SocketCommandContext context, IReadOnlyCollection<Character> characters) {
+		public async Task Act(IMessageChannel channel, IReadOnlyCollection<Character> characters) {
 			var embed = new EmbedBuilder();
 			TurnAction chosenAction;
 			var rand = new Random();
@@ -39,7 +39,7 @@ namespace App.HungerGames {
 				if (kills > 0) {
 					embed.AddField("Contagem de mortes", kills, true);
 				}
-				await context.Channel.SendMessageAsync(string.Empty, false, embed?.Build());
+				await channel.SendMessageAsync(string.Empty, false, embed?.Build());
 				return;
 			}
 			
@@ -147,7 +147,7 @@ namespace App.HungerGames {
 			LastAction = chosenAction;
 			HungryLevel += 1;
 
-			await context.Channel.SendMessageAsync(string.Empty, false, embed?.Build());
+			await channel.SendMessageAsync(string.Empty, false, embed?.Build());
 		}
 		
 	}
