@@ -89,6 +89,9 @@ public class AIAnswerService
         
         // Basic filter to avoid processing everything, but allow AI to decide relevance
         if(string.IsNullOrWhiteSpace(userMessage.Content) || userMessage.Content.Length < 3) return;
+        
+        // Only process messages that contain a question mark
+        if(!userMessage.Content.Contains('?')) return;
 
         bool isThread = textChannel is IThreadChannel;
 
