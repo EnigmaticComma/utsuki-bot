@@ -40,7 +40,7 @@ public class ChatService : IDisposable {
 		// first triggers
 		Observable.Timer(TimeSpan.FromSeconds(5)).Subscribe(async _ => {
 			// status
-			await _discord.SetGameAsync(Assembly.GetExecutingAssembly().ImageRuntimeVersion);
+			await _discord.SetGameAsync($"v{Program.VERSION}");
 
 			await HourlyMessage();
 		}).AddTo(_disposable);
