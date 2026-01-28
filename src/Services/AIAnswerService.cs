@@ -217,7 +217,7 @@ public class AIAnswerService
     private async Task<bool> CheckIfRelevant(string userMessage, bool isInsideThread)
     {
         string systemPrompt = isInsideThread
-            ? "Você está em uma thread de suporte da Global Game Jam. Sua única tarefa é identificar se a mensagem do usuário é uma PERGUNTA ou DÚVIDA que requer uma resposta. Responda 'TRUE' se for uma pergunta ou demonstrar necessidade de informação. Responda 'FALSE' se for apenas um agradecimento ('obrigado', 'vlw'), saudação ('oi', 'tudo bem'), afirmação ('entendi', 'ok') ou comentário sem pergunta."
+            ? "Você está em uma thread de suporte da Global Game Jam. Sua única tarefa é identificar se a mensagem atual do usuário é uma NOVA PERGUNTA QUE REQUER UMA RESPOSTA TÉCNICA OU INFORMATIVA. Responda 'TRUE' APENAS se o usuário estiver pedindo uma informação nova, ajuda ou esclarecimento. Responda 'FALSE' para: perguntas retóricas (ex: 'Sério?', 'Ah é?'); confirmações ou agradecimentos (ex: 'Entendi, beleza?', 'Tudo certo?'); comentários. Seja RÍGIDO. Na dúvida, responda 'FALSE'."
             : "Você é um classificador para o evento Global Game Jam. Sua tarefa é identificar se a mensagem é uma PERGUNTA diretamente RELACIONADA ao evento. Responda 'TRUE' apenas se for uma dúvida sobre o evento (horários, regras, local, etc). Responda 'FALSE' se for apenas conversa, comentário sobre o evento sem ser pergunta, saudação, ou assunto não relacionado.";
 
         var messages = new[] {
