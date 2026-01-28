@@ -1,152 +1,89 @@
 ﻿# Instruções gerais do evento:
 
 • O evento é presencial na PUCPR (Centro de Realidade Estendida - Bloco 1 Amarelo).
-• Portões fecham as 23h e abrem as 06:40h
+• Portões fecham as 23h e abrem as 06:40h. Após as 23h não é possível entrar ou sair (nem para delivery).
 • O link do convite para o servidor do Discord é: https://discord.gg/BNnhK7r7d4
 • A confirmação de sua inscrição é PRESENCIAL e exclusiva aos inscritos no Eventum (https://eventum.pucpr.br/ggjcwb26) e acontece a partir das 16h de sexta (30/1/26)!
 • Você PRECISA estar inscrito no eventum para poder participar da jam!
-• Nosso principal canal de comunicação durante a jam será o Discord, mas também vou enviar essa mensagem via email aos inscritos no Eventum (https://eventum.pucpr.br/ggjcwb26).
-• Insistimos que é essencial que TODOS os participantes estejam inscritos no Eventum (https://eventum.pucpr.br/ggjcwb26) para poder acessar com segurança o ambiente da jam!
-• Mas não deixe de divulgar também que no DOMINGO (01/2), das 15h às 18h temos a nossa Play Party, ou seja, a exposição e jogatina dos jogos que foram desenvolvidos.
-• Esse é o único momento aberto ao público que NÃO precisa se inscrever no evento, agradecemos se puder divulgá-lo!
-• Além do TEMA, que reforçaremos no início do evento, também temos ⁠🎲diversificadores !
-• São desafios adicionais e opcionais! Acabamos de publicar os diversificadores de nossos parceiros locais do evento.
-• Estão descritos em canais próprios ( ⁠🔋🍕-diver-4d , ⁠🔋💬-diver-idiomas , ⁠🔋✈-diver-internacional , ⁠🔋🗯-diver-riachuelo  e ⁠🔋🎮-diver-lupi ) e são uma EXCELENTE oportunidade para estimular sua criatividade e abrir novas possibilidades de desenvolvimento dos jogos e mesmo de sua exposição posterior!
-• o banho será Sábado das 9h às 18h e Domingo das 9h às 17h no ginásio, do lado da cantina.
-• Os diversificadores são desafios ADICIONAIS e OPCIONAIS ao tema da jam.
-• Você pode escolher até 4 para implementar em seu jogo!
-• Os diversificadores sempre são um estímulo à criatividade, uma maneira de limitar o seu escopo e refinar suas ideias!!
-• Lembramos que por serem OPCIONAIS, são mais adequados para equipes já experientes.
-• A lista dos diversificadores MUNDIAIS está disponível abaixo e também nos links: https://globalgamejam.org/global-game-jam-2026-diversifiers-have-arrived com a tradução para português em: https://v3.globalgamejam.org/pt-br/news/global-game-jam-2026-diversifiers-have-arrived
-• Até 23h de 30/1 (sexta) - Enviar uma foto de sua equipe em nosso fotopoint.
-• Não esqueça de indicar qual é o seu canal de equipe e também deixar fixo lá.
-• Aproveite e coloque o nome de cada um.
-• Até 20h de 31/1 (Sábado): Enviar vídeo de 2 a 3 minutos sobre a equipe desenvolvedora e qual é a ideia básica do jogo.
-• Marcar também o canal da equipe. Enviar também no canal da equipe e deixar FIXO lá.
-• Até 14h de 01/2 (Domingo) - Enviar vídeo de gameplay (jogo rodando) aqui.
-• Também envie no seu canal e deixe fixo lá.
-• A qualquer momento da jam, envie screenshots (telas, concepts, etc) e protótipos do seu jogo quando quiser compartilhar com os demais.
-• Até 15h de 01/2 (Domingo) - Coloque o link de seu jogo no site da Global Game Jam (https://globalgamejam.org/).
-• Coloque o link também fixo em seu canal.
-• Instruções de como enviar o jogo estão nesse link: https://drive.google.com/file/d/11UIMJWqfQsGpsFzuCiYlGciBT064O966/view
+• Nosso principal canal de comunicação será o Discord.
+• Play Party (exposição dos jogos): DOMINGO (01/2), das 15h às 18h no Térreo do Bloco Amarelo. Aberto ao público geral.
 
-# Segurança do evento
-Essencial atenção à segurança!
-• Entrada preferencial para carros pelo portão que fica ao lado do ginásio de esportes (Portão 1) e pedestres pelo Portal;
-• Temos hall, salas, laboratório aberto e o Centro de XR;
-• Proibido: bebida alcoólica, etc;
-• Evitar circular pela PUCPR e sair depois das 23h. Fumantes fiquem próximos ao bloco;
-• Circulação à noite para Espaço Rangô (micro-ondas) com cuidado!
-• Não é permitido dormir no carro;
-• PUCPR fecha 23h e abre 6h40.
-• Não abra a porta de emergência em nenhum momento, só se for... EMERGÊNCIA;
-• Salas com carpete não pode entrar com comida ou bebida, em nenhuma hipótese;
-• Sempre há seguranças nos blocos: professores, funcionários e infiltrados.
+# Pesquisa Obrigatória (Até 28/1):
+• Precisamos conhecer você! RESPONDA A ESSA RÁPIDA PESQUISA ATÉ AMANHÃ A NOITE (28/1)
+• Link: https://survey.uu.nl/jfe/form/SV_afnHQkIYgCBnv9k
+• Ajuda no diagnóstico da equipe e na formação de novas equipes.
+• Quem responder essa e a pesquisa de fim de jam concorre a uma anuidade gratuita da IGDA!
 
-# Playparty
-• É aberta ao público!
+# Diversificadores:
+Os diversificadores são desafios ADICIONAIS e OPCIONAIS ao tema da jam (máximo 4 por jogo).
 
-# Missa
-• A missa é 11h no Domingo;
-• Duração de 50 minutos;
-• A capela é ao lado da Biblioteca (caminho para o ginásio).
+## Diversificadores Mundiais:
+• Lista Completa: https://globalgamejam.org/global-game-jam-2026-diversifiers-have-arrived
 
-# Estacionamento
-Deixe perto do bloco!
-• Prefira estacionar PRÓXIMO ao Bloco Amarelo (1);
-• Estacionamento terceirizado – empresa Auto Park;
-• Para os participantes que permanecerão no campus, a tarifa será de R$ 18,00 o período.
-• Considerando os 3 dias, R$ 54,00. Durante esse período, caso seja necessário sair da Universidade com o carro, será cobrada uma nova tarifa;
-• Alunos pagam a taxa correspondente ao aluno;
-• Para validação do pagamento, o caixa fica aberto até as 22:00 no Ginásio
+## Diversificadores Locais/Parceiros:
+• **Utrecht - "Strangers Thing":** Ninguém da equipe trabalhou junto antes. Ganhe um broche de reconhecimento e concorra a um troféu para o jogo mais votado nesta categoria.
+• **Riachuelo - "Carnaval Curitibano":** Inspire-se no carnaval de Curitiba (Zombie Walk, Psycho Carnival, Carnaval Geek). Apresente à equipe do Estúdio Riachuelo para ganhar brinde. Melhores jogos podem ser expostos na Sala de Jogos do Estúdio.
+• **SEBRAE/PR - "Jogando com o Sebrae/PR":** Personagem pequeno empreendedor que acessa o site do Sebrae/PR. Concorra a ingressos para o evento ConectaPR.
+• **Red Bull - "Lata de Energia":** Latas cilíndricas azul ou prata no jogo que servem como power up.
 
-# Alimentação
-• Aproveite para se alimentar bem durante o fim de semana!
-• Café da manhã reforçado: Sábado 8h - 9h e Domingo 8h – 9h;
-• Energético ZTX: no credenciamento;
-• Pizza 4d: Distribuição no Sábado das 20h às 21h no 2º andar do Amarelo, pegue o voucher ANTES da ação durante o credenciamento e no sábado 14h às 18h.
-• Essencial o voucher para participar da ação;
-• Prestigiem as cantinas abertas: Angra (bloco azul), Oliveiras, Carrinho Ultra, Oz Café;
-• Café ao longo do dia feito pelo staff no hall do 2º andar.
-• Caso peça delivery, peça BEM CEDO;
-• O portão fecha às 23h e NÃO tem como pegar depois;
-• Use o micro-ondas com cuidado! O Espaço Rangô é no térreo do Bloco 1 (amarelo) e também no Bloco 2 (azul).
-• Cuidado para não exagerar no tempo de uso, evitando queimar o micro-ondas!
+# Uso de IA:
+• Deixe claro quais ferramentas de IA foram usadas.
+• No caso de **IA Generativa**, é necessário declarar explicitamente.
+• Sugerimos fortemente **NÃO usar IA Generativa para imagem ou vídeo**.
 
-# Outras atividades
-• Degustação de experiências do Centro de Realidade Estendida na sexta das 16h às 18h – 2º andar do bloco!
-• Retirada do Copo Personalizado do PUC Idiomas na sexta das 16h às 19h;
-• Terá massagem gratuita no 2º andar do bloco amarelo:
-• Sábado – 14h às 18h;
-• Domingo – 9h às 13h;
-• Karaokê na Cave:
-• Horário a determinar;
-• Construção Fotopoint (Espaço Instagramável) na sexta das 16h às 19h;
-• Estação PUCPR Esportes no 1º andar do Bloco Amarelo;
-• Customização de canecas e outros itens, térreo;
-• Micro-estandes: mesas no térreo, debaixo da escada, horários variados;
-• Batalha de músicas com presença de DJs e brindes das 14h às 21h do Sábado no 2º Andar do Bloco Amarelo;
-• Construção de escultura de pizza no domingo de manhã
+# Segurança:
+• Entrada preferencial para carros: Portão 1 (ao lado do ginásio). Pedestres: Portal.
+• Proibido: Bebida alcoólica e substâncias ilícitas.
+• Evite circular à noite. Fumantes devem ficar próximos ao bloco.
+• Não é permitido dormir no carro.
+• PUCPR fecha às 23h e abre às 6h40.
+• Não abra portas de emergência, exceto em emergências reais.
+• Salas com carpete: Proibido comer ou beber.
 
-# Acesso à Internet e Computadores
-• Alunos: redes já existentes ou Visitantes;
-• Visitantes (externo): rede wi-fi;
-• Acesso livre a computadores Desktop (não podem ser movidos) para login pelos estudantes da PUCPR / equipe TI tanto nas Salas quanto no Laboratório do 1º andar;
-• IMPORTANTE: NÃO USE CABOS DE REDE OU NÃO CONECTE SEU DISPOSITIVO NA REDE CABEADA!
-• Empréstimo de Notebooks apenas para alunos PUCPR, conforme disponibilidade:
-• mediante retenção de documento e carteirinha / comprovante matrícula;
-• se dirija à Secretaria do Centro de Realidade Estendida no último andar do bloco;
-• NUNCA deixe equipamentos sozinhos;
-• Não é possível instalar novos softwares.
+# Alimentação:
+• **Café da manhã de Utrecht:** Sábado e Domingo às 8h.
+• **Noite das Pizzas:** Sábado das 20h às 22h.
+• **Café do SEBRAE-PR:** Sábado às 15h.
+• **Delivery:** Peça cedo! O portão fecha às 23h e não há exceções para retirada.
 
-# Contatos importantes
-• Sempre use o Discord;
-• Fique à vontade para nos marcar (@Staff);
-• Presencialmente, a sala de Staff é a Sala Collab 1, próximo à sala dos músicos (Collab 2)!
-• Segurança: 3271-1200;
-• Também temos segurança no próprio bloco 24 horas;
-• Emergência médica / Plus Santé: acionar primeiro segurança / staff;
-• Ambulatório até 23h da sexta;
-• Contatos prof.
-• Bruno: @bcp no Discord ou 3271-2454 (WhatsApp)
+# Programação Detalhada:
 
-# Locais de trabalho e descanso
-• Temos salas separadas para DESCANSO: A22, A24, A25, A26, A28 e A29 no primeiro andar do bloco;
-• Salas de trabalho devem ser compartilhadas e serão abertas após o fim da abertura!
-• Por favor, concentrem-se nas salas:
-• Hands on 1 e 2 e Workspace - 2º Andar;
-• Salas abertas com mesas - 1º Andar – A1 até A20;
-• Salas Ipê - Térreo;
-• Sala Músicos: Collab 2;
-• Sala Staff: Collab 1;
-• Sala para jogos de Tabuleiro.
-• A Play Party será no térreo do bloco amarelo. Procure compartilhar esse local no fim do evento;
-• Não mova pufs, sofás, etc;
-• Não tire carteiras e mesas das salas;
-• Deixe sua sala como encontrou no início do evento.
+## Sexta (30/1):
+• 16h – Início do credenciamento (10º andar do Bloco Amarelo).
+• 16h às 19h – Espaço Instagramável e Fotos (2º andar - Cave).
+• 17h – Concentração.
+• 18h – Abertura oficial da Jam.
+• 19h – Dinâmica de formação de equipes + discussão do tema.
+• **Até 23h:** Envio da foto da equipe no Discord (#foto-da-equipe). Deixe FIXO no canal da sua equipe.
+• 23h – Fechamento dos portões.
 
-# Segue abaixo a programação do evento:
+## Sábado (31/1):
+• 06h40 – Abertura do Portão 1.
+• 08h – Café da manhã de Utrecht.
+• 08h às 20h – Área Save Point (máquina de dança, pinball, puffs, board games).
+• 09h às 11h – Atividades na piscina (nado livre e polo).
+• 09h às 18h – Atividades esportivas (basquete, badminton, futmesa).
+• 14h às 18h – Massagem.
+• 15h – **Prazo Limite:** Cadastrar projeto e integrantes no site da Global Game Jam.
+• 15h às 18h – Minitalks no auditório imersivo.
+• 15h – Café do SEBRAE-PR.
+• **20h:** Prazo para vídeo da equipe (2-3 min) sobre a ideia do jogo. Enviar em #video-sobre-equipe-e-jogo e fixar no canal da equipe.
+• 20h às 22h – Noite das Pizzas.
 
-## Sexta - 30/1
-• 16h – início do credenciamento no último andar do Bloco Amarelo;
-• 17h às 19h – Concentração e abertura oficial do evento no TUCA (térreo do Bloco Azul) a partir das 18h;
-• 19h – Dinâmica de formação de equipes e discussão do tema;
-• Até 23h  - Envio de foto da equipe no canal da equipe no Discord E em ⁠📸-foto-da-equipe  Deixe FIXO no seu canal;
-• 23h – Fechamento do Portão da PUCPR, não é possível sair ou entrar, inclusive delivery.
+## Domingo (1/2):
+• 06h40 – Abertura do Portão 1.
+• 08h – Café da manhã de Utrecht.
+• 08h às 15h – Área Save Point.
+• 09h às 13h – Massagem.
+• 09h às 15h – Atividades esportivas.
+• **14h:** Prazo para nome definitivo e vídeo de gameplay. Enviar em #video-de-gameplay e fixar no canal.
+• **15h:** Fim do desenvolvimento! Upload no site da Jam e postar link em #links-jogo-final (fixar no canal).
+• 15h às 18h – Play Party no Térreo do Bloco Amarelo (Votação até as 18h via QR Code da credencial).
+• 18h – Resultados, premiações e encerramento.
 
-## Sábado - 31/1
-• 6:40 – Abertura do Portão 1 da PUCPR;
-• 15h – Prazo para cadastrar seu projeto de jogo e maior parte dos integrantes no site da Global Game Jam.
-• O nome e integrantes pode mudar depois.
-• 20h – Vídeo de 2 a 3 minutos sobre a equipe desenvolvedora e qual é a ideia básica do jogo.
-• Enviar no canal da equipe em ⁠🎥-video-sobre-equipe-e-jogo . Deixe FIXO no seu canal.
-• 23h – Fechamento do Portão da PUCPR, não é possível sair ou entrar, inclusive delivery.
-
-## Domingo - 01/2
-• 6:40 – Abertura do Portão 1 da PUCPR;
-• 14h – Prazo para cadastrar nome definitivo do jogo e enviar vídeo de gameplay (jogo rodando) no canal do jogo e em  ⁠🎮-video-de-gameplay ;
-• 15h – Fim do desenvolvimento do jogo! Enviar para o site da jam e coloque o link final em ⁠🌎-links-jogo-final , deixando fixo;
-• 15h às 18h – Play Party, jogatina geral dos jogos produzidos no Térreo do Bloco Amarelo.
-• Vote até as 18h usando o link em sua credencial.
-• 18h – Resultados da jam, jogos mais votados, sorteio de brindes, encerramento;
-• 19h – 20h – Organização das salas, precisamos de ajuda.
+# Outras Informações:
+• **Banho:** Em breve mais informações (verificar no ginásio).
+• **Estacionamento:** Parceria Auto Park. Aprox. R$ 18,00 por período (R$ 54,00 o final de semana se não sair com o carro). Validação no Ginásio até 22h.
+• **Missa:** Domingo às 11h na Capela (ao lado da Biblioteca).
+• **Suporte:** Use @Staff no Discord ou visite a Sala Collab 1.
+• **Emergência:** Segurança 3271-1200 ou acione o Staff.
