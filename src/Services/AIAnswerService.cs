@@ -249,7 +249,7 @@ public class AIAnswerService
         string title = await CallAI(messages, 0.5);
         if(title != null) {
             title = title.Trim().Replace("\"", "").Replace("'", "");
-            if(title.Length > 90) title = title.Substring(0, 90) + "..."; // Safety cap below 100
+            if(title.Length > 90) title = string.Concat(title.AsSpan(0, 90), "..."); // Safety cap below 100
         }
         return title;
     }
