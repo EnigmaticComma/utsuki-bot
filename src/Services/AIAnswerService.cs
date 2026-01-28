@@ -86,6 +86,15 @@ public class AIAnswerService
         if(userMessage.Channel is not ITextChannel textChannel) return;
         if(userMessage.ReferencedMessage != null) return;
         if(textChannel.Guild.Id != _settings.GgjGuildId) return;
+
+        // Skip users with elevated permissions (staff/org)
+        if (userMessage.Author is SocketGuildUser guildUser)
+        {
+            if (guildUser.GuildPermissions.Administrator ||
+                guildUser.GuildPermissions.ManageChannels ||
+                guildUser.GuildPermissions.ManageMessages)
+                return;
+        }
         
         // Basic filter to avoid processing everything, but allow AI to decide relevance
         if(string.IsNullOrWhiteSpace(userMessage.Content) || userMessage.Content.Length < 3) return;
