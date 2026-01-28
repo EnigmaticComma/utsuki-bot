@@ -25,6 +25,7 @@ Os diversificadores são desafios ADICIONAIS e OPCIONAIS ao tema da jam (máximo
 • **Riachuelo - "Carnaval Curitibano":** Inspire-se no carnaval de Curitiba (Zombie Walk, Psycho Carnival, Carnaval Geek). Apresente à equipe do Estúdio Riachuelo para ganhar brinde. Melhores jogos podem ser expostos na Sala de Jogos do Estúdio.
 • **SEBRAE/PR - "Jogando com o Sebrae/PR":** Personagem pequeno empreendedor que acessa o site do Sebrae/PR. Concorra a ingressos para o evento ConectaPR.
 • **Red Bull - "Lata de Energia":** Latas cilíndricas azul ou prata no jogo que servem como power up.
+• **PUCPR Idiomas - "Palavra Secreta":** Um terminal ou pergaminho exibe uma dica em 3 idiomas (Japonês, Italiano e Inglês). O significado real da palavra é a chave para um cofre ou caminho. **Obrigatório:** Exibir o texto "Dica PUCPR Idiomas - https://idiomas.pucpr.br/" próximo à dica. Concorra a sorteio de brindes.
 
 # Uso de IA:
 • Deixe claro quais ferramentas de IA foram usadas.
@@ -77,9 +78,15 @@ Os diversificadores são desafios ADICIONAIS e OPCIONAIS ao tema da jam (máximo
 • 09h às 13h – Massagem.
 • 09h às 15h – Atividades esportivas.
 • **14h:** Prazo para nome definitivo e vídeo de gameplay. Enviar em #video-de-gameplay e fixar no canal.
-• **15h:** Fim do desenvolvimento! Upload no site da Jam e postar link em #links-jogo-final (fixar no canal).
-• 15h às 18h – Play Party no Térreo do Bloco Amarelo (Votação até as 18h via QR Code da credencial).
+• **15h:** Fim do desenvolvimento!
+    — Upload no site da Jam (https://globalgamejam.org/).
+    — Postar link em #links-jogo-final (deixar fixo no canal).
+    — Vá na Sala do Staff (Collab 1) e pegue o número de sua mesa / jogo!
+    — Monte seu ambiente na Play Party (térreo e primeiro andar do Bloco).
+• 15h às 18h – Play Party no Térreo do Bloco Amarelo.
+    — Jogatina geral. Vote até as 18h usando o link e código em sua credencial.
 • 18h – Resultados, premiações e encerramento.
+• 19h às 20h – Organização das salas (precisamos de ajuda!).
 
 # Outras Informações:
 • **Banho:** Em breve mais informações (verificar no ginásio).
