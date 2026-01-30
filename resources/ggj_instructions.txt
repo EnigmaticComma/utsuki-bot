@@ -7,6 +7,7 @@
 • Você PRECISA estar inscrito no eventum para poder participar da jam!
 • Nosso principal canal de comunicação será o Discord.
 • Play Party (exposição dos jogos): DOMINGO (01/2), das 15h às 18h no Térreo do Bloco Amarelo. Aberto ao público geral (único momento sem necessidade de inscrição). Convide a todos!
+• **Manual do Evento:** https://tinyurl.com/manual-ggjcwb26
 
 # Pesquisa Obrigatória (Até 28/1):
 • Precisamos conhecer você! RESPONDA A ESSA RÁPIDA PESQUISA ATÉ AMANHÃ A NOITE (28/1)
@@ -40,11 +41,19 @@ Os diversificadores são desafios ADICIONAIS e OPCIONAIS ao tema da jam (máximo
 • PUCPR fecha às 23h e abre às 6h40.
 • Não abra portas de emergência, exceto em emergências reais.
 • Salas com carpete: Proibido comer ou beber.
+• **Equipamentos:** Traga seu próprio laptop/desktop. NUNCA deixe equipamentos sozinhos.
 
 # Alimentação:
-• **Café da manhã de Utrecht:** Sábado e Domingo às 8h. Aproveite para preencher os formulários em #diver-utrecht.
-• **Noite das Pizzas (Sábado 20h às 22h):** Exclusiva para credenciados. A distribuição será por FILA (sem voucher), com marcação na credencial. Acontece até durar o estoque.
+• **Café da manhã de Utrecht:** Sábado e Domingo das 8h às 9h. Aproveite para preencher os formulários em #diver-utrecht.
+• **Noite das Pizzas (Sábado 20h às 21h):** Exclusiva para credenciados (2º andar do Amarelo). A distribuição será por FILA (sem voucher), com marcação na credencial. Acontece até durar o estoque.
 • **Café do SEBRAE-PR:** Sábado às 15h. Dica: Use o diversificador #diver-sebrae-pr no seu jogo!
+• **Energético Red Bull:** Red Bull disponível (use o diversificador #diver-redbull).
+• **Café Staff:** Café feito pelo staff o dia todo no hall do 2º andar.
+• **Opções Externas (Cantina Angra - Food Truck):**
+    — 30/01/2026: das 16h às 22h30.
+    — 31/01/2026: das 08h30 às 22h30.
+    — 01/02/2026: das 08h30 às 18h00.
+• **Outras Cantinas:** Prestigiem Oliveiras e Angra (bloco azul).
 • **Delivery:** Peça cedo! O portão fecha às 23h e não há exceções para retirada.
 
 # Programação Detalhada:
@@ -66,10 +75,10 @@ Os diversificadores são desafios ADICIONAIS e OPCIONAIS ao tema da jam (máximo
 • 09h às 18h – Atividades esportivas (basquete, badminton, futmesa).
 • 14h às 18h – Massagem.
 • 15h – **Prazo Limite:** Cadastrar projeto e integrantes no site da Global Game Jam.
-• 15h às 18h – Minitalks no auditório imersivo.
+• 15h às 18h – **Minitalks (Auditório Imersivo):** Talks organizadas por @andrejeller, @Maari Abad e @Ricka. Sorteio de brindes para quem estiver presencial!
 • 15h – Café do SEBRAE-PR.
 • **20h:** Prazo para vídeo da equipe (2-3 min) sobre a ideia do jogo. Enviar em #video-sobre-equipe-e-jogo e fixar no canal da equipe.
-• **20h às 22h:** Noite das Pizzas.
+• **20h às 21h:** Noite das Pizzas (2º andar).
 
 ## Domingo (1/2):
 • 06h40 – Abertura do Portão 1.
@@ -88,6 +97,18 @@ Os diversificadores são desafios ADICIONAIS e OPCIONAIS ao tema da jam (máximo
     — Jogatina geral. Vote até as 18h pelo link: https://pucpr.app/vota-ggj (use o código em sua credencial).
 • 18h – Resultados, premiações e encerramento.
 • 19h às 20h – Organização das salas (precisamos de ajuda!).
+
+# Infraestrutura e Equipamentos:
+• **Traga seu equipamento:** Laptop ou desktop são muito bem-vindos.
+• **Filtros de Linha:** Recomendamos FORTEMENTE trazer filtros de linha/extensões. Temos tomadas, mas nem sempre são suficientes para todos na mesa.
+• **Internet:** WIFI aberto (padrão aluno ou VISITANTES). NÃO há cabos de rede.
+• **Laboratórios:** Disponíveis com computadores, mas focados em ferramentas Web.
+• **Empréstimo (Alunos PUCPR):** Disponível mediante documento com foto e carteira acadêmica. Equipamentos com softwares específicos (Unity, Unreal), sem permissão para instalações.
+
+# Descanso:
+• **Salas de Sono:** Corredor exclusivo no primeiro andar do bloco (local separado e silencioso).
+• **O que trazer:** Recomendamos colchões de ar, barracas, sacos de dormir, etc.
+• **Proibido:** Dormir no carro.
 
 # Outras Informações:
 • **Banho (Importante!):** Os vestiários ficam no Ginásio (perto do Portão 1), com água quente (sistema de caldeira). Entrada pela porta de trás do ginásio (acesso pela cantina).
