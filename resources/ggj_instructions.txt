@@ -103,7 +103,9 @@ Os diversificadores são desafios ADICIONAIS e OPCIONAIS ao tema da jam (máximo
 • **Filtros de Linha:** Recomendamos FORTEMENTE trazer filtros de linha/extensões. Temos tomadas, mas nem sempre são suficientes para todos na mesa.
 • **Internet:** WIFI aberto (padrão aluno ou VISITANTES). NÃO há cabos de rede.
 • **Laboratórios:** Disponíveis com computadores, mas focados em ferramentas Web.
-• **Empréstimo (Alunos PUCPR):** Disponível mediante documento com foto e carteira acadêmica. Equipamentos com softwares específicos (Unity, Unreal), sem permissão para instalações.
+• **Empréstimo (Alunos PUCPR):** Notebooks, mesas de desenho e outros equipamentos estão disponíveis para empréstimo via carteirinha e documento com foto na Secretaria do Centro de Realidade Estendida. 
+    — **Atenção:** A quantidade é LIMITADA, por isso recomendamos fortemente que traga seu próprio equipamento.
+    — Os equipamentos possuem softwares específicos (Unity, Unreal, etc.), mas não é possível realizar novas instalações.
 
 # Descanso:
 • **Salas de Sono:** Corredor exclusivo no primeiro andar do bloco (local separado e silencioso).
