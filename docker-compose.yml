@@ -8,3 +8,5 @@ services:
       AI_ENDPOINT: ${AI_ENDPOINT}
       AI_TOKEN: ${AI_TOKEN}
       API_KEY_WEATHER: ${API_KEY_WEATHER}
+    volumes:
+      - ./JsonData:/app/JsonData
