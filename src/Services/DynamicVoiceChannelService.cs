@@ -92,7 +92,11 @@ public class DynamicVoiceChannelService
             var hubChannel = guild.GetVoiceChannel(hubId);
             
             // If Hub is deleted/missing, we stop logic for this guild (safety)
-            if (hubChannel == null) return;
+            if (hubChannel == null)
+            {
+                 Console.WriteLine($"[DynamicVoice] Hub channel '{hubId}' not found in guild '{guild.Name}' ({guild.Id}). Configuration might be stale or cache incomplete.");
+                 return;
+            }
 
             var relevantChannels = new List<SocketVoiceChannel>();
             relevantChannels.Add(hubChannel);

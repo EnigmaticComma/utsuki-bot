@@ -16,7 +16,26 @@ namespace App;
 
 internal static class Program {
 
-    public static readonly Version VERSION = Assembly.GetExecutingAssembly().GetName().Version ?? new ("7.0.0");
+    public static readonly Version VERSION;
+
+    static Program()
+    {
+        var assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version ?? new Version("7.0.0");
+        var envVersion = Environment.GetEnvironmentVariable("BOT_VERSION");
+        
+        if (int.TryParse(envVersion, out var buildNumber))
+        {
+            VERSION = new Version(assemblyVersion.Major, assemblyVersion.Minor, buildNumber);
+        }
+        else if (Version.TryParse(envVersion, out var parsedVersion))
+        {
+            VERSION = parsedVersion;
+        }
+        else
+        {
+            VERSION = assemblyVersion;
+        }
+    }
 
     static IConfigurationRoot Configuration = null!;
 

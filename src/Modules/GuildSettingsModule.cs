@@ -56,6 +56,37 @@ namespace App.Modules {
 		
 		#region <<---------- Dynamic Voice ---------->>
 
+
+		[SlashCommand("getvoicehub", "Get the current dynamic voice hub channel.")]
+		[RequireUserPermission(GuildPermission.Administrator)]
+		public async Task GetVoiceHub()
+		{
+			var path = $"{GuildSettingsService.PATH_PREFIX}{Context.Guild.Id}";
+			var guildSettings = JsonCache.LoadFromJson<GuildSettings>(path) ?? new GuildSettings();
+
+			var embed = new EmbedBuilder();
+			if (guildSettings.DynamicVoiceSourceId.HasValue)
+			{
+				var channel = Context.Guild.GetVoiceChannel(guildSettings.DynamicVoiceSourceId.Value);
+				if (channel != null)
+				{
+					embed.Description = $"Current Voice Hub: {channel.Mention} (ID: {channel.Id})";
+					embed.Color = Color.Green;
+				}
+				else
+				{
+					embed.Description = $"Voice Hub ID is set to {guildSettings.DynamicVoiceSourceId.Value}, but the channel was not found.";
+					embed.Color = Color.Red;
+				}
+			}
+			else
+			{
+				embed.Description = "No Dynamic Voice Hub configured.";
+				embed.Color = Color.Orange;
+			}
+			await RespondAsync(embed: embed.Build(), ephemeral: true);
+		}
+
 		[SlashCommand("setvoicehub", "Set the voice channel that triggers dynamic channel creation.")]
 		[RequireUserPermission(GuildPermission.Administrator)]
 		public async Task SetVoiceHub(SocketVoiceChannel? voiceChannel = null) {

@@ -40,6 +40,7 @@ jobs:
           AI_ENDPOINT: ${{ secrets.AI_ENDPOINT }}
           AI_TOKEN: ${{ secrets.AI_TOKEN }}
           API_KEY_WEATHER: ${{ secrets.API_KEY_WEATHER }}
+          BOT_VERSION: ${{ github.run_number }}
         run: docker compose up -d
       - uses: sarisia/actions-status-discord@v1
         if: always()

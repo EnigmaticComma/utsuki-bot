@@ -51,6 +51,8 @@ public class InteractionHandler
 
     async Task ReadyAsync()
     {
+        await _client.SetGameAsync($"v{Program.VERSION} | chrisjogos.com", type: ActivityType.CustomStatus);
+
         // Register the commands globally.
         // alternatively you can use _handler.RegisterCommandsGloballyAsync() to register commands to a specific guild.
         await _handler.RegisterCommandsGloballyAsync();
