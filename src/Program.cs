@@ -57,7 +57,7 @@ internal static class Program {
             settings.AiModel = Configuration["AI_MODEL"] ?? string.Empty;
             settings.WeatherApiKey = Configuration["API_KEY_WEATHER"] ?? string.Empty;
             settings.MainGuildId = ulong.TryParse(Configuration["MAIN_GUILD_ID"], out var mgid) ? mgid : 264800866169651203; // Concord
-            settings.GgjGuildId = ulong.TryParse(Configuration["GGJ_GUILD_ID"], out var ggid) ? ggid : 1333473843674878015; // GGJCWB 2026
+            settings.GgjGuildId = ulong.TryParse(Configuration["GGJ_GUILD_ID"], out var ggid) ? ggid : default;
         });
 
         ConfigureServices(builder.Services);
